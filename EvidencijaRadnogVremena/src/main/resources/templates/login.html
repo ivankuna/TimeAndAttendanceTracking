@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="hr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sustav radnici</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <link rel="shortcut icon" type="image/png" sizes="16x16"
+          href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+
+    <link rel="shortcut icon" type="image/png" sizes="32x32"
+          href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
+
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand mx-auto" th:href="@{/}">Sustav radnici</a>
+    </div>
+</nav>
+<br/>
+<br/>
+<br/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 offset-md-4">
+
+            <div th:if="${param.success}">
+                <div class="alert alert-info">Uspješno ste se registrirali na našu aplikaciju!</div>
+            </div>
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Neispravno korisničko ime ili lozinka.</div>
+            </div>
+            <div th:if="${accExpired}" class="alert alert-danger" th:text="${message}"></div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Prijava</h4>
+                </div>
+                <div class="card-body">
+                    <form
+                            method="post"
+                            th:action="@{/login}"
+                            class="form-horizontal"
+                            role="form"
+                    >
+                        <div class="mb-3">
+                            <label for="username" class="control-label">Korisnik *</label>
+                            <input type="text"
+                                   id="username"
+                                   name="username"
+                                   class="form-control"
+                                   placeholder="Korisničko ime"
+                            />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="control-label">Lozinka *</label>
+                            <div class="input-group">
+                                <input type="password"
+                                       id="password"
+                                       name="password"
+                                       class="form-control"
+                                       placeholder="Lozinka"
+                                />
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="togglePasswordVisibility">
+                                           <span id="togglePasswordIcon"><i class="far fa-eye fa-1x"></i></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary btn-block">Prijava</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/password-visibility-toggle.js"></script>
+
+</body>
+</html>

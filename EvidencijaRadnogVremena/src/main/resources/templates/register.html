@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Sustav radnici</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
+
+    <link rel="stylesheet" href="css/register.css">
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="padding-left: 5px;" th:fragment="header">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/}">Sustav radnici</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>
+<br/>
+<br/>
+<br/>
+<div class="container-fluid">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Registracija</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" role="form" th:action="@{/register/save}" th:object="${user}">
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Naziv tvrtke</label>
+                        <input class="form-control"
+                               id="company"
+                               name="company"
+                               placeholder="Unesite naziv tvrtke"
+                               th:field="*{company}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{company}" class="text-danger"
+                           th:if="${#fields.hasErrors('company')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">OIB</label>
+                        <input class="form-control"
+                               id="oib"
+                               name="oib"
+                               placeholder="Unesite OIB"
+                               th:field="*{oib}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{lastName}" class="text-danger"
+                           th:if="${#fields.hasErrors('oib')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Ime</label>
+                        <input class="form-control"
+                               id="firstName"
+                               name="firstName"
+                               placeholder="Unesite ime"
+                               th:field="*{firstName}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{firstName}" class="text-danger"
+                           th:if="${#fields.hasErrors('firstName')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Prezime</label>
+                        <input class="form-control"
+                               id="lastName"
+                               name="lastName"
+                               placeholder="Unesite prezime"
+                               th:field="*{lastName}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{lastName}" class="text-danger"
+                           th:if="${#fields.hasErrors('lastName')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Adresa</label>
+                        <input class="form-control"
+                               id="address"
+                               name="address"
+                               placeholder="Unesite adresu"
+                               th:field="*{address}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{address}" class="text-danger"
+                           th:if="${#fields.hasErrors('address')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Grad ( poštanski broj i naziv )</label>
+                        <input class="form-control"
+                               id="city"
+                               name="city"
+                               placeholder="Unesite grad"
+                               th:field="*{city}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{city}" class="text-danger"
+                           th:if="${#fields.hasErrors('city')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Telefon</label>
+                        <input class="form-control"
+                               id="telephone"
+                               name="telephone"
+                               placeholder="Unesite broj telefona"
+                               th:field="*{telephone}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{telephone}" class="text-danger"
+                           th:if="${#fields.hasErrors('telephone')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">e-mail korisnika</label>
+                        <input class="form-control"
+                               id="email"
+                               name="email"
+                               placeholder="Unesite e-mail"
+                               th:field="*{email}"
+                               type="email"
+                               required
+                        />
+                        <p th:errors="*{email}" class="text-danger"
+                           th:if="${#fields.hasErrors('email')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Datum isteka roka korisničkog računa</label>
+                        <input class="form-control"
+                               id="dateOfUserAccountExpiry"
+                               name="dateOfUserAccountExpiry"
+                               th:field="*{dateOfUserAccountExpiry}"
+                               type="date"
+                               required
+                        />
+                        <p th:errors="*{dateOfUserAccountExpiry}" class="text-danger"
+                           th:if="${#fields.hasErrors('dateOfUserAccountExpiry')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Korisničko ime</label>
+                        <input class="form-control"
+                               id="username"
+                               name="username"
+                               placeholder="Unesite korisničko ime"
+                               th:field="*{username}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{username}" class="text-danger"
+                           th:if="${#fields.hasErrors('username')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">Lozinka</label>
+                        <input class="form-control"
+                               id="password"
+                               name="password"
+                               placeholder="Unesite lozinku"
+                               th:field="*{password}"
+                               type="text"
+                               required
+                        />
+                        <p th:errors="*{password}" class="text-danger"
+                           th:if="${#fields.hasErrors('password')}">
+                        </p>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <button class="btn btn-primary" type="submit">Registriraj se</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

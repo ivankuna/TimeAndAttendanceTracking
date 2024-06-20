@@ -1,0 +1,42 @@
+.menu-buttons {
+            height: 60px;
+        }
+
+        .menu-buttons button {
+            height: 100%;
+        }
+
+        .fixed-bottom-buttons {
+            position: fixed;
+            bottom: 0px;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+            display: flex;
+            justify-content: center;
+            background-color: #343a40;
+            padding: 10px 0;
+        }
+
+   .navbar {
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        background-color: #343a40;
+        padding: 10px 0;
+        padding-left: 2px;
+    }
+
+    .navbar .nav-link {
+        color: #fff;
+    }
+
+    .navbar .nav-link:hover {
+        color: #f8f9fa;
+    }
+
+    body {
+        padding-top: 50px;
+
+    }

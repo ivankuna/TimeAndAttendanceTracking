@@ -1,0 +1,27 @@
+
+     .navbar {
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+      background-color: #343a40; /* siva boja */
+      padding: 10px 0;
+      padding-left: 2px;
+    }
+
+    .navbar .nav-item {
+      margin-right: 15px;
+    }
+
+    .navbar .nav-link {
+      color: #fff;
+    }
+
+    .navbar .nav-link:hover {
+      color: #f8f9fa;
+    }
+    body {
+      padding-top: 0px;
+    }
+
+    .btn { height: 50px; }
