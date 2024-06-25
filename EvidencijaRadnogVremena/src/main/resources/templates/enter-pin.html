@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIN Entry Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .pin-input {
+            width: 260px;
+            text-align: center;
+            margin: 0 auto 15px;
+            display: block;
+        }
+        .keypad-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            justify-content: center;
+        }
+        .keypad-button {
+            width: 80px;
+            height: 80px;
+            padding: 0;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="col-4">
+        <form>
+            <input type="text" id="pinInput" class="form-control pin-input" readonly>
+
+            <div class="keypad-row">
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(1)">1</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(2)">2</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(3)">3</button>
+            </div>
+            <div class="keypad-row">
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(4)">4</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(5)">5</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(6)">6</button>
+            </div>
+            <div class="keypad-row">
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(7)">7</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(8)">8</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(9)">9</button>
+            </div>
+            <div class="keypad-row">
+                <button type="button" class="btn btn-secondary keypad-button" onclick="clearInput()">Clear</button>
+                <button type="button" class="btn btn-primary keypad-button" onclick="appendNumber(0)">0</button>
+                <button type="button" class="btn btn-success keypad-button" onclick="submitPin()">OK</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function appendNumber(number) {
+        const pinInput = document.getElementById('pinInput');
+        pinInput.value += number;
+    }
+
+    function clearInput() {
+        document.getElementById('pinInput').value = '';
+    }
+
+    function submitPin() {
+        const pin = document.getElementById('pinInput').value;
+        console.log('PIN Submitted:', pin);
+        alert('PIN Submitted: ' + pin);
+    }
+</script>
+</body>
+</html>

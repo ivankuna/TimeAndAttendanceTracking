@@ -248,11 +248,11 @@ public class UserController {
     }
 
     @GetMapping("/users/register-machine")
-    public String testShiftSchedule(Model model) {
+    public String setMachineID(Model model) {
 
         model.addAttribute("title", "Prijava preglednika");
         model.addAttribute("path", "/users");
 
-        return "id-test";
+        return "machine-id";
     }
 }

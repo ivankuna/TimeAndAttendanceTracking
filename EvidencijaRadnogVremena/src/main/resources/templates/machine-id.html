@@ -5,29 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Machine ID</title>
 
-    <!-- Including Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-
-    <!-- Including Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
-    <!-- Favicon links -->
     <link rel="shortcut icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
-
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/table.css">
 
     <style>
         .container {
             margin-top: 50px;
         }
-        /* Uniform style for labels */
         .label-style, #currentMachineIdDisplay h5 {
-            font-family: Arial, sans-serif; /* Consistent font family */
-            font-size: 1.25rem; /* Equivalent to h5 */
-            font-weight: bold; /* Consistent boldness */
+            font-family: Arial, sans-serif;
+            font-size: 1.25rem;
+            font-weight: bold;
             margin-bottom: 10px;
         }
     </style>
@@ -53,27 +45,22 @@
 </nav>
 
 <div class="container">
-    <!-- Display for the current Machine ID -->
     <div id="currentMachineIdDisplay" class="mb-4">
         <h5>Trenutni machine ID: <span id="currentMachineId">Nema postavljenog ID-a</span></h5>
     </div>
 
-    <!-- Tekstualno polje za unos machineId -->
     <div class="form-group">
         <label for="machineIdInput" class="label-style">Unesite Machine ID:</label>
         <input type="text" id="machineIdInput" class="form-control" placeholder="Unesite Machine ID">
     </div>
 
-    <!-- Gumbi za manipulaciju machineId -->
     <button class="btn btn-success mr-2" onclick="setMachineId()">Postavi ID</button>
     <button class="btn btn-danger mr-2" onclick="deleteMachineId()">Obriši ID</button>
 
-    <!-- Div za prikazivanje MachineId -->
     <div id="machineIdDisplay" class="mt-4"></div>
 </div>
 
 <script>
-    // Function to get the Machine ID from local storage
     function getMachineId() {
         let machineId = localStorage.getItem('MachineId');
 
@@ -86,7 +73,6 @@
         return machineId;
     }
 
-    // Function to update the current Machine ID display
     function updateCurrentMachineIdDisplay() {
         var machineId = localStorage.getItem('MachineId');
         var currentMachineIdElement = document.getElementById('currentMachineId');
@@ -97,14 +83,12 @@
         }
     }
 
-    // Function to delete the Machine ID from local storage
     function deleteMachineId() {
         localStorage.removeItem('MachineId');
         alert('Machine ID je obrisan iz lokalne pohrane.');
         updateCurrentMachineIdDisplay();
     }
 
-    // Function to set a new Machine ID from the input field
     function setMachineId() {
         var machineId = document.getElementById('machineIdInput').value;
 
@@ -118,14 +102,12 @@
         }
     }
 
-    // Initialize the current Machine ID display when the page loads
     window.onload = function() {
         getMachineId();
         updateCurrentMachineIdDisplay();
     };
 </script>
 
-<!-- Including necessary JavaScript files -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
