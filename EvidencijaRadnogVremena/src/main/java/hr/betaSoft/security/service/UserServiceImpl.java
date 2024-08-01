@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
         user.setCity(userDto.getCity());
         user.setTelephone(userDto.getTelephone());
         user.setEmail(userDto.getEmail());
+        user.setEmailAdmin(userDto.getEmailAdmin());
         user.setUsername(userDto.getUsername());
         user.setDateOfUserAccountExpiry(userDto.getDateOfUserAccountExpiry());
         user.setMachineID(userDto.getMachineID());
@@ -89,6 +90,7 @@ public class UserServiceImpl implements UserService {
         userDto.setCity(user.getCity());
         userDto.setTelephone(user.getTelephone());
         userDto.setEmail(user.getEmail());
+        userDto.setEmailAdmin(user.getEmailAdmin());
         userDto.setDateOfUserAccountExpiry(user.getDateOfUserAccountExpiry());
         userDto.setMachineID(user.getMachineID());
 

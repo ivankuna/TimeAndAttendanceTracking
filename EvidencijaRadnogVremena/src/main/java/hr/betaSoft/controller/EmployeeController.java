@@ -11,6 +11,7 @@ import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.tools.OibHandler;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,13 +23,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
-    private UserService userService;
+    private final UserService userService;
 
     public EmployeeController(EmployeeService employeeService, UserService userService) {
         this.employeeService = employeeService;
@@ -130,9 +132,35 @@ public class EmployeeController {
     @PostMapping("/employees/save")
     public String addEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes ra) {
 
+        User tempUser = userService.getAuthenticatedUser();
+
+        Employee pinExists = employeeService.findByPinAndUser(employee.getPin(), tempUser);
+
+        boolean error = false;
+
+        int errorNum = 0;
+
+        String errorMessage = "";
+
         if (!OibHandler.checkOib(employee.getOib())) {
+            errorNum = 1;
+        } else if (pinExists != null && !Objects.equals(employee.getId(), pinExists.getId())) {
+            errorNum = 2;
+        }
+
+        if (errorNum != 0) {
+            error = true;
+        }
+
+        errorMessage = switch (errorNum) {
+            case 1 -> "Neispravan unos OIB-a.";
+            case 2 -> "Već postoji radnik s tim PIN-om";
+            default -> "";
+        };
+
+        if (error) {
             ra.addFlashAttribute("employee", employee);
-            ra.addFlashAttribute("message", "Neispravan unos OIB-a.");
+            ra.addFlashAttribute("message", errorMessage);
 
             if (employee.getId() != null) {
                 return "redirect:/employees/update/" + employee.getId();
@@ -140,7 +168,7 @@ public class EmployeeController {
             return "redirect:/employees/new";
         }
 
-        employee.setUser(userService.getAuthenticatedUser());
+        employee.setUser(tempUser);
         employeeService.saveEmployee(employee);
         return "redirect:/employees/show";
     }

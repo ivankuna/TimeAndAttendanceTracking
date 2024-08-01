@@ -51,6 +51,9 @@ User {
     private String email;
 
     @Column(nullable=false)
+    private String emailAdmin;
+
+    @Column(nullable=false)
     private String password;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -60,7 +63,7 @@ User {
     @OneToMany(mappedBy = "user")
     private List<Employee> employees;
 
-    @Column
+    @Column(unique = true)
     private String machineID;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)

@@ -60,4 +60,22 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", oib='" + oib + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", employmentPosition='" + employmentPosition + '\'' +
+                ", cityOfEmployment='" + cityOfEmployment + '\'' +
+                ", pin='" + pin + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

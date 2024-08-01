@@ -39,12 +39,14 @@ public class SendMail {
             MimeBodyPart messageBodyPart = new MimeBodyPart();
             messageBodyPart.setText(text);
 
-            MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-            attachmentBodyPart.attachFile(attachment);
-
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
-            multipart.addBodyPart(attachmentBodyPart);
+
+            if (attachment != null && !attachment.isEmpty()) {
+                MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+                attachmentBodyPart.attachFile(attachment);
+                multipart.addBodyPart(attachmentBodyPart);
+            }
 
             message.setContent(multipart);
 

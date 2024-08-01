@@ -49,6 +49,10 @@ public class UserDto
     @Email
     private String email;
 
+    @NotEmpty(message = "Email administratora mora biti upisan!")
+    @Email
+    private String emailAdmin;
+
     @NotEmpty(message = "Lozinka mora biti upisana!")
     private String password;
 

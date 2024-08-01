@@ -14,27 +14,34 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "arrivalDeparture")
-public class ArrivalDeparture {
+@Table(name = "attendance")
+public class Attendance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable=false)
-    private boolean arrival;
-
-    @Column(nullable=false)
-    private boolean departure;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
-    private Date dateOfInput;
-
-    @Column(nullable=false)
-    private String timeOfInput;
-
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date clockInDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
+    private Date clockOutDate;
+
+    @Column()
+    private String clockInTime;
+
+    @Column
+    private String clockOutTime;
+
+    @Column
+    private String hoursAtWork;
+
+    @Column
+    private Integer status;
 }

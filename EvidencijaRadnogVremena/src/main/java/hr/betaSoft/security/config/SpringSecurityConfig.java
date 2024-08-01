@@ -37,10 +37,10 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/employees/**").hasRole("USER")
                                 .requestMatchers("/settings/**").hasRole("USER")
                                 .requestMatchers("/pin/**").permitAll()
+                                .requestMatchers("/audio/**").permitAll()
                                 .requestMatchers("/favicon.png").permitAll()
                                 .requestMatchers("/favicon.ico").permitAll()
                                 .requestMatchers("/**").hasRole("ADMIN")
-
                 ).formLogin(
                         form -> form
                                 .loginPage("/login")

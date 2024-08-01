@@ -22,4 +22,8 @@ public interface EmployeeService {
     Employee findFirstByOib(String oib);
 
     Employee findFirstByOibAndUser(String oib, User user);
+
+    Employee findByPinAndMachineId(String pin, String machineId);
+
+    Employee findByPinAndUser(String pin, User user);
 }

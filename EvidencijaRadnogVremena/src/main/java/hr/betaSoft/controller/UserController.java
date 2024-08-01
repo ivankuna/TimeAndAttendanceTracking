@@ -9,6 +9,7 @@ import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.tools.OibHandler;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +25,7 @@ import java.util.List;
 @Controller
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -52,6 +53,7 @@ public class UserController {
             columnList.add(new Column("Osoba", "name", "id",""));
             columnList.add(new Column("Telefon", "telephone", "id",""));
             columnList.add(new Column("e-mail korisnika", "email", "id",""));
+            columnList.add(new Column("e-mail administratora", "emailAdmin", "id",""));
             columnList.add(new Column("Datum licence", "dateOfUserAccountExpiry", "id",""));
             columnList.add(new Column("Machine ID", "machineID", "id",""));
         }
@@ -234,14 +236,16 @@ public class UserController {
         ;
         dataList.add(new Data("8.","e-mail korisnika *", "email", "", "", "", "text", "true", "", items,"false"));
         ;
-        dataList.add(new Data("9.","Datum isteka roka korisničkog računa", "dateOfUserAccountExpiry", "", "", "", "date-pick", "true", fieldStatus, items,"false"));
+        dataList.add(new Data("9.","e-mail administratora *", "emailAdmin", "", "", "", "text", "true", "", items,"false"));
         ;
-        dataList.add(new Data("10.","Machine ID *", "machineID", "", "", "", "text", "true", fieldStatus, items,"false"));
+        dataList.add(new Data("10.","Datum isteka roka korisničkog računa", "dateOfUserAccountExpiry", "", "", "", "date-pick", "true", fieldStatus, items,"false"));
+        ;
+        dataList.add(new Data("11.","Machine ID *", "machineID", "", "", "", "text", "true", fieldStatus, items,"false"));
         ;
         if (!update) {
-            dataList.add(new Data("11.","Korisničko ime *", "username", "", "", "", "text", "true", "", items,"false"));
+            dataList.add(new Data("12.","Korisničko ime *", "username", "", "", "", "text", "true", "", items,"false"));
             ;
-            dataList.add(new Data("12.","Lozinka *", "password", "", "", "", "text", "true", "", items,"false"));
+            dataList.add(new Data("13.","Lozinka *", "password", "", "", "", "text", "true", "", items,"false"));
             ;
         }
         return dataList;

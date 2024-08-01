@@ -61,4 +61,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findFirstByOibAndUser(String oib, User user) {
         return employeeRepository.findFirstByOibAndUser(oib, user);
     }
+
+    @Override
+    public Employee findByPinAndMachineId(String pin, String machineId) {
+        return employeeRepository.findByPinAndMachineId(pin, machineId);
+    }
+
+    @Override
+    public Employee findByPinAndUser(String pin, User user) {
+        return employeeRepository.findByPinAndUser(pin, user);
+    }
 }

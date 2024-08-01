@@ -6,7 +6,8 @@
     });
 
     function sendPostRequest(oib) {
-        fetch('/employees/check-oib', {
+        fetch('/employees/
+        check-oib', {
          method: 'POST',
          headers: {
              'Content-Type': 'application/json'

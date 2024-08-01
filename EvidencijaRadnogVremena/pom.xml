@@ -6,13 +6,13 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.0.0</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 	<groupId>com.betaSoft</groupId>
 	<artifactId>betaSoft</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>betaSoft</name>
-	<description>Sustav radnici</description>
+	<description>Evidencija radnog vremena</description>
 	<properties>
 		<java.version>20</java.version>
 	</properties>
