@@ -35,6 +35,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/access-denied").permitAll()
                                 .requestMatchers("/users/**").hasRole("ADMIN")
                                 .requestMatchers("/employees/**").hasRole("USER")
+                                .requestMatchers("/attendance/**").hasRole("USER")
                                 .requestMatchers("/settings/**").hasRole("USER")
                                 .requestMatchers("/pin/**").permitAll()
                                 .requestMatchers("/audio/**").permitAll()

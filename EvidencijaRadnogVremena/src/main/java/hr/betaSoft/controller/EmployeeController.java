@@ -15,17 +15,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -37,19 +33,42 @@ public class EmployeeController {
         this.userService = userService;
     }
 
-    @GetMapping("/employees/show")
+    @GetMapping("/show")
     public String showEmployees(Model model, HttpServletRequest request) {
 
-        DeviceDetector deviceDetector = new DeviceDetector();
-        boolean isMobile = deviceDetector.isMobileDevice(request);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("title", "Popis radnika");
+        attributes.put("addLink", "/employees/new");
+        attributes.put("addBtnText", "Unesi radnika");
+        attributes.put("updateLink", "/employees/update/{id}");
+        attributes.put("deleteLink", "/employees/delete/{id}");
+
+        defineShowData(model,request, attributes);
+
+        return "table";
+    }
+
+    @GetMapping("/show-attendance")
+    public String showEmployeeAttendance(Model model, HttpServletRequest request) {
+
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("title", "Popis radnika - dolasci/odlasci");
+        attributes.put("updateLink", "/attendance/show/{id}");
+        attributes.put("deleteLink", "");
+
+        defineShowData(model, request, attributes);
+
+        return "table";
+    }
+
+    private void defineShowData(Model model, HttpServletRequest request, Map<String, Object> attributes) {
 
         List<Column> columnList = new ArrayList<>();
 
-        if (isMobile) {
+        if (DeviceDetector.isMobileDevice(request)) {
             columnList.add(new Column("Ime", "firstName", "id", ""));
             columnList.add(new Column("Prezime", "lastName", "id", ""));
             columnList.add(new Column("OIB", "oib", "id", ""));
-
         } else {
             columnList.add(new Column("Ime", "firstName", "id", ""));
             columnList.add(new Column("Prezime", "lastName", "id", ""));
@@ -61,24 +80,18 @@ public class EmployeeController {
         User authenticatedUser = userService.getAuthenticatedUser();
         List<Employee> employeeList = employeeService.findByUser(authenticatedUser);
 
-        model.addAttribute("title", "Popis radnika");
+        model.addAllAttributes(attributes);
         model.addAttribute("columnList", columnList);
         model.addAttribute("dataList", employeeList);
-        model.addAttribute("addLink", "/employees/new");
-        model.addAttribute("addBtnText", "Unesi radnika");
         model.addAttribute("path", "/employees");
         model.addAttribute("sendLink", "");
         model.addAttribute("pdfLink", "");
-        model.addAttribute("updateLink", "/employees/update/{id}");
-        model.addAttribute("deleteLink", "/employees/delete/{id}");
         model.addAttribute("showLink", "");
         model.addAttribute("tableName", "employees");
         model.addAttribute("script", "/js/table-employees.js");
-
-        return "table";
     }
 
-    @GetMapping("/employees/new")
+    @GetMapping("/new")
     public String showAddForm(Model model) {
 
         Employee employee = (Employee) model.getAttribute("employee");
@@ -102,7 +115,7 @@ public class EmployeeController {
         return "form";
     }
 
-    @GetMapping("employees/update/{id}")
+    @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
 
         try {
@@ -129,7 +142,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/employees/save")
+    @PostMapping("/save")
     public String addEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes ra) {
 
         User tempUser = userService.getAuthenticatedUser();
@@ -173,7 +186,7 @@ public class EmployeeController {
         return "redirect:/employees/show";
     }
 
-    @GetMapping("/employees/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteEmployee(@PathVariable Long id, RedirectAttributes ra) {
 
         try {
@@ -184,7 +197,7 @@ public class EmployeeController {
         return "redirect:/employees/show";
     }
 
-    @GetMapping("employees/user/update/{id}")
+    @GetMapping("/user/update/{id}")
     public String showUpdateUser(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
 
         try {
@@ -205,7 +218,7 @@ public class EmployeeController {
         }
     }
 
-    @PostMapping("/employees/user/save")
+    @PostMapping("/user/save")
     public String updateUser(@ModelAttribute("userDto") UserDto userDto, BindingResult result, RedirectAttributes ra) {
 
         if (result.hasErrors()) {

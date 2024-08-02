@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-     function enableHiddenInputs() {
-      var hiddenInputs = document.querySelectorAll('input[type="hidden"]');
-      hiddenInputs.forEach(function(input) {
-          input.disabled = false;
-      });
-  }
+ function enableHiddenInputs() {
+  var hiddenInputs = document.querySelectorAll('input[type="hidden"]');
+  hiddenInputs.forEach(function(input) {
+      input.disabled = false;
+  });
+}
 
 function toggleDatePickButtons() {
     setTimeout(function() {

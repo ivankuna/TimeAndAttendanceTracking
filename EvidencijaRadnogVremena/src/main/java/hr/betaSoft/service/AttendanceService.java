@@ -3,6 +3,8 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 
+import java.util.List;
+
 public interface AttendanceService {
 
     void processClockInData(Employee employee);
@@ -15,7 +17,7 @@ public interface AttendanceService {
 
     Attendance findById(long id);
 
-    Attendance findByEmployee(Employee employee);
+    List<Attendance> findByEmployee(Employee employee);
 
     Attendance findFirstByEmployeeOrderByIdDesc(Employee employee);
 }

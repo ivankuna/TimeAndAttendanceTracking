@@ -13,16 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -31,15 +29,12 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users/show")
+    @GetMapping("/show")
     public String showUsers(Model model, HttpServletRequest request) {
-
-        DeviceDetector deviceDetector = new DeviceDetector();
-        boolean isMobile = deviceDetector.isMobileDevice(request);
 
         List<Column> columnList = new ArrayList<>();
 
-        if (isMobile) {
+        if (DeviceDetector.isMobileDevice(request)) {
             columnList.add(new Column("Tvrtka", "company", "id",""));
             columnList.add(new Column("Korisnik", "username", "id",""));
             columnList.add(new Column("Licenca", "dateOfUserAccountExpiry", "id",""));
@@ -77,7 +72,7 @@ public class UserController {
         return "table";
     }
 
-    @GetMapping("/users/new")
+    @GetMapping("/new")
     public String showAddForm(Model model) {
 
         UserDto userDto = (UserDto) model.getAttribute("userDto");
@@ -101,7 +96,7 @@ public class UserController {
         return "form";
     }
 
-    @GetMapping("users/update/{id}")
+    @GetMapping("/update/{id}")
     public String showUpdateForm(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
 
         try {
@@ -125,7 +120,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/users/save")
+    @PostMapping("/save")
     public String addUser(@ModelAttribute("userDto") UserDto userDto, BindingResult result, RedirectAttributes ra) {
 
         User usernameExists = userService.findByUsername(userDto.getUsername());
@@ -189,7 +184,7 @@ public class UserController {
         return "redirect:/users/show";
     }
 
-    @GetMapping("/users/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable Long id, RedirectAttributes ra) {
 
         try {
@@ -205,11 +200,6 @@ public class UserController {
         }
 
         return "redirect:/users/show";
-    }
-
-    @GetMapping("/access-denied")
-    public String showAccessDenied() {
-        return "access-denied";
     }
 
     public static List<Data> defineDataList(boolean update, boolean emplUpdate) {
@@ -251,7 +241,7 @@ public class UserController {
         return dataList;
     }
 
-    @GetMapping("/users/register-machine")
+    @GetMapping("/register-machine")
     public String setMachineID(Model model) {
 
         model.addAttribute("title", "Prijava preglednika");
