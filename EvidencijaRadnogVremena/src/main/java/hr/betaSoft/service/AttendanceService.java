@@ -11,6 +11,8 @@ public interface AttendanceService {
 
     void processClockOutData(Employee employee);
 
+    void processAttendanceDataFromController(Attendance attendance, Employee employee);
+
     void saveAttendance(Attendance attendance);
 
     void deleteAttendance(Long id);

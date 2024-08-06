@@ -1,6 +1,7 @@
 package hr.betaSoft.controller;
 
 import hr.betaSoft.exception.EmployeeNotFoundException;
+import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.security.model.User;
 import hr.betaSoft.security.service.UserService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/employees")
@@ -103,8 +105,10 @@ public class EmployeeController {
         }
 
         List<Data> dataList = defineDataList();
+        List<String> hiddenList = Data.getColumnFieldsNotInDataList(Employee.class, dataList);
 
         model.addAttribute("dataList", dataList);
+        model.addAttribute("hiddenList", hiddenList);
         model.addAttribute("title", "Radnik");
         model.addAttribute("dataId", "id");
         model.addAttribute("pathSave", "/employees/save");
@@ -122,11 +126,12 @@ public class EmployeeController {
 
             Employee employee = employeeService.findById(id);
 
-            List<String> dummyHidden = new ArrayList<>();
+            List<Data> dataList = defineDataList();
+            List<String> hiddenList = Data.getColumnFieldsNotInDataList(Employee.class, dataList);
 
             model.addAttribute("class", employee);
-            model.addAttribute("dataList", defineDataList());
-            model.addAttribute("hiddenList", dummyHidden);
+            model.addAttribute("dataList", dataList);
+            model.addAttribute("hiddenList", hiddenList);
             model.addAttribute("title", "Radnik");
             model.addAttribute("dataId", "id");
             model.addAttribute("pathSave", "/employees/save");
@@ -159,6 +164,8 @@ public class EmployeeController {
             errorNum = 1;
         } else if (pinExists != null && !Objects.equals(employee.getId(), pinExists.getId())) {
             errorNum = 2;
+        } else if (employee.getPin().length() != 4) {
+            errorNum = 3;
         }
 
         if (errorNum != 0) {
@@ -168,6 +175,7 @@ public class EmployeeController {
         errorMessage = switch (errorNum) {
             case 1 -> "Neispravan unos OIB-a.";
             case 2 -> "Već postoji radnik s tim PIN-om";
+            case 3 -> "PIN mora sadržavati 4 broja";
             default -> "";
         };
 

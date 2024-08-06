@@ -64,12 +64,32 @@ public class AttendanceServiceImpl implements AttendanceService {
             clockOut.setStatus(2);
         } else {
             clockOut.setHoursAtWork(TimeCalculator.returnTimeDifference
-                    (clockOut.getClockInDate().toString() + " " + clockOut.getClockInTime(),
-                     clockOut.getClockOutDate().toString() + " " + clockOut.getClockOutTime()));
+                    (clockOut.getClockInDate() + " " + clockOut.getClockInTime(),
+                     clockOut.getClockOutDate() + " " + clockOut.getClockOutTime()));
             clockOut.setStatus(0);
         }
 
         saveAttendance(clockOut);
+    }
+
+    @Override
+    public void processAttendanceDataFromController(Attendance attendance, Employee employee) {
+
+        if (attendance.getClockInDate() != null && attendance.getClockOutDate() == null) {
+            attendance.setHoursAtWork("");
+            attendance.setStatus(1);
+        } else if (attendance.getClockInDate() == null && attendance.getClockOutDate() != null) {
+            attendance.setHoursAtWork("");
+            attendance.setStatus(2);
+        } else if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
+            attendance.setHoursAtWork(TimeCalculator.returnTimeDifference
+                    (attendance.getClockInDate() + " " + attendance.getClockInTime(),
+                     attendance.getClockOutDate() + " " + attendance.getClockOutTime()));
+            attendance.setStatus(0);
+        }
+
+        attendance.setEmployee(employee);
+        saveAttendance(attendance);
     }
 
     @Override

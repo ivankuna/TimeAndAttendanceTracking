@@ -13,11 +13,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/attendance")
@@ -88,8 +92,10 @@ public class AttendanceController {
         }
 
         List<Data> dataList = defineDataList();
+        List<String> hiddenList = Data.getColumnFieldsNotInDataList(Attendance.class, dataList);
 
         model.addAttribute("dataList", dataList);
+        model.addAttribute("hiddenList", hiddenList);
         model.addAttribute("title", "Dolazak/odlazak");
         model.addAttribute("dataId", "id");
         model.addAttribute("pathSave", "/attendance/save");
@@ -106,11 +112,12 @@ public class AttendanceController {
         try {
             Attendance attendance = attendanceService.findById(id);
 
-            List<String> dummyHidden = new ArrayList<>();
+            List<Data> dataList = defineDataList();
+            List<String> hiddenList = Data.getColumnFieldsNotInDataList(Attendance.class, dataList);
 
             model.addAttribute("class", attendance);
-            model.addAttribute("dataList", defineDataList());
-            model.addAttribute("hiddenList", dummyHidden);
+            model.addAttribute("dataList", dataList);
+            model.addAttribute("hiddenList", hiddenList);
             model.addAttribute("title", "Dolazak/odlazak");
             model.addAttribute("dataId", "id");
             model.addAttribute("pathSave", "/attendance/save");
@@ -127,11 +134,22 @@ public class AttendanceController {
     }
 
     @PostMapping("/save")
-    public String addAttendance(@ModelAttribute("attendance") Attendance attendance) {
+    public String addAttendance(@ModelAttribute("attendance") Attendance attendance, BindingResult result, RedirectAttributes ra) {
 
-        attendance.setEmployee(currentEmployee);
+        if (result.hasErrors() && !result.hasFieldErrors("clockInDate") && !result.hasFieldErrors("clockOutDate")) {
+            ra.addFlashAttribute("attendance", attendance);
+            return redirect(attendance);
+        }
 
-        attendanceService.saveAttendance(attendance);
+        List<String> emptyAttributes = attendance.checkForEmptyAttributes();
+
+        if (!emptyAttributes.isEmpty()) {
+            ra.addFlashAttribute("attendance", attendance);
+            ra.addFlashAttribute("message", Attendance.defineErrorMessageForEmptyAttributes(emptyAttributes));
+            return redirect(attendance);
+        }
+
+        attendanceService.processAttendanceDataFromController(attendance, currentEmployee);
 
         return "redirect:/attendance/show/" + currentEmployee.getId();
     }
@@ -147,6 +165,14 @@ public class AttendanceController {
         return "redirect:/attendance/show/" + currentEmployee.getId();
     }
 
+    private String redirect(Attendance attendance) {
+
+        if (attendance.getId() != null) {
+            return "redirect:/attendance/update/" + attendance.getId();
+        }
+        return "redirect:/attendance/new";
+    }
+
     private List<Data> defineDataList() {
 
         List<Data> dataList = new ArrayList<>();
@@ -160,10 +186,6 @@ public class AttendanceController {
         dataList.add(new Data("3.", "Datum odlaska *", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
         ;
         dataList.add(new Data("4.", "Vrijeme dolaska *", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
-        ;
-        dataList.add(new Data("5.", "Vrijeme na poslu *", "hoursAtWork", "", "", "", "text", "false", "true", items, "false"));
-        ;
-        dataList.add(new Data("6.", "Status *", "status", "", "", "", "text", "false", "true", items, "false"));
         ;
 
         return dataList;
