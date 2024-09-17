@@ -1,7 +1,6 @@
 package hr.betaSoft.controller;
 
 import hr.betaSoft.exception.EmployeeNotFoundException;
-import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.security.model.User;
 import hr.betaSoft.security.service.UserService;
@@ -12,7 +11,6 @@ import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.tools.OibHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("/employees")
@@ -45,7 +42,7 @@ public class EmployeeController {
         attributes.put("updateLink", "/employees/update/{id}");
         attributes.put("deleteLink", "/employees/delete/{id}");
 
-        defineShowData(model,request, attributes);
+        defineShowData(model, request, attributes);
 
         return "table";
     }

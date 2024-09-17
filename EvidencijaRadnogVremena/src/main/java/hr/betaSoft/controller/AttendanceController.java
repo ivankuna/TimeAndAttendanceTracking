@@ -1,7 +1,6 @@
 package hr.betaSoft.controller;
 
 import hr.betaSoft.exception.AttendanceNotFoundException;
-import hr.betaSoft.exception.EmployeeNotFoundException;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.service.AttendanceService;
@@ -17,11 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/attendance")
@@ -101,7 +97,7 @@ public class AttendanceController {
         model.addAttribute("pathSave", "/attendance/save");
         model.addAttribute("path", "/attendance/show/" + currentEmployee.getId());
         model.addAttribute("sendLink", "");
-        model.addAttribute("script", "/js/form-employees.js");
+        model.addAttribute("script", "/js/form-users.js");
 
         return "form";
     }

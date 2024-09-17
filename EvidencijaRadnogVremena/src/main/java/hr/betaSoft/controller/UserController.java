@@ -9,7 +9,6 @@ import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.tools.OibHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;

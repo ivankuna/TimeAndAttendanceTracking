@@ -94,7 +94,7 @@
                                 <a th:if="${deleteLink != ''}"
                                    th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
                                    class="text-danger"
-                                   onclick="return confirm('Jeste li sigurni da želite obrisati nalog?') ? true : false">
+                                   onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
                                 <a th:if="${pdfLink != ''}"
@@ -109,7 +109,15 @@
                                 <a th:if="${deleteLink != ''}"
                                    th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
                                    class="text-danger"
-                                   onclick="return confirm('Jeste li sigurni da želite obrisati nalog?') ? true : false">
+                                   onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
+                                    <i class="far fa-trash-alt fa-lg"></i>
+                                </a>
+                            </div>
+                            <div th:if="${tableName == 'holidays'}">
+                                <a th:if="${deleteLink != ''}"
+                                   th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
+                                   class="text-danger"
+                                   onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
                             </div>
