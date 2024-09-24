@@ -37,6 +37,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/employees/**").hasRole("USER")
                                 .requestMatchers("/attendance/**").hasRole("USER")
                                 .requestMatchers("/settings/**").hasRole("USER")
+                                .requestMatchers("/test/**").hasRole("USER")
                                 .requestMatchers("/pin/**").permitAll()
                                 .requestMatchers("/audio/**").permitAll()
                                 .requestMatchers("/favicon.png").permitAll()

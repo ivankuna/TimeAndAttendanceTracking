@@ -41,6 +41,7 @@ public class EmployeeController {
         attributes.put("addBtnText", "Unesi radnika");
         attributes.put("updateLink", "/employees/update/{id}");
         attributes.put("deleteLink", "/employees/delete/{id}");
+        model.addAttribute("pdfLink", "");
 
         defineShowData(model, request, attributes);
 
@@ -54,6 +55,7 @@ public class EmployeeController {
         attributes.put("title", "Popis radnika - dolasci/odlasci");
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
+        attributes.put("pdfLink", "/test/example");
 
         defineShowData(model, request, attributes);
 
@@ -84,7 +86,6 @@ public class EmployeeController {
         model.addAttribute("dataList", employeeList);
         model.addAttribute("path", "/employees");
         model.addAttribute("sendLink", "");
-        model.addAttribute("pdfLink", "");
         model.addAttribute("showLink", "");
         model.addAttribute("tableName", "employees");
         model.addAttribute("script", "/js/table-employees.js");
