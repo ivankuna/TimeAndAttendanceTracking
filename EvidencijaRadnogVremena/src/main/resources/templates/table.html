@@ -26,7 +26,6 @@
     <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
 
     <link rel="stylesheet" href="/css/table.css">
-
 </head>
 <body>
 
@@ -97,8 +96,7 @@
                                    onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
-                                <a th:if="${pdfLink != ''}"
-                                   th:href="@{${pdfLink}(id=${data[columnList[0].id]})}">
+                                <a th:if="${pdfLink != ''}" href="javascript:void(0);" onclick="openPopup()">
                                     <i class="far fa-file-pdf fa-lg"></i>
                                 </a>
                                 <a th:if="${showLink != ''}" th:href="@{${showLink}(id=${data[columnList[0].id]})}">
@@ -139,6 +137,68 @@
         <br/><br/>
     </div>
 </div>
+
+<div id="popupModal" class="modal" tabindex="-1" style="display:none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Odaberite mjesec i godinu</h5>
+                <button type="button" class="close" onclick="closePopup()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="dateForm" action="/test/example" method="POST">
+                    <div class="form-group">
+                        <label for="month" class="form-label">Mjesec</label>
+                        <select id="month" name="month" class="form-control">
+                            <option value="January">Siječanj</option>
+                            <option value="February">Veljača</option>
+                            <option value="March">Ožujak</option>
+                            <option value="April">Travanj</option>
+                            <option value="May">Svibanj</option>
+                            <option value="June">Lipanj</option>
+                            <option value="July">Srpanj</option>
+                            <option value="August">Kolovoz</option>
+                            <option value="September">Rujan</option>
+                            <option value="October">Listopad</option>
+                            <option value="November">Studeni</option>
+                            <option value="December">Prosinac</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="year" class="form-label">Godina</label>
+                        <select id="year" name="year" class="form-control">
+                            <script>
+                                let yearDropdown = document.getElementById("year");
+                                const currentYear = new Date().getFullYear();
+                                for (let year = 1970; year <= currentYear; year++) {
+                                    let option = document.createElement("option");
+                                    option.value = year;
+                                    option.text = year;
+                                    yearDropdown.add(option);
+                                }
+                                yearDropdown.value = currentYear; // Set the current year as default
+                            </script>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success">Prihvati</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openPopup() {
+        const currentMonthIndex = new Date().getMonth(); // Get the current month (0-11)
+        document.getElementById('month').selectedIndex = currentMonthIndex; // Set the selected month
+        document.getElementById('popupModal').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popupModal').style.display = 'none';
+    }
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
