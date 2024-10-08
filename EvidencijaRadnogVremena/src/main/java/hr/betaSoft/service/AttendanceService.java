@@ -3,6 +3,7 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface AttendanceService {
@@ -22,4 +23,6 @@ public interface AttendanceService {
     List<Attendance> findByEmployee(Employee employee);
 
     Attendance findFirstByEmployeeOrderByIdDesc(Employee employee);
+
+    List<Attendance> findByEmployeeAndClockInDateBetween(Employee employee, Date startDate, Date endDate);
 }

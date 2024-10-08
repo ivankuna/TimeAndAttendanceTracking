@@ -122,6 +122,11 @@ public class AttendanceServiceImpl implements AttendanceService {
         return attendanceRepository.findFirstByEmployeeOrderByIdDesc(employee);
     }
 
+    @Override
+    public List<Attendance> findByEmployeeAndClockInDateBetween(Employee employee, Date startDate, Date endDate) {
+        return attendanceRepository.findByEmployeeAndClockInDateBetween(employee, startDate, endDate);
+    }
+
     private void sendWarningEmail(Employee employee, Attendance lastAttendanceRecord, String action) {
 
         boolean isClockInError = action.equals("clockIn");

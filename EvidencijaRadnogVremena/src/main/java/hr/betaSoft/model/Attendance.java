@@ -1,18 +1,15 @@
 package hr.betaSoft.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import hr.betaSoft.tools.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 
 @Getter

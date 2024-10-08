@@ -1,4 +1,4 @@
-package hr.betaSoft.test;
+package hr.betaSoft.controller;
 
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
@@ -6,8 +6,12 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import hr.betaSoft.exception.EmployeeNotFoundException;
 import hr.betaSoft.model.Attendance;
+import hr.betaSoft.model.AttendanceData;
+import hr.betaSoft.model.Employee;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
+import hr.betaSoft.utils.AttendanceDataHandler;
+import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.pdfbox.io.IOUtils;
 import org.jsoup.Jsoup;
@@ -22,6 +26,7 @@ import org.thymeleaf.context.Context;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -90,10 +95,11 @@ public class PdfController {
         return originalDate;
     }
 
+
     public String createPdf(Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
 
         try {
-            List<Attendance> attendanceDataList = getSampleAttendanceData(id);
+            List<AttendanceData> attendanceDataList = getSampleAttendanceData(id);
 
             model.addAttribute("pageTitle", "Šihterica");
             model.addAttribute("title", "Šihterica");
@@ -113,8 +119,18 @@ public class PdfController {
         return "ERROR";
     }
 
-    private List<Attendance> getSampleAttendanceData(Long id) {
-        return attendanceService.findByEmployee(employeeService.findById(id));
+    private List<AttendanceData> getSampleAttendanceData(Long id) {
+
+        Employee employee = employeeService.findById(id);
+        String year = "2024";
+        String month = "09";
+        Date firstDateOfMonth = DateUtils.getFirstDateOfMonth(year, month);
+        Date lastDateOfMonth = DateUtils.getLastDateOfMonth(year, month);
+
+        List<Attendance> attendanceList = attendanceService.findByEmployeeAndClockInDateBetween(employee, firstDateOfMonth, lastDateOfMonth);
+        List<AttendanceData> attendanceDataList = AttendanceDataHandler.getFormattedAttendanceData(attendanceList);
+
+        return attendanceDataList;
     }
 
     @Autowired
@@ -137,7 +153,7 @@ public class PdfController {
             if (!pdfDir.exists()) {
                 boolean dirCreated = pdfDir.mkdir();
                 if (!dirCreated) {
-                    message = "Slanje naloga nije uspjelo. Kontaktirajte podršku.";
+                    message = "ERROR: PdfController.java -> showPdf()";
                 }
             }
 
@@ -162,5 +178,17 @@ public class PdfController {
     @GetMapping("/pdf/{id}")
     public void showPdfControllerMethod(@PathVariable("id") Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
         showPdf(id, model, ra, response);
+    }
+
+    @GetMapping("/html/{id}")
+    public String showHtmlControllerMethod(@PathVariable("id") Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
+
+        List<AttendanceData> attendanceDataList = getSampleAttendanceData(id);
+
+        model.addAttribute("pageTitle", "Šihterica");
+        model.addAttribute("title", "Šihterica");
+        model.addAttribute("dataList", attendanceDataList);
+
+        return "attendance-template";
     }
 }
