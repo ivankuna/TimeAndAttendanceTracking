@@ -9,6 +9,7 @@ import hr.betaSoft.tools.Column;
 import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,11 +24,11 @@ import java.util.List;
 @RequestMapping("/attendance")
 public class AttendanceController {
 
+    private static final String SESSION_EMPLOYEE = "employee";
+
     private final AttendanceService attendanceService;
 
     private final EmployeeService employeeService;
-
-    private Employee currentEmployee;
 
     @Autowired
     public AttendanceController(AttendanceService attendanceService, EmployeeService employeeService) {
@@ -36,9 +37,11 @@ public class AttendanceController {
     }
 
     @GetMapping("show/{id}")
-    public String showAttendanceOfEmployee(@PathVariable Long id, Model model, HttpServletRequest request) {
+    public String showAttendanceOfEmployee(@PathVariable Long id, HttpSession session, Model model, HttpServletRequest request) {
 
-        this.currentEmployee = employeeService.findById(id);
+        session.setAttribute(SESSION_EMPLOYEE, employeeService.findById(id));
+
+        Employee currentEmployee = getCurrentEmployee(session);
 
         String title = currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " (" + currentEmployee.getOib() + ")";
 
@@ -77,7 +80,9 @@ public class AttendanceController {
     }
 
     @GetMapping("/new")
-    public String showAddForm(Model model) {
+    public String showAddForm(HttpSession session, Model model) {
+
+        Employee currentEmployee = getCurrentEmployee(session);
 
         Attendance attendance = (Attendance) model.getAttribute("attendance");
 
@@ -103,9 +108,11 @@ public class AttendanceController {
     }
 
     @GetMapping("/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Long id, Model model, RedirectAttributes ra) {
+    public String showUpdateForm(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes ra) {
 
         try {
+            Employee currentEmployee = getCurrentEmployee(session);
+
             Attendance attendance = attendanceService.findById(id);
 
             List<Data> dataList = defineDataList();
@@ -130,7 +137,9 @@ public class AttendanceController {
     }
 
     @PostMapping("/save")
-    public String addAttendance(@ModelAttribute("attendance") Attendance attendance, BindingResult result, RedirectAttributes ra) {
+    public String addAttendance(@ModelAttribute("attendance") Attendance attendance, HttpSession session, BindingResult result, RedirectAttributes ra) {
+
+        Employee currentEmployee = getCurrentEmployee(session);
 
         if (result.hasErrors() && !result.hasFieldErrors("clockInDate") && !result.hasFieldErrors("clockOutDate")) {
             ra.addFlashAttribute("attendance", attendance);
@@ -151,7 +160,9 @@ public class AttendanceController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteAttendance(@PathVariable Long id, RedirectAttributes ra) {
+    public String deleteAttendance(@PathVariable Long id, HttpSession session, RedirectAttributes ra) {
+
+        Employee currentEmployee = getCurrentEmployee(session);
 
         try {
             attendanceService.deleteAttendance(id);
@@ -181,9 +192,13 @@ public class AttendanceController {
         ;
         dataList.add(new Data("3.", "Datum odlaska *", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
         ;
-        dataList.add(new Data("4.", "Vrijeme dolaska *", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
+        dataList.add(new Data("4.", "Vrijeme odlaska *", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
         ;
 
         return dataList;
+    }
+
+    private Employee getCurrentEmployee(HttpSession session) {
+        return  (Employee) session.getAttribute(SESSION_EMPLOYEE);
     }
 }

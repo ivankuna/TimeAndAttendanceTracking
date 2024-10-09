@@ -8,7 +8,9 @@ import java.util.List;
 
 public class AttendanceDataHandler {
 
-    public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList) {
+    public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList, String year, String month) {
+
+        int numOfDaysInMonth = 0;
 
         List<Attendance> attendanceList = paramAttendanceList;
 
@@ -37,6 +39,9 @@ public class AttendanceDataHandler {
             attendanceDataList.add(attendanceData);
             counter = attendanceData.getDatum();
         }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         return attendanceDataList;
     }

@@ -96,13 +96,14 @@
                                    onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
-                                <a th:if="${pdfLink != ''}" href="javascript:void(0);" onclick="openPopup()">
+                                <a th:if="${pdfLink != ''}" href="javascript:void(0);" th:onclick="'openPopup(' + ${data[columnList[0].id]} + ')'">
                                     <i class="far fa-file-pdf fa-lg"></i>
                                 </a>
                                 <a th:if="${showLink != ''}" th:href="@{${showLink}(id=${data[columnList[0].id]})}">
                                     <i class="fas fa-list fa-lg"></i>
                                 </a>
                             </div>
+
                             <div th:if="${tableName == 'attendence'}">
                                 <a th:if="${deleteLink != ''}"
                                    th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
@@ -146,22 +147,23 @@
                 <button type="button" class="close" onclick="closePopup()">&times;</button>
             </div>
             <div class="modal-body">
-                <form id="dateForm" action="/test/example" method="POST">
+                <form id="dateForm" action="/html" method="POST">
+                    <input type="hidden" id="employeeId" name="employeeId" value="">
                     <div class="form-group">
                         <label for="month" class="form-label">Mjesec</label>
                         <select id="month" name="month" class="form-control">
-                            <option value="January">Siječanj</option>
-                            <option value="February">Veljača</option>
-                            <option value="March">Ožujak</option>
-                            <option value="April">Travanj</option>
-                            <option value="May">Svibanj</option>
-                            <option value="June">Lipanj</option>
-                            <option value="July">Srpanj</option>
-                            <option value="August">Kolovoz</option>
-                            <option value="September">Rujan</option>
-                            <option value="October">Listopad</option>
-                            <option value="November">Studeni</option>
-                            <option value="December">Prosinac</option>
+                            <option value="01">Siječanj</option>
+                            <option value="02">Veljača</option>
+                            <option value="03">Ožujak</option>
+                            <option value="04">Travanj</option>
+                            <option value="05">Svibanj</option>
+                            <option value="06">Lipanj</option>
+                            <option value="07">Srpanj</option>
+                            <option value="08">Kolovoz</option>
+                            <option value="09">Rujan</option>
+                            <option value="10">Listopad</option>
+                            <option value="11">Studeni</option>
+                            <option value="12">Prosinac</option>
                         </select>
                     </div>
 
@@ -177,7 +179,7 @@
                                     option.text = year;
                                     yearDropdown.add(option);
                                 }
-                                yearDropdown.value = currentYear; // Set the current year as default
+                                yearDropdown.value = currentYear;
                             </script>
                         </select>
                     </div>
@@ -189,9 +191,9 @@
 </div>
 
 <script>
-    function openPopup() {
-        const currentMonthIndex = new Date().getMonth(); // Get the current month (0-11)
-        document.getElementById('month').selectedIndex = currentMonthIndex; // Set the selected month
+    function openPopup(employeeId) {
+        console.log("Employee ID passed to openPopup:", employeeId);
+        document.getElementById('employeeId').value = employeeId;
         document.getElementById('popupModal').style.display = 'block';
     }
 

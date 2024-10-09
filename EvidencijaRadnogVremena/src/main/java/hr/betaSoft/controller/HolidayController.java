@@ -53,8 +53,6 @@ public class HolidayController {
         model.addAttribute("deleteLink", "/holidays/delete/{id}");
         model.addAttribute("showLink", "");
         model.addAttribute("tableName", "holidays");
-        // PROBATI BEZ SKRIPTE
-        model.addAttribute("script", "/js/table-users.js");
 
         return "table";
     }
@@ -80,8 +78,6 @@ public class HolidayController {
         model.addAttribute("pathSave", "/holidays/save");
         model.addAttribute("path", "/holidays/show");
         model.addAttribute("sendLink", "");
-        // PROBATI BEZ SKRIPTE
-        model.addAttribute("script", "/js/form-users.js");
 
         return "form";
     }
@@ -104,9 +100,6 @@ public class HolidayController {
             model.addAttribute("pathSave", "/holidays/save");
             model.addAttribute("path", "/holidays/show");
             model.addAttribute("sendLink", "");
-            model.addAttribute("pathSaveSend", "");
-            // PROBATI BEZ SKRIPTE
-            model.addAttribute("script", "/js/form-users.js");
 
             return "form";
         } catch (HolidayNotFoundException e) {
@@ -139,8 +132,6 @@ public class HolidayController {
 
         List<String> items = new ArrayList<>();
 
-//        dataList.add(new Data("1.", "Datum *", "dateOfHoliday", "", "", "", "date-pick", "true", "true", items, "false"));
-//        ;
         dataList.add(new Data("1.", "Datum *", "dateOfHoliday", "", "", "", "date-input", "true", "true", items, "false"));
         ;
         dataList.add(new Data("2.", "Državni praznik *", "nameOfHoliday", "", "", "", "text", "true", "true", items, "false"));

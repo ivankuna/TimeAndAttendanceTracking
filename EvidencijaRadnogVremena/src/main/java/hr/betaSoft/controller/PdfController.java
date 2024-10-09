@@ -13,13 +13,14 @@ import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.utils.AttendanceDataHandler;
 import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.apache.pdfbox.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -28,17 +29,137 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 public class PdfController {
 
-    private EmployeeService employeeService;
+    private static final String SESSION_EMPLOYEE_ID = "employeeId";
 
-    private AttendanceService attendanceService;
+    private static final String SESSION_YEAR = "year";
+
+    private static final String SESSION_MONTH = "month";
+
+    private final EmployeeService employeeService;
+
+    private final AttendanceService attendanceService;
 
     public PdfController(EmployeeService employeeService, AttendanceService attendanceService) {
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
+    }
+
+    private void setSessionAttributes(HttpSession session, Long employeeId, String year, String month) {
+        session.setAttribute(SESSION_EMPLOYEE_ID, employeeId);
+        session.setAttribute(SESSION_YEAR, year);
+        session.setAttribute(SESSION_MONTH, month);
+    }
+
+    @PostMapping("/pdf")
+    public void showPdfControllerMethod(
+            @RequestParam("employeeId") Long employeeId,
+            @RequestParam("month") String month,
+            @RequestParam("year") String year,
+            HttpSession session,
+            Model model, RedirectAttributes ra,
+            HttpServletResponse response) throws IOException {
+
+        if (checkGlobalVariables(employeeId, year, month)) {
+            ra.addFlashAttribute("message", "Invalid input values");
+            response.sendRedirect("/employees/show-attendance");
+            return;
+        }
+
+        setSessionAttributes(session, employeeId, year, month);
+        showPdf(session, model, ra, response);
+    }
+
+    @PostMapping("/html")
+    public String showHtmlControllerMethod(
+            @RequestParam("employeeId") Long employeeId,
+            @RequestParam("month") String month,
+            @RequestParam("year") String year,
+            HttpSession session,
+            Model model) {
+
+        if (checkGlobalVariables(employeeId, year, month)) {
+            return "redirect:/employees/show-attendance";
+        }
+
+        setSessionAttributes(session, employeeId, year, month);
+        List<AttendanceData> attendanceDataList = getSampleAttendanceData(session, employeeId);
+
+        model.addAttribute("pageTitle", "Šihterica");
+        model.addAttribute("title", "Šihterica");
+        model.addAttribute("dataList", attendanceDataList);
+
+        return "attendance-template";
+    }
+
+    private void showPdf(HttpSession session, Model model, RedirectAttributes ra, HttpServletResponse response) {
+
+        String message = "";
+
+        try {
+
+            File pdfDir = new File("pdf");
+
+            if (!pdfDir.exists()) {
+                boolean dirCreated = pdfDir.mkdir();
+                if (!dirCreated) {
+                    message = "ERROR: PdfController.java -> showPdf()";
+                }
+            }
+
+            String pdfFilePath = createPdf(session, model, ra, response);
+
+            response.setContentType("application/pdf");
+            response.setHeader("Content-Disposition", "inline; filename=" + pdfFilePath);
+
+            File pdfFile = new File(pdfFilePath);
+            FileInputStream fileInputStream = new FileInputStream(pdfFile);
+
+            IOUtils.copy(fileInputStream, response.getOutputStream());
+
+            fileInputStream.close();
+            response.getOutputStream().flush();
+
+        } catch (Exception e) {
+            ra.addFlashAttribute("message", message.isEmpty() ? e.getMessage() : message);
+        }
+    }
+
+    private String createPdf(HttpSession session, Model model, RedirectAttributes ra, HttpServletResponse response) {
+
+        try {
+            Long employeeId = (Long) session.getAttribute(SESSION_EMPLOYEE_ID);
+            List<AttendanceData> attendanceDataList = getSampleAttendanceData(session, employeeId);
+
+            model.addAttribute("pageTitle", "Šihterica");
+            model.addAttribute("title", "Šihterica");
+            model.addAttribute("dataList", attendanceDataList);
+
+            String htmlContent = renderHtml(model);
+            String pdfFilePath = "pdf/sihterica.pdf";
+            convertHtmlContentToPdf(htmlContent, pdfFilePath);
+
+            return pdfFilePath;
+
+        } catch (EmployeeNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return "ERROR";
+    }
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
+    private String renderHtml(Model model) {
+        Context context = new Context();
+        context.setVariables(model.asMap());
+        return templateEngine.process("attendance-template", context);
     }
 
     public static void convertHtmlContentToPdf(String htmlContent, String pdfFilePath) throws IOException, DocumentException {
@@ -95,100 +216,34 @@ public class PdfController {
         return originalDate;
     }
 
-
-    public String createPdf(Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
-
-        try {
-            List<AttendanceData> attendanceDataList = getSampleAttendanceData(id);
-
-            model.addAttribute("pageTitle", "Šihterica");
-            model.addAttribute("title", "Šihterica");
-            model.addAttribute("dataList", attendanceDataList);
-
-            String htmlContent = renderHtml(model);
-            String pdfFilePath = "pdf/sihterica.pdf";
-            convertHtmlContentToPdf(htmlContent, pdfFilePath);
-
-            return pdfFilePath;
-
-        } catch (EmployeeNotFoundException e) {
-            ra.addFlashAttribute("message", e.getMessage());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return "ERROR";
-    }
-
-    private List<AttendanceData> getSampleAttendanceData(Long id) {
+    private List<AttendanceData> getSampleAttendanceData(HttpSession session, Long id) {
 
         Employee employee = employeeService.findById(id);
-        String year = "2024";
-        String month = "09";
+        String year = (String) session.getAttribute(SESSION_YEAR);
+        String month = (String) session.getAttribute(SESSION_MONTH);
+
         Date firstDateOfMonth = DateUtils.getFirstDateOfMonth(year, month);
         Date lastDateOfMonth = DateUtils.getLastDateOfMonth(year, month);
 
         List<Attendance> attendanceList = attendanceService.findByEmployeeAndClockInDateBetween(employee, firstDateOfMonth, lastDateOfMonth);
-        List<AttendanceData> attendanceDataList = AttendanceDataHandler.getFormattedAttendanceData(attendanceList);
+        List<AttendanceData> attendanceDataList = AttendanceDataHandler.getFormattedAttendanceData(attendanceList, year, month);
 
         return attendanceDataList;
     }
 
-    @Autowired
-    private TemplateEngine templateEngine;
+    private boolean checkGlobalVariables(Long employeeId, String year, String month) {
 
-    private String renderHtml(Model model) {
-        Context context = new Context();
-        context.setVariables(model.asMap());
-        return templateEngine.process("attendance-template", context);
-    }
+        boolean nullOrEmptyValue = false;
 
-    public void showPdf(Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
-
-        String message = "";
-
-        try {
-
-            File pdfDir = new File("pdf");
-
-            if (!pdfDir.exists()) {
-                boolean dirCreated = pdfDir.mkdir();
-                if (!dirCreated) {
-                    message = "ERROR: PdfController.java -> showPdf()";
-                }
-            }
-
-            String pdfFilePath = createPdf(id, model, ra, response);
-
-            response.setContentType("application/pdf");
-            response.setHeader("Content-Disposition", "inline; filename=" + pdfFilePath);
-
-            File pdfFile = new File(pdfFilePath);
-            FileInputStream fileInputStream = new FileInputStream(pdfFile);
-
-            IOUtils.copy(fileInputStream, response.getOutputStream());
-
-            fileInputStream.close();
-            response.getOutputStream().flush();
-
-        } catch (Exception e) {
-            ra.addFlashAttribute("message", message.isEmpty() ? e.getMessage() : message);
+        if (employeeId == null) {
+            nullOrEmptyValue = true;
         }
-    }
-
-    @GetMapping("/pdf/{id}")
-    public void showPdfControllerMethod(@PathVariable("id") Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
-        showPdf(id, model, ra, response);
-    }
-
-    @GetMapping("/html/{id}")
-    public String showHtmlControllerMethod(@PathVariable("id") Long id, Model model, RedirectAttributes ra, HttpServletResponse response) {
-
-        List<AttendanceData> attendanceDataList = getSampleAttendanceData(id);
-
-        model.addAttribute("pageTitle", "Šihterica");
-        model.addAttribute("title", "Šihterica");
-        model.addAttribute("dataList", attendanceDataList);
-
-        return "attendance-template";
+        if (Objects.equals(year, "") || year.isEmpty()) {
+            nullOrEmptyValue = true;
+        }
+        if (Objects.equals(month, "") || month.isEmpty()) {
+            nullOrEmptyValue = true;
+        }
+        return nullOrEmptyValue;
     }
 }

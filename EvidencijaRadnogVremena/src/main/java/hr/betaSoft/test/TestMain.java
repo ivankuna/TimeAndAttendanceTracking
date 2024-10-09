@@ -27,10 +27,28 @@ public class TestMain {
         return day;
     }
 
+    public static boolean tempIsLeapYear (String paramYear) {
+
+        // This extra leap day occurs in each year that is a multiple of 4, except for years evenly divisible by 100 but not by 400.
+
+        boolean leapYear = false;
+
+        int year = Integer.parseInt(paramYear);
+
+        if (year % 4 == 0) {
+            leapYear = true;
+            if (year % 100 == 0 && year % 400 != 0) {
+                leapYear = false;
+            }
+        }
+
+        return leapYear;
+    }
+
     public static void main(String[] args) {
 
-        String day = tempGetDayOfDate(DateTimeStorage.getCurrentDate());
+        // 1988, 1992, and 1996
 
-        System.out.println(day);
+        System.out.println(tempIsLeapYear("1992"));
     }
 }

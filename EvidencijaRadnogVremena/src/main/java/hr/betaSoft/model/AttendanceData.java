@@ -57,4 +57,3 @@ public class AttendanceData {
         this.satiPripravnosti = satiPripravnosti;
     }
 }
-

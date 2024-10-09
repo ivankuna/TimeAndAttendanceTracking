@@ -31,6 +31,22 @@ public class DateUtils {
         return Date.valueOf(lastDate);
     }
 
+    public static boolean isLeapYear (String paramYear) {
+
+        boolean leapYear = false;
+
+        int year = Integer.parseInt(paramYear);
+
+        if (year % 4 == 0) {
+            leapYear = true;
+            if (year % 100 == 0 && year % 400 != 0) {
+                leapYear = false;
+            }
+        }
+
+        return leapYear;
+    }
+
     public static String getDayOfDate(Date date) {
 
         Calendar cal = new GregorianCalendar();
@@ -50,6 +66,29 @@ public class DateUtils {
         }
 
         return day;
+    }
+
+    public static int getNumOfDaysInMonth(String paramMonth, String paramYear) {
+        boolean leapYear = isLeapYear(paramYear);
+
+        int numOfDays = 0;
+
+        int month = Integer.parseInt(paramMonth);
+
+        switch (month) {
+            case 1, 3, 5, 7, 8, 10, 12:
+                numOfDays = 31;
+                break;
+            case 2:
+                numOfDays = leapYear ? 29 : 28;
+                break;
+            case 4, 6, 9, 11:
+                numOfDays = 30;
+                break;
+            default:
+                break;
+        }
+        return numOfDays;
     }
 
     public static int reduceDateToDay(Date paramDate) {
@@ -91,7 +130,6 @@ public class DateUtils {
                 break;
             }
         }
-
         return dayBefore;
     }
 }
