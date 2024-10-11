@@ -8,40 +8,54 @@ import java.util.List;
 
 public class AttendanceDataHandler {
 
+//    public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList, String year, String month) {
+//
+//        List<AttendanceData> attendanceDataList = new ArrayList<>();
+//
+//        List<AttendanceData> tempAttendanceDataList = new ArrayList<>();
+//
+//        for (Attendance attendance : paramAttendanceList) {
+//
+//
+//        }
+//
+//        return null;
+//    }
+
     public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList, String year, String month) {
 
-        int numOfDaysInMonth = 0;
+        int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(month, year);
 
         List<Attendance> attendanceList = paramAttendanceList;
 
-        List<AttendanceData> tempAttendanceDataList = new ArrayList<>();
         List<AttendanceData> attendanceDataList = new ArrayList<>();
 
+        String dayCounter = DateUtils.getDayOfDate(DateUtils.getFirstDateOfMonth(year, month));
+
+        for (int i = 0; i < numOfDaysInMonth; i++) {
+            attendanceDataList.add(new AttendanceData((i+1), dayCounter));
+            dayCounter = DateUtils.getDayAfter(dayCounter);
+        }
+
+        int index;
+
+        AttendanceData attendanceData;
+
         for (Attendance attendance : attendanceList) {
-            tempAttendanceDataList.add(
-                    new AttendanceData(
-                            DateUtils.reduceDateToDay(attendance.getClockInDate()), DateUtils.getDayOfDate(attendance.getClockInDate()),
-                            attendance.getClockInTime(), attendance.getClockOutTime(), attendance.getHoursAtWork(),
-                            "", "","","","","","",""
-                            )
-            );
+            index = DateUtils.reduceDateToDay(attendance.getClockInDate()) - 1;
+            attendanceData = attendanceDataList.get(index);
+            attendanceData.setPocetakRada(attendance.getClockInTime());
+            attendanceData.setZavrsetakRada(attendance.getClockOutTime());
+            attendanceData.setUkupnoSatiRada(attendance.getHoursAtWork());
         }
 
-        int counter = 0;
+        String totalHoursAtWork = "00:00";
 
-        for (AttendanceData attendanceData : tempAttendanceDataList) {
-            if ((attendanceData.getDatum() - counter) > 1) {
-                attendanceDataList.add(
-                        new AttendanceData((counter + 1), DateUtils.getDayBefore(attendanceData.getDan()), "", "", "",
-                                "", "", "", "", "", "", "", "")
-                );
-            }
-            attendanceDataList.add(attendanceData);
-            counter = attendanceData.getDatum();
+        for (Attendance attendance : attendanceList) {
+            totalHoursAtWork = DateUtils.timeCalculator(totalHoursAtWork, attendance.getHoursAtWork());
         }
 
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        attendanceDataList.add(new AttendanceData(totalHoursAtWork));
 
         return attendanceDataList;
     }

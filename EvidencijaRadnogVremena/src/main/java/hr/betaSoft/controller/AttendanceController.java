@@ -10,6 +10,8 @@ import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,11 +26,13 @@ import java.util.List;
 @RequestMapping("/attendance")
 public class AttendanceController {
 
-    private static final String SESSION_EMPLOYEE = "employee";
-
     private final AttendanceService attendanceService;
 
     private final EmployeeService employeeService;
+
+//    private Employee currentEmployee;
+
+    private static final String SESSION_EMPLOYEE_ID = "employeeId";
 
     @Autowired
     public AttendanceController(AttendanceService attendanceService, EmployeeService employeeService) {
@@ -39,11 +43,15 @@ public class AttendanceController {
     @GetMapping("show/{id}")
     public String showAttendanceOfEmployee(@PathVariable Long id, HttpSession session, Model model, HttpServletRequest request) {
 
-        session.setAttribute(SESSION_EMPLOYEE, employeeService.findById(id));
+//        currentEmployee = employeeService.findById(id);
+//
+//        Employee employee = currentEmployee;
 
-        Employee currentEmployee = getCurrentEmployee(session);
+        session.setAttribute(SESSION_EMPLOYEE_ID, id.intValue());
 
-        String title = currentEmployee.getFirstName() + " " + currentEmployee.getLastName() + " (" + currentEmployee.getOib() + ")";
+        Employee employee = employeeService.findById(id);
+
+        String title = employee.getFirstName() + " " + employee.getLastName() + " (" + employee.getOib() + ")";
 
         List<Column> columnList = new ArrayList<>();
 
@@ -63,7 +71,7 @@ public class AttendanceController {
             columnList.add(new Column("Status", "status", "id",""));
         }
 
-        List<Attendance> attendanceList = attendanceService.findByEmployee(currentEmployee);
+        List<Attendance> attendanceList = attendanceService.findByEmployee(employee);
 
         model.addAttribute("title", title);
         model.addAttribute("columnList", columnList);
@@ -82,7 +90,9 @@ public class AttendanceController {
     @GetMapping("/new")
     public String showAddForm(HttpSession session, Model model) {
 
-        Employee currentEmployee = getCurrentEmployee(session);
+        Integer employeeId = (Integer) session.getAttribute(SESSION_EMPLOYEE_ID);
+
+        Employee employee = employeeService.findById(employeeId.longValue());
 
         Attendance attendance = (Attendance) model.getAttribute("attendance");
 
@@ -100,7 +110,7 @@ public class AttendanceController {
         model.addAttribute("title", "Dolazak/odlazak");
         model.addAttribute("dataId", "id");
         model.addAttribute("pathSave", "/attendance/save");
-        model.addAttribute("path", "/attendance/show/" + currentEmployee.getId());
+        model.addAttribute("path", "/attendance/show/" + employee.getId());
         model.addAttribute("sendLink", "");
         model.addAttribute("script", "/js/form-users.js");
 
@@ -111,7 +121,9 @@ public class AttendanceController {
     public String showUpdateForm(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes ra) {
 
         try {
-            Employee currentEmployee = getCurrentEmployee(session);
+            Integer employeeId = (Integer) session.getAttribute(SESSION_EMPLOYEE_ID);
+
+            Employee employee = employeeService.findById(employeeId.longValue());
 
             Attendance attendance = attendanceService.findById(id);
 
@@ -124,7 +136,7 @@ public class AttendanceController {
             model.addAttribute("title", "Dolazak/odlazak");
             model.addAttribute("dataId", "id");
             model.addAttribute("pathSave", "/attendance/save");
-            model.addAttribute("path", "/attendance/show/" + currentEmployee.getId());
+            model.addAttribute("path", "/attendance/show/" + employee.getId());
             model.addAttribute("sendLink", "");
             model.addAttribute("pathSaveSend", "");
             model.addAttribute("script", "/js/form-users.js");
@@ -139,7 +151,9 @@ public class AttendanceController {
     @PostMapping("/save")
     public String addAttendance(@ModelAttribute("attendance") Attendance attendance, HttpSession session, BindingResult result, RedirectAttributes ra) {
 
-        Employee currentEmployee = getCurrentEmployee(session);
+        Integer employeeId = (Integer) session.getAttribute(SESSION_EMPLOYEE_ID);
+
+        Employee employee = employeeService.findById(employeeId.longValue());
 
         if (result.hasErrors() && !result.hasFieldErrors("clockInDate") && !result.hasFieldErrors("clockOutDate")) {
             ra.addFlashAttribute("attendance", attendance);
@@ -154,22 +168,24 @@ public class AttendanceController {
             return redirect(attendance);
         }
 
-        attendanceService.processAttendanceDataFromController(attendance, currentEmployee);
+        attendanceService.processAttendanceDataFromController(attendance, employee);
 
-        return "redirect:/attendance/show/" + currentEmployee.getId();
+        return "redirect:/attendance/show/" + employee.getId();
     }
 
     @GetMapping("/delete/{id}")
     public String deleteAttendance(@PathVariable Long id, HttpSession session, RedirectAttributes ra) {
 
-        Employee currentEmployee = getCurrentEmployee(session);
+        Integer employeeId = (Integer) session.getAttribute(SESSION_EMPLOYEE_ID);
+
+        Employee employee = employeeService.findById(employeeId.longValue());
 
         try {
             attendanceService.deleteAttendance(id);
         } catch (AttendanceNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
         }
-        return "redirect:/attendance/show/" + currentEmployee.getId();
+        return "redirect:/attendance/show/" + employee.getId();
     }
 
     private String redirect(Attendance attendance) {
@@ -186,7 +202,7 @@ public class AttendanceController {
 
         List<String> items = new ArrayList<>();
 
-        dataList.add(new Data("1.", "Datum dolaska *", "clockInDate", "", "", "", "date-pick", "false", "true", items, "false"));
+        dataList.add(new Data("1.", "Datum dolaska *", "clockInDate", "", "", "", "date-pick", "false","true", items, "false"));
         ;
         dataList.add(new Data("2.", "Vrijeme dolaska *", "clockInTime", "", "", "", "text", "false", "true", items, "false"));
         ;
@@ -196,9 +212,5 @@ public class AttendanceController {
         ;
 
         return dataList;
-    }
-
-    private Employee getCurrentEmployee(HttpSession session) {
-        return  (Employee) session.getAttribute(SESSION_EMPLOYEE);
     }
 }

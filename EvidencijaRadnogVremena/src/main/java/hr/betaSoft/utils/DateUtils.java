@@ -1,11 +1,24 @@
 package hr.betaSoft.utils;
 
+import hr.betaSoft.tools.DateTimeStorage;
+
 import java.sql.Date;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
 
 public class DateUtils {
+
+    public static final List<String> WEEKDAYS = Arrays.asList(
+            "Pon",
+            "Uto",
+            "Sri",
+            "Čet",
+            "Pet",
+            "Sub",
+            "Ned"
+    );
 
     public static Date getFirstDateOfMonth(String year, String month) {
 
@@ -56,19 +69,20 @@ public class DateUtils {
         String day = "";
 
         switch (val) {
-            case 1 -> day = "Ned";
-            case 2 -> day = "Pon";
-            case 3 -> day = "Uto";
-            case 4 -> day = "Sri";
-            case 5 -> day = "Čet";
-            case 6 -> day = "Pet";
-            case 7 -> day = "Sub";
+            case 1 -> day = WEEKDAYS.get(6);
+            case 2 -> day = WEEKDAYS.get(0);
+            case 3 -> day = WEEKDAYS.get(1);
+            case 4 -> day = WEEKDAYS.get(2);
+            case 5 -> day = WEEKDAYS.get(3);
+            case 6 -> day = WEEKDAYS.get(4);
+            case 7 -> day = WEEKDAYS.get(5);
         }
 
         return day;
     }
 
     public static int getNumOfDaysInMonth(String paramMonth, String paramYear) {
+
         boolean leapYear = isLeapYear(paramYear);
 
         int numOfDays = 0;
@@ -111,25 +125,70 @@ public class DateUtils {
 
         String dayBefore = "";
 
-        List<String> weekdays = new ArrayList<>();
-
-        weekdays.add("Pon");
-        weekdays.add("Uto");
-        weekdays.add("Sri");
-        weekdays.add("Čet");
-        weekdays.add("Pet");
-        weekdays.add("Sub");
-        weekdays.add("Ned");
-
         int index = 0;
 
-        for (String day : weekdays) {
+        for (String day : WEEKDAYS) {
             if (Objects.equals(paramDay, day)) {
-                index = weekdays.indexOf(day) > 0 ? weekdays.indexOf(day) : weekdays.size() - 1;
-                dayBefore = weekdays.get(index);
+                index = WEEKDAYS.indexOf(day) > 0 ? WEEKDAYS.indexOf(day) : WEEKDAYS.size();
+                dayBefore = WEEKDAYS.get(index - 1);
                 break;
             }
         }
         return dayBefore;
+    }
+
+    public static String getDayAfter(String paramDay) {
+
+        String dayBefore = "";
+
+        int index = 0;
+
+        for (String day : WEEKDAYS) {
+            if (Objects.equals(paramDay, day)) {
+                index = WEEKDAYS.indexOf(day) < 6 ? WEEKDAYS.indexOf(day) : -1;
+                dayBefore = WEEKDAYS.get(index + 1);
+                break;
+            }
+        }
+        return dayBefore;
+    }
+
+    public static String returnTimeDifference(String startDate, String endDate) {
+
+        long hours = 0;
+        long minutes = 0;
+
+        try {
+            java.util.Date tempStartDate = DateTimeStorage.DATE_TIME_FORMAT.parse(startDate);
+            java.util.Date tempEndDate = DateTimeStorage.DATE_TIME_FORMAT.parse(endDate);
+
+            long timeDiff = tempEndDate.getTime() - tempStartDate.getTime();
+
+            hours = timeDiff / (1000 * 60 * 60);
+
+            minutes = (timeDiff / (1000 * 60)) % 60;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return String.format("%02d:%02d", hours, minutes);
+    }
+
+    public static String timeCalculator(String timeA, String timeB) {
+
+        String[] timeASplit = timeA.split(":");
+        String[] timeBSplit = timeB.split(":");
+
+        int hoursA = Integer.parseInt(timeASplit[0]);
+        int minutesA = Integer.parseInt(timeASplit[1]);
+        int hoursB = Integer.parseInt(timeBSplit[0]);
+        int minutesB = Integer.parseInt(timeBSplit[1]);
+
+        int totalMinutes = minutesA + minutesB;
+        int totalHours = hoursA + hoursB + totalMinutes / 60;
+        totalMinutes = totalMinutes % 60;
+
+        return String.format("%02d:%02d", totalHours, totalMinutes);
     }
 }

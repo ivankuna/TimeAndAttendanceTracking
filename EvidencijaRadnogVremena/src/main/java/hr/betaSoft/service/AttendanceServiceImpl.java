@@ -6,7 +6,7 @@ import hr.betaSoft.model.Employee;
 import hr.betaSoft.repository.AttendanceRepository;
 import hr.betaSoft.tools.DateTimeStorage;
 import hr.betaSoft.tools.SendMail;
-import hr.betaSoft.tools.TimeCalculator;
+import hr.betaSoft.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,7 +63,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             clockOut.setEmployee(employee);
             clockOut.setStatus(2);
         } else {
-            clockOut.setHoursAtWork(TimeCalculator.returnTimeDifference
+            clockOut.setHoursAtWork(DateUtils.returnTimeDifference
                     (clockOut.getClockInDate() + " " + clockOut.getClockInTime(),
                      clockOut.getClockOutDate() + " " + clockOut.getClockOutTime()));
             clockOut.setStatus(0);
@@ -82,7 +82,7 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendance.setHoursAtWork("");
             attendance.setStatus(2);
         } else if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
-            attendance.setHoursAtWork(TimeCalculator.returnTimeDifference
+            attendance.setHoursAtWork(DateUtils.returnTimeDifference
                     (attendance.getClockInDate() + " " + attendance.getClockInTime(),
                      attendance.getClockOutDate() + " " + attendance.getClockOutTime()));
             attendance.setStatus(0);

@@ -39,6 +39,15 @@ public class AttendanceData {
         this.ukupnoSatiRada = ukupnoSatiRada;
     }
 
+    public AttendanceData(int datum, String dan) {
+        this.datum = datum;
+        this.dan = dan;
+    }
+
+    public AttendanceData(String ukupnoSatiRada) {
+        this.ukupnoSatiRada = ukupnoSatiRada;
+    }
+
     public AttendanceData(int datum, String dan, String pocetakRada, String zavrsetakRada, String ukupnoSatiRada,
                           String nocniRad, String radNedjeljom, String radBlagdanom, String prekovremeniRad,
                           String smjenskiRad, String dvokratniRad, String terenskiRad, String satiPripravnosti) {

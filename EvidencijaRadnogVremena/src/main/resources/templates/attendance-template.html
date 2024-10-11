@@ -80,34 +80,34 @@
 
 <table id="myTable" style="margin-bottom: 20px;">
     <tr>
-        <th class="half-width vertical-lr rotate">DATUM</th>
-        <th class="half-width vertical-lr rotate">DAN</th>
-        <th class="half-width vertical-lr rotate">POČETAK RADA</th>
-        <th class="half-width vertical-lr rotate">ZAVRŠETAK RADA</th>
-        <th class="half-width vertical-lr rotate">UKUPNO SATI RADA</th>
-        <th class="half-width vertical-lr rotate">NR</th>
-        <th class="half-width vertical-lr rotate">RN</th>
-        <th class="half-width vertical-lr rotate">RB</th>
-        <th class="half-width vertical-lr rotate">PR</th>
-        <th class="half-width vertical-lr rotate">SR</th>
-        <th class="half-width vertical-lr rotate">DR</th>
-        <th class="half-width vertical-lr rotate">TR</th>
-        <th class="half-width vertical-lr rotate">VR</th>
+        <th class="vertical-lr rotate">DATUM</th>
+        <th class="vertical-lr rotate">DAN</th>
+        <th class="vertical-lr rotate">POČETAK RADA</th>
+        <th class="vertical-lr rotate">ZAVRŠETAK RADA</th>
+        <th class="vertical-lr rotate">UKUPNO SATI RADA</th>
+        <th class="vertical-lr rotate">NR</th>
+        <th class="vertical-lr rotate">RN</th>
+        <th class="vertical-lr rotate">RB</th>
+        <th class="vertical-lr rotate">PR</th>
+        <th class="vertical-lr rotate">SR</th>
+        <th class="vertical-lr rotate">DR</th>
+        <th class="vertical-lr rotate">TR</th>
+        <th class="vertical-lr rotate">VR</th>
     </tr>
     <tr th:each="data : ${dataList}">
-        <td class="half-width" th:text="${data.datum}">name</td>
-        <td class="half-width" th:text="${data.dan}">name</td>
-        <td class="half-width" th:text="${data.pocetakRada}">name</td>
-        <td class="half-width" th:text="${data.zavrsetakRada}">name</td>
-        <td class="half-width" th:text="${data.ukupnoSatiRada}">name</td>
-        <td class="half-width" th:text="${data.nocniRad}">name</td>
-        <td class="half-width" th:text="${data.radNedjeljom}">name</td>
-        <td class="half-width" th:text="${data.radBlagdanom}">name</td>
-        <td class="half-width" th:text="${data.prekovremeniRad}">name</td>
-        <td class="half-width" th:text="${data.smjenskiRad}">name</td>
-        <td class="half-width" th:text="${data.dvokratniRad}">name</td>
-        <td class="half-width" th:text="${data.terenskiRad}">name</td>
-        <td class="half-width" th:text="${data.satiPripravnosti}">name</td>
+        <td th:text="${data.datum}">name</td>
+        <td th:text="${data.dan}">name</td>
+        <td th:text="${data.pocetakRada}">name</td>
+        <td th:text="${data.zavrsetakRada}">name</td>
+        <td th:text="${data.ukupnoSatiRada}">name</td>
+        <td th:text="${data.nocniRad}">name</td>
+        <td th:text="${data.radNedjeljom}">name</td>
+        <td th:text="${data.radBlagdanom}">name</td>
+        <td th:text="${data.prekovremeniRad}">name</td>
+        <td th:text="${data.smjenskiRad}">name</td>
+        <td th:text="${data.dvokratniRad}">name</td>
+        <td th:text="${data.terenskiRad}">name</td>
+        <td th:text="${data.satiPripravnosti}">name</td>
     </tr>
 </table>
 
