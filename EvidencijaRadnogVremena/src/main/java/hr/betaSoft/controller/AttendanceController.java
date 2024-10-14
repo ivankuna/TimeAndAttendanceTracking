@@ -30,8 +30,6 @@ public class AttendanceController {
 
     private final EmployeeService employeeService;
 
-//    private Employee currentEmployee;
-
     private static final String SESSION_EMPLOYEE_ID = "employeeId";
 
     @Autowired
@@ -42,10 +40,6 @@ public class AttendanceController {
 
     @GetMapping("show/{id}")
     public String showAttendanceOfEmployee(@PathVariable Long id, HttpSession session, Model model, HttpServletRequest request) {
-
-//        currentEmployee = employeeService.findById(id);
-//
-//        Employee employee = currentEmployee;
 
         session.setAttribute(SESSION_EMPLOYEE_ID, id.intValue());
 
@@ -109,7 +103,7 @@ public class AttendanceController {
         model.addAttribute("hiddenList", hiddenList);
         model.addAttribute("title", "Dolazak/odlazak");
         model.addAttribute("dataId", "id");
-        model.addAttribute("pathSave", "/attendance/save");
+        model.addAttribute("pathSave", "/attendance/save/" + employeeId);
         model.addAttribute("path", "/attendance/show/" + employee.getId());
         model.addAttribute("sendLink", "");
         model.addAttribute("script", "/js/form-users.js");
@@ -135,7 +129,7 @@ public class AttendanceController {
             model.addAttribute("hiddenList", hiddenList);
             model.addAttribute("title", "Dolazak/odlazak");
             model.addAttribute("dataId", "id");
-            model.addAttribute("pathSave", "/attendance/save");
+            model.addAttribute("pathSave", "/attendance/save/" + employeeId);
             model.addAttribute("path", "/attendance/show/" + employee.getId());
             model.addAttribute("sendLink", "");
             model.addAttribute("pathSaveSend", "");
@@ -148,12 +142,10 @@ public class AttendanceController {
         }
     }
 
-    @PostMapping("/save")
-    public String addAttendance(@ModelAttribute("attendance") Attendance attendance, HttpSession session, BindingResult result, RedirectAttributes ra) {
+    @PostMapping("/save/{id}")
+    public String addAttendance(@PathVariable("id") Long id, @ModelAttribute("attendance") Attendance attendance, BindingResult result, RedirectAttributes ra) {
 
-        Integer employeeId = (Integer) session.getAttribute(SESSION_EMPLOYEE_ID);
-
-        Employee employee = employeeService.findById(employeeId.longValue());
+        Employee employee = employeeService.findById(id);
 
         if (result.hasErrors() && !result.hasFieldErrors("clockInDate") && !result.hasFieldErrors("clockOutDate")) {
             ra.addFlashAttribute("attendance", attendance);

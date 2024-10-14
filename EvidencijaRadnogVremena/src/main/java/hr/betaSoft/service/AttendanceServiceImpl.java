@@ -64,8 +64,8 @@ public class AttendanceServiceImpl implements AttendanceService {
             clockOut.setStatus(2);
         } else {
             clockOut.setHoursAtWork(DateUtils.returnTimeDifference
-                    (clockOut.getClockInDate() + " " + clockOut.getClockInTime(),
-                     clockOut.getClockOutDate() + " " + clockOut.getClockOutTime()));
+                    (clockOut.getClockInDate().toString(), clockOut.getClockInTime(),
+                     clockOut.getClockOutDate().toString(), clockOut.getClockOutTime()));
             clockOut.setStatus(0);
         }
 
@@ -83,8 +83,8 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendance.setStatus(2);
         } else if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
             attendance.setHoursAtWork(DateUtils.returnTimeDifference
-                    (attendance.getClockInDate() + " " + attendance.getClockInTime(),
-                     attendance.getClockOutDate() + " " + attendance.getClockOutTime()));
+                    (attendance.getClockInDate().toString(), attendance.getClockInTime(),
+                     attendance.getClockOutDate().toString(), attendance.getClockOutTime()));
             attendance.setStatus(0);
         }
 

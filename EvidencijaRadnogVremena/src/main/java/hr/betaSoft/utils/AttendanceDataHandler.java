@@ -3,60 +3,85 @@ package hr.betaSoft.utils;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.AttendanceData;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AttendanceDataHandler {
 
-//    public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList, String year, String month) {
-//
-//        List<AttendanceData> attendanceDataList = new ArrayList<>();
-//
-//        List<AttendanceData> tempAttendanceDataList = new ArrayList<>();
-//
-//        for (Attendance attendance : paramAttendanceList) {
-//
-//
-//        }
-//
-//        return null;
-//    }
-
     public static List<AttendanceData> getFormattedAttendanceData(List<Attendance> paramAttendanceList, String year, String month) {
 
-        int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(month, year);
-
-        List<Attendance> attendanceList = paramAttendanceList;
-
         List<AttendanceData> attendanceDataList = new ArrayList<>();
+        List<AttendanceData> tempAttendanceDataList = new ArrayList<>();
+        List<AttendanceData> resultList = new ArrayList<>();
+        List<Integer> daysAccountedFor = new ArrayList<>();
 
-        String dayCounter = DateUtils.getDayOfDate(DateUtils.getFirstDateOfMonth(year, month));
+        for (Attendance attendance : paramAttendanceList) {
+            Date clockInDate = attendance.getClockInDate();
+            Date clockOutDate = attendance.getClockOutDate();
+            String clockInTime = attendance.getClockInTime();
+            String clockOutTime = attendance.getClockOutTime();
+            int reducedClockInDate = DateUtils.reduceDateToDay(attendance.getClockInDate());
+            int reducedClockOutDate = DateUtils.reduceDateToDay(attendance.getClockOutDate());
+            String tempDay = DateUtils.getDayOfDate(clockInDate);
 
-        for (int i = 0; i < numOfDaysInMonth; i++) {
-            attendanceDataList.add(new AttendanceData((i+1), dayCounter));
-            dayCounter = DateUtils.getDayAfter(dayCounter);
+            if (attendance.getClockOutDate().after(attendance.getClockInDate())) {
+                attendanceDataList.add(new AttendanceData(reducedClockInDate, DateUtils.getDayOfDate(clockInDate), attendance.getClockInTime(),
+                        "00:00", DateUtils.returnTimeDifference(clockInDate.toString(), clockInTime, clockInDate.toString(), "24:00")));
+                daysAccountedFor.add(reducedClockInDate);
+                if (reducedClockOutDate - reducedClockInDate > 1) {
+                    for (int i = 1; i < (reducedClockOutDate - reducedClockInDate); i++) {
+                        tempDay = DateUtils.getDayAfter(tempDay);
+                        attendanceDataList.add(new AttendanceData(reducedClockInDate + i, tempDay, "00:00", "00:00", "24:00"));
+                        daysAccountedFor.add(reducedClockInDate + i);
+                    }
+                }
+                attendanceDataList.add(new AttendanceData(reducedClockOutDate, DateUtils.getDayOfDate(clockOutDate), "00:00",
+                        clockOutTime, DateUtils.returnTimeDifference(clockOutDate.toString(), "00:00", clockOutDate.toString(), clockOutTime)));
+                daysAccountedFor.add(reducedClockOutDate);
+            } else {
+                attendanceDataList.add(new AttendanceData(reducedClockInDate, DateUtils.getDayOfDate(clockInDate), clockInTime, clockOutTime,
+                        DateUtils.returnTimeDifference(clockInDate.toString(), clockInTime, clockOutDate.toString(), clockOutTime)));
+            }
         }
 
-        int index;
+        int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(month, year);
+        int counter = 0;
 
-        AttendanceData attendanceData;
-
-        for (Attendance attendance : attendanceList) {
-            index = DateUtils.reduceDateToDay(attendance.getClockInDate()) - 1;
-            attendanceData = attendanceDataList.get(index);
-            attendanceData.setPocetakRada(attendance.getClockInTime());
-            attendanceData.setZavrsetakRada(attendance.getClockOutTime());
-            attendanceData.setUkupnoSatiRada(attendance.getHoursAtWork());
+        while (counter < 2) {
+            for (int i = 1; i <= numOfDaysInMonth; i++) {
+                if (counter < 1) {
+                    if (!daysAccountedFor.contains(i)) {
+                        tempAttendanceDataList.add(new AttendanceData(i, dayFinder(i, month, year), "", "", ""));
+                    }
+                } else {
+                    for (AttendanceData attendanceData : attendanceDataList) {
+                        if (attendanceData.getDatum() == i) {
+                            resultList.add(attendanceData);
+                        }
+                    }
+                    for (AttendanceData attendanceData : tempAttendanceDataList) {
+                        if (attendanceData.getDatum() == i) {
+                            resultList.add(attendanceData);
+                        }
+                    }
+                }
+            }
+            counter++;
         }
 
-        String totalHoursAtWork = "00:00";
+        return resultList;
+    }
 
-        for (Attendance attendance : attendanceList) {
-            totalHoursAtWork = DateUtils.timeCalculator(totalHoursAtWork, attendance.getHoursAtWork());
+    private static String dayFinder(int dateDayValue, String month, String year) {
+
+        Date date = DateUtils.getFirstDateOfMonth(year, month);
+        String day = DateUtils.getDayOfDate(date);
+
+        for (int i = 1; i < dateDayValue; i++) {
+            day = DateUtils.getDayAfter(day);
         }
 
-        attendanceDataList.add(new AttendanceData(totalHoursAtWork));
-
-        return attendanceDataList;
+        return  day;
     }
 }

@@ -153,7 +153,10 @@ public class DateUtils {
         return dayBefore;
     }
 
-    public static String returnTimeDifference(String startDate, String endDate) {
+    public static String returnTimeDifference(String clockInDate, String clockInTime, String clockOutDate, String clockOutTime) {
+
+        String startDate = clockInDate + " " + clockInTime;
+        String endDate = clockOutDate + " " + clockOutTime;
 
         long hours = 0;
         long minutes = 0;

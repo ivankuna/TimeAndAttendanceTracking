@@ -41,7 +41,7 @@
             <li class="nav-item">
                 <a class="nav-link d-inline-block" style="padding-right: 10px;" id="logoutLink" href="#">
                     <i class="fas fa-user"></i>
-                    <span id="usernameMessage" style="display: none;">Prijavljeni korisnik: <span th:text="${#authentication.principal}">not found</span></span>
+                    <span id="usernameMessage" style="display: none;">Machine ID: <span id="machineIdSpan">Nema postavljenog ID-a</span></span>
                 </a>
                 <a class="nav-link d-inline-block" style="padding-right: 10px;" href="/logout">
                     <i class="fas fa-sign-out-alt fa-1x"></i>
@@ -90,6 +90,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script type="text/javascript" src="/js/show-active-user.js"></script>
+
+<script type="text/javascript" src="/js/get-machine-id.js"></script>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 

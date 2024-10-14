@@ -11,12 +11,12 @@ public class TestController {
 
     @GetMapping("/test")
     public String showTestPage() {
-        return "test"; // Points to test.html
+        return "test";
     }
 
     @PostMapping("/test/example")
     public String handleFormSubmission(
-            @RequestParam("employeeId") Long employeeId, // Add this line
+            @RequestParam("employeeId") Long employeeId,
             @RequestParam("month") String month,
             @RequestParam("year") String year,
             Model model) {
@@ -25,6 +25,6 @@ public class TestController {
         model.addAttribute("month", month);
         model.addAttribute("year", year);
 
-        return "result"; // Redirect to the result page
+        return "result";
     }
 }
