@@ -13,8 +13,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
+    private AttendanceService attendanceService;
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, AttendanceService attendanceService) {
         this.employeeRepository = employeeRepository;
+        this.attendanceService = attendanceService;
     }
 
     @Override
@@ -28,6 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findById(id).orElse(null);
 
         if (employee != null) {
+            attendanceService.deleteAllByEmployee(employee);
             employeeRepository.delete(employee);
         }
     }
@@ -70,5 +74,38 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findByPinAndUser(String pin, User user) {
         return employeeRepository.findByPinAndUser(pin, user);
+    }
+
+    @Override
+    public List<Employee> totalWorkHoursCalcForEmployees(List<Employee> employees) {
+
+        for (Employee employee : employees) {
+            totalWorkHoursCalcForEmployee(employee);
+        }
+        return employees;
+    }
+
+    @Override
+    public Employee totalWorkHoursCalcForEmployee(Employee employee) {
+
+        int mondayWorkHours = employee.getMondayWorkHours() != null ? employee.getMondayWorkHours() : 0;
+        int tuesdayWorkHours = employee.getTuesdayWorkHours() != null ? employee.getTuesdayWorkHours() : 0;
+        int wednesdayWorkHours = employee.getWednesdayWorkHours() != null ? employee.getWednesdayWorkHours() : 0;
+        int thursdayWorkHours = employee.getThursdayWorkHours() != null ? employee.getThursdayWorkHours() : 0;
+        int fridayWorkHours = employee.getFridayWorkHours() != null ? employee.getFridayWorkHours() : 0;
+        int saturdayWorkHours = employee.getSaturdayWorkHours() != null ? employee.getSaturdayWorkHours() : 0;
+        int sundayWorkHours = employee.getSundayWorkHours() != null ? employee.getSundayWorkHours() : 0;
+
+        int weeklyWorkingHours = mondayWorkHours +
+                tuesdayWorkHours +
+                wednesdayWorkHours +
+                thursdayWorkHours +
+                fridayWorkHours +
+                saturdayWorkHours +
+                sundayWorkHours;
+
+        employee.setWeeklyWorkingHours(weeklyWorkingHours);
+
+        return employee;
     }
 }

@@ -4,8 +4,10 @@ import hr.betaSoft.tools.DateTimeStorage;
 
 import java.sql.Date;
 import java.text.ParseException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 public class DateUtils {
@@ -81,6 +83,19 @@ public class DateUtils {
         return day;
     }
 
+    public static Date getFirstDayOfLastWeek(String year, String month) {
+
+        int yearInt = Integer.parseInt(year);
+        int monthInt = Integer.parseInt(month);
+
+        LocalDate lastDayOfMonth = LocalDate.of(yearInt, monthInt, 1)
+                .with(TemporalAdjusters.lastDayOfMonth());
+
+        LocalDate firstDayOfLastWeek = lastDayOfMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        return Date.valueOf(firstDayOfLastWeek);
+    }
+
     public static int getNumOfDaysInMonth(String paramMonth, String paramYear) {
 
         boolean leapYear = isLeapYear(paramYear);
@@ -121,6 +136,17 @@ public class DateUtils {
         return Integer.parseInt(date);
     }
 
+    public static String reduceDateToMonth(Date date) {
+
+        boolean yearDigitsPassed = false;
+
+        char[] dateCharArray = date.toString().toCharArray();
+
+        String month = String.valueOf(dateCharArray[5]) + dateCharArray[6];
+
+        return month;
+    }
+
     public static String getDayBefore(String paramDay) {
 
         String dayBefore = "";
@@ -153,6 +179,14 @@ public class DateUtils {
         return dayBefore;
     }
 
+    public static String getMonthBefore(String paramMonth) {
+
+        int monthInt = Integer.parseInt(paramMonth);
+        int monthBeforeInt = monthInt - 1 == 0 ? 12 : monthInt - 1;
+
+        return monthBeforeInt < 10 ? "0" + monthBeforeInt : String.valueOf(monthBeforeInt);
+    }
+
     public static String returnTimeDifference(String clockInDate, String clockInTime, String clockOutDate, String clockOutTime) {
 
         String startDate = clockInDate + " " + clockInTime;
@@ -178,7 +212,10 @@ public class DateUtils {
         return String.format("%02d:%02d", hours, minutes);
     }
 
-    public static String timeCalculator(String timeA, String timeB) {
+    public static String timeAddition(String timeA, String timeB) {
+
+        timeA = timeA == null || timeA.trim().isEmpty() ? "00:00" : timeA;
+        timeB = timeB == null || timeB.trim().isEmpty() ? "00:00" : timeB;
 
         String[] timeASplit = timeA.split(":");
         String[] timeBSplit = timeB.split(":");
@@ -191,6 +228,36 @@ public class DateUtils {
         int totalMinutes = minutesA + minutesB;
         int totalHours = hoursA + hoursB + totalMinutes / 60;
         totalMinutes = totalMinutes % 60;
+
+        return String.format("%02d:%02d", totalHours, totalMinutes);
+    }
+
+    public static String timeSubtraction(String timeA, String timeB) {
+
+        timeA = timeA == null || timeA.trim().isEmpty() ? "00:00" : timeA;
+        timeB = timeB == null || timeB.trim().isEmpty() ? "00:00" : timeB;
+
+        String[] timeASplit = timeA.split(":");
+        String[] timeBSplit = timeB.split(":");
+
+        int hoursA = Integer.parseInt(timeASplit[0]);
+        int minutesA = Integer.parseInt(timeASplit[1]);
+        int hoursB = Integer.parseInt(timeBSplit[0]);
+        int minutesB = Integer.parseInt(timeBSplit[1]);
+
+        boolean surplus = false;
+
+        int totalMinutes;
+        int totalHours;
+
+        if (minutesA - minutesB < 0 && hoursA - hoursB > 0) {
+            totalMinutes = 60 - (minutesB - minutesA);
+            surplus = true;
+        } else {
+            totalMinutes = minutesA - minutesB;
+        }
+
+        totalHours = surplus ? hoursA - hoursB - 1 : hoursA - hoursB;
 
         return String.format("%02d:%02d", totalHours, totalMinutes);
     }

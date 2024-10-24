@@ -107,6 +107,12 @@ public class AttendanceServiceImpl implements AttendanceService {
         }
     }
 
+    @Transactional
+    @Override
+    public void deleteAllByEmployee(Employee employee) {
+        attendanceRepository.deleteAllByEmployee(employee);
+    }
+
     @Override
     public Attendance findById(long id) {
         return attendanceRepository.findById(id);
@@ -123,8 +129,13 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public List<Attendance> findByEmployeeAndClockInDateBetween(Employee employee, Date startDate, Date endDate) {
-        return attendanceRepository.findByEmployeeAndClockInDateBetween(employee, startDate, endDate);
+    public List<Attendance> findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(Employee employee, Date startDate, Date endDate) {
+        return attendanceRepository.findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(employee, startDate, endDate);
+    }
+
+    @Override
+    public List<Attendance> findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(Employee employee, Date before, Date after) {
+        return attendanceRepository.findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(employee, before, after);
     }
 
     private void sendWarningEmail(Employee employee, Attendance lastAttendanceRecord, String action) {

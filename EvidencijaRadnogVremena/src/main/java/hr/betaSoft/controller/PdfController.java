@@ -8,8 +8,10 @@ import hr.betaSoft.exception.EmployeeNotFoundException;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.AttendanceData;
 import hr.betaSoft.model.Employee;
+import hr.betaSoft.model.Holiday;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
+import hr.betaSoft.service.HolidayService;
 import hr.betaSoft.utils.AttendanceDataHandler;
 import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,6 +30,7 @@ import org.thymeleaf.context.Context;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,9 +47,12 @@ public class PdfController {
 
     private final AttendanceService attendanceService;
 
-    public PdfController(EmployeeService employeeService, AttendanceService attendanceService) {
+    private final HolidayService holidayService;
+
+    public PdfController(EmployeeService employeeService, AttendanceService attendanceService, HolidayService holidayService) {
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
+        this.holidayService = holidayService;
     }
 
     private void setSessionAttributes(HttpSession session, Long employeeId, String year, String month) {
@@ -80,6 +86,7 @@ public class PdfController {
             @RequestParam("month") String month,
             @RequestParam("year") String year,
             HttpSession session,
+            RedirectAttributes ra,
             Model model) {
 
         if (checkGlobalVariables(employeeId, year, month)) {
@@ -88,6 +95,13 @@ public class PdfController {
 
         setSessionAttributes(session, employeeId, year, month);
         List<AttendanceData> attendanceDataList = getSampleAttendanceData(session, employeeId);
+
+        if (attendanceDataList.isEmpty()) {
+            ra.addFlashAttribute("message", "Nepotpuni podaci za radnika/cu " +
+                    employeeService.findById(employeeId).getFirstName() + " " + employeeService.findById(employeeId).getLastName() +
+                    " za " + month + ". mjesec " + year + ". godine!");
+            return "redirect:/employees/show-attendance";
+        }
 
         model.addAttribute("pageTitle", "Šihterica");
         model.addAttribute("title", "Šihterica");
@@ -218,32 +232,32 @@ public class PdfController {
 
     private List<AttendanceData> getSampleAttendanceData(HttpSession session, Long id) {
 
-        Employee employee = employeeService.findById(id);
+        Employee employee = employeeService.totalWorkHoursCalcForEmployee(employeeService.findById(id));
         String year = (String) session.getAttribute(SESSION_YEAR);
         String month = (String) session.getAttribute(SESSION_MONTH);
 
         Date firstDateOfMonth = DateUtils.getFirstDateOfMonth(year, month);
         Date lastDateOfMonth = DateUtils.getLastDateOfMonth(year, month);
+        Date firstDateOfPreviousMonth = DateUtils.getFirstDateOfMonth(year, DateUtils.getMonthBefore(month));
+        Date lastDateOfPreviousMonth = DateUtils.getLastDateOfMonth(year, DateUtils.getMonthBefore(month));
 
-        List<Attendance> attendanceList = attendanceService.findByEmployeeAndClockInDateBetween(employee, firstDateOfMonth, lastDateOfMonth);
-        List<AttendanceData> attendanceDataList = AttendanceDataHandler.getFormattedAttendanceData(attendanceList, year, month);
+        List<Attendance> attendanceList = new ArrayList<>();
 
-        return attendanceDataList;
+        attendanceList.addAll(attendanceService.findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(
+                employee, firstDateOfMonth, lastDateOfPreviousMonth));
+
+        attendanceList.addAll(attendanceService.findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(
+                employee, firstDateOfMonth, lastDateOfMonth));
+
+        List<Attendance> attendanceListForOvertimeCalc = attendanceService.findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(
+                employee, firstDateOfPreviousMonth, lastDateOfPreviousMonth);
+
+        List<Holiday> holidayList = holidayService.findAll();
+
+        return AttendanceDataHandler.getFormattedAttendanceData(employee, attendanceList, attendanceListForOvertimeCalc, holidayList, year, month);
     }
 
     private boolean checkGlobalVariables(Long employeeId, String year, String month) {
-
-        boolean nullOrEmptyValue = false;
-
-        if (employeeId == null) {
-            nullOrEmptyValue = true;
-        }
-        if (Objects.equals(year, "") || year.isEmpty()) {
-            nullOrEmptyValue = true;
-        }
-        if (Objects.equals(month, "") || month.isEmpty()) {
-            nullOrEmptyValue = true;
-        }
-        return nullOrEmptyValue;
+        return employeeId == null || (Objects.equals(year, "") || year.isEmpty()) || (Objects.equals(month, "") || month.isEmpty());
     }
 }

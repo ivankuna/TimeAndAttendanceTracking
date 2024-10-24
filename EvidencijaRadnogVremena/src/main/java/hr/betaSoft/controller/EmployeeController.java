@@ -10,6 +10,7 @@ import hr.betaSoft.tools.Column;
 import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.tools.OibHandler;
+import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,11 +76,14 @@ public class EmployeeController {
             columnList.add(new Column("Prezime", "lastName", "id", ""));
             columnList.add(new Column("OIB", "oib", "id", ""));
             columnList.add(new Column("Radno mjesto", "employmentPosition", "id", ""));
+            columnList.add(new Column("Ukupno sati rada u tjednu", "weeklyWorkingHours", "id", ""));
+            columnList.add(new Column("Noćni rad - Početak", "nightWorkStart", "id",""));
+            columnList.add(new Column("Noćni rad - Kraj", "nightWorkEnd", "id",""));
             columnList.add(new Column("PIN", "pin", "id", ""));
         }
 
         User authenticatedUser = userService.getAuthenticatedUser();
-        List<Employee> employeeList = employeeService.findByUser(authenticatedUser);
+        List<Employee> employeeList = employeeService.totalWorkHoursCalcForEmployees(employeeService.findByUser(authenticatedUser));
 
         model.addAllAttributes(attributes);
         model.addAttribute("columnList", columnList);
@@ -257,25 +261,45 @@ public class EmployeeController {
 
         List<String> items = new ArrayList<>();
 
-        dataList.add(new Data("1.", "OIB *", "oib", "", "", "", "number-input", "true", "", items, "false"));
+        dataList.add(new Data("1.", "OIB", "oib", "", "", "", "number-input", "true", "", items, "false"));
         ;
-        dataList.add(new Data("2.", "Ime *", "firstName", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("2.", "Ime", "firstName", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("3.", "Prezime *", "lastName", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("3.", "Prezime", "lastName", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("4.", "Spol *", "gender", "", "", "", "text", "true", "", Employee.GENDER, "false"));
+        dataList.add(new Data("4.", "Spol", "gender", "", "", "", "text", "true", "", Employee.GENDER, "false"));
         ;
-        dataList.add(new Data("5.", "Datum rođenja *", "dateOfBirth", "", "", "", "date-input", "true", "", items, "false"));
+        dataList.add(new Data("5.", "Datum rođenja", "dateOfBirth", "", "", "", "date-input", "true", "", items, "false"));
         ;
-        dataList.add(new Data("6.", "Adresa *", "address", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("6.", "Adresa", "address", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("7.", "Poštanski broj i grad *", "city", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("7.", "Poštanski broj i grad", "city", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("8.", "Radno mjesto *", "employmentPosition", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("8.", "Radno mjesto", "employmentPosition", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("9.", "Mjesto rada - Grad *", "cityOfEmployment", "", "", "", "text", "true", "", items, "false"));
+        dataList.add(new Data("9.", "Mjesto rada - Grad", "cityOfEmployment", "", "", "", "text", "true", "", items, "false"));
         ;
-        dataList.add(new Data("10.", "PIN *", "pin", "", "", "", "number-input", "true", "", items, "false"));
+        dataList.add(new Data("10.", "Neradni dan(i) u tjednu", "nonWorkingDays", "", "", "", "text", "true", "", DateUtils.WEEKDAYS, "true"));
+        ;
+        dataList.add(new Data("11.", "Ukupno sati rada za Ponedjeljak", "mondayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("12.", "Ukupno sati rada za Utorak", "tuesdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("13.", "Ukupno sati rada za Stijedu", "wednesdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("14.", "Ukupno sati rada za Četvrtak", "thursdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("15.", "Ukupno sati rada za Petak", "fridayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("16.", "Ukupno sati rada za Subotu", "saturdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("17.", "Ukupno sati rada za Nedjelju", "sundayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        ;
+        dataList.add(new Data("2.", "Vrijeme početka noćnog rada", "nightWorkStart", "", "", "", "text", "true", "true", items, "false"));
+        ;
+        dataList.add(new Data("2.", "Vrijeme završetka noćnog rada", "nightWorkEnd", "", "", "", "text", "true", "true", items, "false"));
+        ;
+        dataList.add(new Data("18.", "PIN", "pin", "", "", "", "number-input", "true", "", items, "false"));
         ;
 
         return dataList;

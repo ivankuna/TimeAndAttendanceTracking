@@ -54,6 +54,38 @@ public class Employee {
     @Column
     private String cityOfEmployment;
 
+    @Column
+    private List<String> nonWorkingDays;
+
+    @Column
+    private Integer mondayWorkHours;
+
+    @Column
+    private Integer tuesdayWorkHours;
+
+    @Column
+    private Integer wednesdayWorkHours;
+
+    @Column
+    private Integer thursdayWorkHours;
+
+    @Column
+    private Integer fridayWorkHours;
+
+    @Column
+    private Integer saturdayWorkHours;
+
+    @Column
+    private Integer sundayWorkHours;
+
+    private Integer weeklyWorkingHours;
+
+    @Column
+    private String nightWorkStart;
+
+    @Column
+    private String nightWorkEnd;
+
     @Column(nullable = false)
     private String pin;
 
@@ -74,6 +106,8 @@ public class Employee {
                 ", city='" + city + '\'' +
                 ", employmentPosition='" + employmentPosition + '\'' +
                 ", cityOfEmployment='" + cityOfEmployment + '\'' +
+                ", nonWorkingDays=" + nonWorkingDays +
+                ", weeklyWorkingHours=" + weeklyWorkingHours +
                 ", pin='" + pin + '\'' +
                 ", user=" + user +
                 '}';

@@ -11,58 +11,50 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AttendanceData {
 
-    private int datum;
-    private String dan;
-    private String pocetakRada;
-    private String zavrsetakRada;
-    private String ukupnoSatiRada;
-    private String nocniRad;
-    private String radNedjeljom;
-    private String radBlagdanom;
-    private String prekovremeniRad;
-    private String smjenskiRad;
-    private String dvokratniRad;
-    private String terenskiRad;
-    private String satiPripravnosti;
-    private String neradniDaniIBlagdani;
-    private String godisnjiOdmor;
-    private String bolovanje;
-    private String placeniDopusti;
-    private String neplaceniDopusti;
-    private String opravdaniIzostanak;
+    private int date;
+    private String day;
+    private String startOfWork;
+    private String endOfWork;
+    private String totalHoursOfWork;
+    private String nightWork;
+    private String sundayWork;
+    private String holidayWork;
+    private String overtimeWork;
+    private String shiftWork;
+    private String splitShiftWork;
+    private String fieldWork;
+    private String standByHours;
+    private String offDaysAndHolidays;
+    private String annualLeave;
+    private String sickLeave;
+    private String paidLeave;
+    private String unpaidLeave;
+    private String excusedAbsence;
 
-    public AttendanceData(int datum, String dan, String pocetakRada, String zavrsetakRada, String ukupnoSatiRada) {
-        this.datum = datum;
-        this.dan = dan;
-        this.pocetakRada = pocetakRada;
-        this.zavrsetakRada = zavrsetakRada;
-        this.ukupnoSatiRada = ukupnoSatiRada;
+    public AttendanceData(int date, String day, String startOfWork, String endOfWork, String totalHoursOfWork) {
+        this.date = date;
+        this.day = day;
+        this.startOfWork = startOfWork;
+        this.endOfWork = endOfWork;
+        this.totalHoursOfWork = totalHoursOfWork;
     }
 
-    public AttendanceData(int datum, String dan) {
-        this.datum = datum;
-        this.dan = dan;
+    public AttendanceData(
+            String totalHoursOfWork,
+            String nightWork,
+            String sundayWork,
+            String holidayWork,
+            String overtimeWork) {
+        this.totalHoursOfWork = totalHoursOfWork;
+        this.nightWork = nightWork;
+        this.sundayWork = sundayWork;
+        this.holidayWork = holidayWork;
+        this.overtimeWork = overtimeWork;
     }
 
-    public AttendanceData(String ukupnoSatiRada) {
-        this.ukupnoSatiRada = ukupnoSatiRada;
-    }
-
-    public AttendanceData(int datum, String dan, String pocetakRada, String zavrsetakRada, String ukupnoSatiRada,
-                          String nocniRad, String radNedjeljom, String radBlagdanom, String prekovremeniRad,
-                          String smjenskiRad, String dvokratniRad, String terenskiRad, String satiPripravnosti) {
-        this.datum = datum;
-        this.dan = dan;
-        this.pocetakRada = pocetakRada;
-        this.zavrsetakRada = zavrsetakRada;
-        this.ukupnoSatiRada = ukupnoSatiRada;
-        this.nocniRad = nocniRad;
-        this.radNedjeljom = radNedjeljom;
-        this.radBlagdanom = radBlagdanom;
-        this.prekovremeniRad = prekovremeniRad;
-        this.smjenskiRad = smjenskiRad;
-        this.dvokratniRad = dvokratniRad;
-        this.terenskiRad = terenskiRad;
-        this.satiPripravnosti = satiPripravnosti;
+    // TEST
+    public AttendanceData(String totalHoursOfWork, String overtimeWork) {
+        this.totalHoursOfWork = totalHoursOfWork;
+        this.overtimeWork = overtimeWork;
     }
 }

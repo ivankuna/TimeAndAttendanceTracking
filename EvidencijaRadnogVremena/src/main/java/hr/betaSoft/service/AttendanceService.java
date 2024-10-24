@@ -18,11 +18,16 @@ public interface AttendanceService {
 
     void deleteAttendance(Long id);
 
+    void deleteAllByEmployee(Employee employee);
+
     Attendance findById(long id);
 
     List<Attendance> findByEmployee(Employee employee);
 
     Attendance findFirstByEmployeeOrderByIdDesc(Employee employee);
 
-    List<Attendance> findByEmployeeAndClockInDateBetween(Employee employee, Date startDate, Date endDate);
+    List<Attendance> findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(Employee employee, Date startDate, Date endDate);
+
+    List<Attendance> findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(Employee employee, Date before, Date after);
+
 }

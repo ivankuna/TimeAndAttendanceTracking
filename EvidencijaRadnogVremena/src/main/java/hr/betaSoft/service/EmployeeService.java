@@ -26,4 +26,8 @@ public interface EmployeeService {
     Employee findByPinAndMachineId(String pin, String machineId);
 
     Employee findByPinAndUser(String pin, User user);
+
+    List<Employee> totalWorkHoursCalcForEmployees(List<Employee> employees);
+
+    Employee totalWorkHoursCalcForEmployee(Employee employee);
 }

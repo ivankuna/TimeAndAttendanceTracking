@@ -5,6 +5,7 @@ import hr.betaSoft.repository.HolidayRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -39,5 +40,10 @@ public class HolidayServiceImpl implements HolidayService{
     @Override
     public Holiday findById(long id) {
         return holidayRepository.findById(id);
+    }
+
+    @Override
+    public Holiday findByDateOfHoliday(Date date) {
+        return holidayRepository.findByDateOfHoliday(date);
     }
 }

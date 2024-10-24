@@ -85,29 +85,29 @@
         <th class="vertical-lr rotate">POČETAK RADA</th>
         <th class="vertical-lr rotate">ZAVRŠETAK RADA</th>
         <th class="vertical-lr rotate">UKUPNO SATI RADA</th>
-        <th class="vertical-lr rotate">NR</th>
-        <th class="vertical-lr rotate">RN</th>
-        <th class="vertical-lr rotate">RB</th>
-        <th class="vertical-lr rotate">PR</th>
+        <th class="vertical-lr rotate">NOĆNI RAD</th>
+        <th class="vertical-lr rotate">RAD NEDJELJOM</th>
+        <th class="vertical-lr rotate">RAD BLAGDANOM</th>
+        <th class="vertical-lr rotate">PREKOVREMENI RAD</th>
         <th class="vertical-lr rotate">SR</th>
         <th class="vertical-lr rotate">DR</th>
         <th class="vertical-lr rotate">TR</th>
         <th class="vertical-lr rotate">VR</th>
     </tr>
     <tr th:each="data : ${dataList}">
-        <td th:text="${data.datum}">name</td>
-        <td th:text="${data.dan}">name</td>
-        <td th:text="${data.pocetakRada}">name</td>
-        <td th:text="${data.zavrsetakRada}">name</td>
-        <td th:text="${data.ukupnoSatiRada}">name</td>
-        <td th:text="${data.nocniRad}">name</td>
-        <td th:text="${data.radNedjeljom}">name</td>
-        <td th:text="${data.radBlagdanom}">name</td>
-        <td th:text="${data.prekovremeniRad}">name</td>
-        <td th:text="${data.smjenskiRad}">name</td>
-        <td th:text="${data.dvokratniRad}">name</td>
-        <td th:text="${data.terenskiRad}">name</td>
-        <td th:text="${data.satiPripravnosti}">name</td>
+        <td th:text="${data.date}">name</td>
+        <td th:text="${data.day}">name</td>
+        <td th:text="${data.startOfWork}">name</td>
+        <td th:text="${data.endOfWork}">name</td>
+        <td th:text="${data.totalHoursOfWork}">name</td>
+        <td th:text="${data.nightWork}">name</td>
+        <td th:text="${data.sundayWork}">name</td>
+        <td th:text="${data.holidayWork}">name</td>
+        <td th:text="${data.overtimeWork}">name</td>
+        <td th:text="${data.shiftWork}">name</td>
+        <td th:text="${data.splitShiftWork}">name</td>
+        <td th:text="${data.fieldWork}">name</td>
+        <td th:text="${data.standByHours}">name</td>
     </tr>
 </table>
 

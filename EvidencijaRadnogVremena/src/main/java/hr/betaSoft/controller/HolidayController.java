@@ -53,6 +53,7 @@ public class HolidayController {
         model.addAttribute("deleteLink", "/holidays/delete/{id}");
         model.addAttribute("showLink", "");
         model.addAttribute("tableName", "holidays");
+        model.addAttribute("script", "/js/table-users.js");
 
         return "table";
     }
