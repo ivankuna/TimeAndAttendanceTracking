@@ -285,7 +285,7 @@ public class EmployeeController {
         ;
         dataList.add(new Data("12.", "Ukupno sati rada za Utorak", "tuesdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
         ;
-        dataList.add(new Data("13.", "Ukupno sati rada za Stijedu", "wednesdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
+        dataList.add(new Data("13.", "Ukupno sati rada za Srijedu", "wednesdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
         ;
         dataList.add(new Data("14.", "Ukupno sati rada za Četvrtak", "thursdayWorkHours", "", "", "", "number-input", "false", "", items, "false"));
         ;
