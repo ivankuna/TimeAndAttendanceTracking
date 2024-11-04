@@ -1,8 +1,12 @@
 package hr.betaSoft.test;
 
+import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.AttendanceData;
+import hr.betaSoft.model.Employee;
 import hr.betaSoft.utils.DateUtils;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,29 +17,69 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        String res = asd("08:00", "", "");
+        java.sql.Date dateInA = java.sql.Date.valueOf("2024-11-01");
 
-        System.out.println(res);
+        java.sql.Date dateOutA = java.sql.Date.valueOf("2024-11-02");
+
+        java.sql.Date dateInB = java.sql.Date.valueOf("2024-11-02");
+
+        java.sql.Date dateOutB = java.sql.Date.valueOf("2024-11-03");
+
+        Attendance attendanceA = new Attendance();
+
+        Attendance attendanceB = new Attendance();
+
+        attendanceA.setClockInDate(dateInA);
+        attendanceA.setClockInTime("12:00");
+        attendanceA.setClockOutDate(dateOutA);
+        attendanceA.setClockOutTime("12:00");
+
+        attendanceB.setClockInDate(dateInB);
+        attendanceB.setClockInTime("12:00");
+        attendanceB.setClockOutDate(dateOutB);
+        attendanceB.setClockOutTime("12:00");
     }
 
-    public static String asd(String timeA, String timeB, String location) {
+    public static boolean overlaps(Attendance attendance1, Attendance attendance2) {
+        if (attendance1.getClockInDate() == null || attendance1.getClockOutDate() == null ||
+                attendance2.getClockInDate() == null || attendance2.getClockOutDate() == null) {
+            return false;  // If dates are missing, we can't determine overlap
+        }
 
-        timeA = timeA == null || timeA.trim().isEmpty() ? "00:00" : timeA;
-        timeB = timeB == null || timeB.trim().isEmpty() ? "00:00" : timeA;
+        // Check if date ranges overlap
+        boolean dateOverlap = !attendance1.getClockOutDate().before(attendance2.getClockInDate()) &&
+                !attendance1.getClockInDate().after(attendance2.getClockOutDate());
 
-        String[] timeASplit = timeA.split(":");
-        String[] timeBSplit = timeB.split(":");
+        if (!dateOverlap) {
+            return false; // No overlap if date ranges do not intersect
+        }
 
-        int hoursA = Integer.parseInt(timeASplit[0]);
-        int minutesA = Integer.parseInt(timeASplit[1]);
-        int hoursB = Integer.parseInt(timeBSplit[0]);
-        int minutesB = Integer.parseInt(timeBSplit[1]);
+        // Parse time strings to compare
+        LocalTime attendance1StartTime = LocalTime.parse(attendance1.getClockInTime());
+        LocalTime attendance1EndTime = LocalTime.parse(attendance1.getClockOutTime());
+        LocalTime attendance2StartTime = LocalTime.parse(attendance2.getClockInTime());
+        LocalTime attendance2EndTime = LocalTime.parse(attendance2.getClockOutTime());
 
-        int totalMinutes = minutesA + minutesB;
-        int totalHours = hoursA + hoursB + totalMinutes / 60;
-        totalMinutes = totalMinutes % 60;
+        // If dates are the same, check if time ranges overlap
+        if (attendance1.getClockInDate().equals(attendance2.getClockInDate()) &&
+                attendance1.getClockOutDate().equals(attendance2.getClockOutDate())) {
+            return !(attendance1EndTime.isBefore(attendance2StartTime) ||
+                    attendance1StartTime.isAfter(attendance2EndTime));
+        }
 
-        return String.format("%02d:%02d", totalHours, totalMinutes);
+        // Overlap is valid if time frames intersect within overlapping dates
+        return (attendance1.getClockInDate().equals(attendance2.getClockInDate()) &&
+                attendance1EndTime.isAfter(attendance2StartTime)) ||
+                (attendance1.getClockOutDate().equals(attendance2.getClockOutDate()) &&
+                        attendance1StartTime.isBefore(attendance2EndTime));
+    }
+
+
+
+    private static boolean testIsNightWorkTest(String nightWorkStart, String nightWorkEnd, String time) {
+
+        return (time.compareTo(nightWorkStart) >= 0 && time.compareTo("24:00") <= 0) ||
+                (time.compareTo(nightWorkEnd) <= 0 && time.compareTo("00:00") >= 0);
     }
 
     private static boolean tempCheckForNegativeTime(String time) {

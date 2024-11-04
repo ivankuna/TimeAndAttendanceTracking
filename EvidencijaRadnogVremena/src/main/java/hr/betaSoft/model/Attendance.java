@@ -38,7 +38,7 @@ public class Attendance {
     @Temporal(TemporalType.DATE)
     private Date clockOutDate;
 
-    @Column()
+    @Column
     private String clockInTime;
 
     @Column
@@ -49,6 +49,14 @@ public class Attendance {
 
     @Column
     private Integer status;
+
+    @Column
+    private boolean clockInDataUserUpdate;
+
+    @Column
+    private boolean clockOutDataUserUpdate;
+
+    private String clockInDay;
 
     public List<String> checkForEmptyAttributes() {
 

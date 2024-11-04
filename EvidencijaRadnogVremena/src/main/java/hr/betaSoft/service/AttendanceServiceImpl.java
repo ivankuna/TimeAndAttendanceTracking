@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,14 +79,37 @@ public class AttendanceServiceImpl implements AttendanceService {
         if (attendance.getClockInDate() != null && attendance.getClockOutDate() == null) {
             attendance.setHoursAtWork("");
             attendance.setStatus(1);
-        } else if (attendance.getClockInDate() == null && attendance.getClockOutDate() != null) {
+        }
+        if (attendance.getClockInDate() == null && attendance.getClockOutDate() != null) {
             attendance.setHoursAtWork("");
             attendance.setStatus(2);
-        } else if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
+        }
+        if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
             attendance.setHoursAtWork(DateUtils.returnTimeDifference
                     (attendance.getClockInDate().toString(), attendance.getClockInTime(),
                      attendance.getClockOutDate().toString(), attendance.getClockOutTime()));
             attendance.setStatus(0);
+        }
+
+        if (attendance.getId() != null) {
+            Attendance tempAttendance = findById(attendance.getId());
+            if (!Objects.equals(tempAttendance.getClockInDate(), attendance.getClockInDate()) ||
+                    !Objects.equals(tempAttendance.getClockInTime() == null ? "" : tempAttendance.getClockInTime(),
+                            attendance.getClockInTime() == null ?"" : attendance.getClockInTime())) {
+                attendance.setClockInDataUserUpdate(true);
+            }
+            if (!Objects.equals(tempAttendance.getClockOutDate(), attendance.getClockOutDate()) ||
+                    !Objects.equals(tempAttendance.getClockOutTime() == null ? "" : tempAttendance.getClockOutTime(),
+                            attendance.getClockOutTime() == null ? "" : attendance.getClockOutTime())) {
+                attendance.setClockOutDataUserUpdate(true);
+            }
+        } else {
+            if (attendance.getClockInDate() != null) {
+                attendance.setClockInDataUserUpdate(true);
+            }
+            if (attendance.getClockOutDate() != null) {
+                attendance.setClockOutDataUserUpdate(true);
+            }
         }
 
         attendance.setEmployee(employee);
@@ -136,6 +160,37 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public List<Attendance> findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(Employee employee, Date before, Date after) {
         return attendanceRepository.findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(employee, before, after);
+    }
+
+    @Override
+    public Attendance setClockInDayBasedOnDBData(Attendance attendance) {
+
+        attendance.setClockInDay(
+                attendance.getClockInDate() != null ? DateUtils.getDayOfDate(attendance.getClockInDate()) : ""
+        );
+        return attendance;
+    }
+
+    @Override
+    public List<Attendance> setClockInDaysBasedOnDBData(List<Attendance> attendanceList) {
+
+        for (Attendance attendance : attendanceList) {
+            setClockInDayBasedOnDBData(attendance);
+        }
+        return attendanceList;
+    }
+
+    @Override
+    public boolean dateAndTimeOverlap(Attendance firstAttendance, Attendance secondAttendance) {
+        LocalDateTime firstAttendanceIn = DateUtils.sqlDateAndTimeToLocalDateTime(firstAttendance.getClockInDate(), firstAttendance.getClockInTime());
+        LocalDateTime firstAttendanceOut = DateUtils.sqlDateAndTimeToLocalDateTime(firstAttendance.getClockOutDate(), firstAttendance.getClockOutTime());
+        LocalDateTime secondAttendanceIn = DateUtils.sqlDateAndTimeToLocalDateTime(secondAttendance.getClockInDate(), secondAttendance.getClockInTime());
+        LocalDateTime secondAttendanceOut = DateUtils.sqlDateAndTimeToLocalDateTime(secondAttendance.getClockOutDate(), secondAttendance.getClockOutTime());
+
+        return firstAttendanceIn.isAfter(secondAttendanceIn) && firstAttendanceIn.isBefore(secondAttendanceOut) ||
+                firstAttendanceOut.isAfter(secondAttendanceIn) && firstAttendanceOut.isBefore(secondAttendanceOut) ||
+                secondAttendanceIn.isAfter(firstAttendanceIn) && secondAttendanceIn.isBefore(firstAttendanceOut) ||
+                secondAttendanceOut.isAfter(firstAttendanceIn) && secondAttendanceOut.isBefore(firstAttendanceOut);
     }
 
     private void sendWarningEmail(Employee employee, Attendance lastAttendanceRecord, String action) {

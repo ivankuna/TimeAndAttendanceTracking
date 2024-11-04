@@ -8,6 +8,7 @@ import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.tools.Column;
 import hr.betaSoft.tools.Data;
 import hr.betaSoft.tools.DeviceDetector;
+import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/attendance")
@@ -51,6 +53,7 @@ public class AttendanceController {
 
         if (DeviceDetector.isMobileDevice(request)) {
             columnList.add(new Column("Datum dolaska", "clockInDate", "id",""));
+            columnList.add(new Column("Dan dolaska", "clockInDay", "id",""));
             columnList.add(new Column("Vrijeme dolaska", "clockInTime", "id",""));
             columnList.add(new Column("Datum odlaska", "clockOutDate", "id",""));
             columnList.add(new Column("Vrijeme odlaska", "clockOutTime", "id",""));
@@ -58,14 +61,17 @@ public class AttendanceController {
             columnList.add(new Column("Status", "status", "id",""));
         } else {
             columnList.add(new Column("Datum dolaska", "clockInDate", "id",""));
+            columnList.add(new Column("Dan dolaska", "clockInDay", "id",""));
             columnList.add(new Column("Vrijeme dolaska", "clockInTime", "id",""));
+            columnList.add(new Column("DOLAZAK", "clockInDataUserUpdate", "id",""));
             columnList.add(new Column("Datum odlaska", "clockOutDate", "id",""));
             columnList.add(new Column("Vrijeme odlaska", "clockOutTime", "id",""));
+            columnList.add(new Column("ODLAZAK", "clockOutDataUserUpdate", "id",""));
             columnList.add(new Column("Vrijeme na poslu", "hoursAtWork", "id",""));
             columnList.add(new Column("Status", "status", "id",""));
         }
 
-        List<Attendance> attendanceList = attendanceService.findByEmployee(employee);
+        List<Attendance> attendanceList = attendanceService.setClockInDaysBasedOnDBData(attendanceService.findByEmployee(employee));
 
         model.addAttribute("title", title);
         model.addAttribute("columnList", columnList);
@@ -160,6 +166,25 @@ public class AttendanceController {
             return redirect(attendance);
         }
 
+        if (!DateUtils.isTimeFormatValid(attendance.getClockInTime()) || !DateUtils.isTimeFormatValid(attendance.getClockOutTime())) {
+            ra.addFlashAttribute("attendance", attendance);
+            ra.addFlashAttribute("message", "Neispravan unos vremena dolaska i/ili odlaska!");
+            return redirect(attendance);
+        }
+
+        if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
+            List<Attendance> attendanceList = attendanceService.findByEmployee(employee);
+            for (Attendance att : attendanceList) {
+                if (att.getClockInDate() != null && att.getClockOutDate() != null) {
+                    if (attendanceService.dateAndTimeOverlap(attendance, att) && !Objects.equals(attendance.getId(), att.getId())) {
+                        ra.addFlashAttribute("attendance", attendance);
+                        ra.addFlashAttribute("message", "Uneseni vremenski interval se sukobljava s postojećim podacima o prisutnosti radnika");
+                        return redirect(attendance);
+                    }
+                }
+            }
+        }
+
         attendanceService.processAttendanceDataFromController(attendance, employee);
 
         return "redirect:/attendance/show/" + employee.getId();
@@ -194,13 +219,13 @@ public class AttendanceController {
 
         List<String> items = new ArrayList<>();
 
-        dataList.add(new Data("1.", "Datum dolaska *", "clockInDate", "", "", "", "date-pick", "false","true", items, "false"));
+        dataList.add(new Data("1.", "Datum dolaska (DD.MM.YYYY)", "clockInDate", "", "", "", "date-pick", "false","true", items, "false"));
         ;
-        dataList.add(new Data("2.", "Vrijeme dolaska *", "clockInTime", "", "", "", "text", "false", "true", items, "false"));
+        dataList.add(new Data("2.", "Vrijeme dolaska (HH:mm)", "clockInTime", "", "", "", "text", "false", "true", items, "false"));
         ;
-        dataList.add(new Data("3.", "Datum odlaska *", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
+        dataList.add(new Data("3.", "Datum odlaska (DD.MM.YYYY)", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
         ;
-        dataList.add(new Data("4.", "Vrijeme odlaska *", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
+        dataList.add(new Data("4.", "Vrijeme odlaska (HH:mm)", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
         ;
 
         return dataList;

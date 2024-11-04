@@ -1,13 +1,11 @@
 package hr.betaSoft.utils;
 
+import hr.betaSoft.model.Attendance;
 import hr.betaSoft.tools.DateTimeStorage;
 
 import java.sql.Date;
 import java.text.ParseException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.temporal.TemporalAdjusters;
+import java.time.*;
 import java.util.*;
 
 public class DateUtils {
@@ -81,19 +79,6 @@ public class DateUtils {
         }
 
         return day;
-    }
-
-    public static Date getFirstDayOfLastWeek(String year, String month) {
-
-        int yearInt = Integer.parseInt(year);
-        int monthInt = Integer.parseInt(month);
-
-        LocalDate lastDayOfMonth = LocalDate.of(yearInt, monthInt, 1)
-                .with(TemporalAdjusters.lastDayOfMonth());
-
-        LocalDate firstDayOfLastWeek = lastDayOfMonth.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-
-        return Date.valueOf(firstDayOfLastWeek);
     }
 
     public static int getNumOfDaysInMonth(String paramMonth, String paramYear) {
@@ -260,5 +245,51 @@ public class DateUtils {
         totalHours = surplus ? hoursA - hoursB - 1 : hoursA - hoursB;
 
         return String.format("%02d:%02d", totalHours, totalMinutes);
+    }
+
+    public static boolean isTimeFormatValid(String time) {
+
+        List<String> timeStringList = new ArrayList<>();
+
+        if (!time.trim().isEmpty()) {
+            for (char c : time.toCharArray()) {
+                timeStringList.add(String.valueOf(c));
+            }
+        } else {
+            return true;
+        }
+
+        if (!timeStringList.contains(":") || !Objects.equals(timeStringList.get(2), ":")) {
+            return false;
+        }
+
+        if (timeStringList.size() != 5) {
+            return false;
+        }
+
+        try {
+            String[] timeArray = time.split(":");
+            int hours = Integer.parseInt(timeArray[0]);
+            int minutes = Integer.parseInt(timeArray[1]);
+
+            if (hours > 23 || hours < 0) {
+                return false;
+            }
+            if (minutes > 59 || minutes < 0) {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static LocalDateTime sqlDateAndTimeToLocalDateTime (Date sqlDate, String time) {
+
+        LocalDate localDate = sqlDate.toLocalDate();
+        LocalTime localTime = LocalTime.parse(time);
+
+        return LocalDateTime.of(localDate, localTime);
     }
 }

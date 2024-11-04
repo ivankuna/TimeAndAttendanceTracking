@@ -100,6 +100,12 @@ public class MainController {
         }
     }
 
+//    @GetMapping("/users")
+//    public String showAdminMenuForm(Model model) {
+//        model.addAttribute("path", "/users");
+//        return "users";
+//    }
+
     @GetMapping("/users")
     public String showAdminMenuForm() {
         return "users";

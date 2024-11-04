@@ -153,7 +153,8 @@ public class AttendanceDataHandler {
         }
 
         for (Integer sundayIndex : listOfSundayIndex) {
-            attendanceDataList = overtimeCalc(employee, attendanceDataList, attendanceDataListForOvertimeCalc, sundayIndex);
+            attendanceDataList = overtimeCalc(employee, attendanceDataList, attendanceDataListForOvertimeCalc,
+                    sundayIndex, listOfSundayIndex.indexOf(sundayIndex) == 0);
         }
 
         return attendanceDataList;
@@ -177,8 +178,7 @@ public class AttendanceDataHandler {
                     nightWork = DateUtils.returnTimeDifference(dateInQuestion, attendanceData.getStartOfWork(), dateInQuestion, attendanceData.getEndOfWork());
                 }
             } else {
-                nightWork = DateUtils.returnTimeDifference(dateInQuestion, attendanceData.getStartOfWork(), dateInQuestion,
-                        attendanceData.getStartOfWork().compareTo(employee.getNightWorkEnd()) <= 0 ? employee.getNightWorkEnd() : "24:00");
+                nightWork = DateUtils.returnTimeDifference(dateInQuestion, attendanceData.getStartOfWork(), dateInQuestion, employee.getNightWorkEnd());
             }
         } else {
             if (isNightWork(employee, timeB)) {
@@ -193,7 +193,8 @@ public class AttendanceDataHandler {
             Employee employee,
             List<AttendanceData> attendanceDataList,
             List<AttendanceData> attendanceDataListForOvertimeCalc,
-            Integer sundayIndex) {
+            Integer sundayIndex,
+            boolean firstGo) {
 
         String weeklyWorkingHours = String.format("%02d:00", employee.getWeeklyWorkingHours());
         String actualTotalHoursOfWork = "00:00";
@@ -203,18 +204,16 @@ public class AttendanceDataHandler {
         int startIndex = 0;
         int endIndex = sundayIndex;
 
-        if (attendanceDataListForOvertimeCalc != null && sundayIndex < 6) {
+        if (attendanceDataListForOvertimeCalc != null && firstGo) {
             int tempMonIndex = 0;
             for (AttendanceData attendanceDataOT : attendanceDataListForOvertimeCalc) {
                 if (Objects.equals(attendanceDataOT.getDay(), DateUtils.WEEKDAYS.get(0))) {
                     tempMonIndex = attendanceDataListForOvertimeCalc.indexOf(attendanceDataOT);
                 }
             }
-            for (int i = tempMonIndex; i <= attendanceDataListForOvertimeCalc.size() - 1; i++) {
+            for (int i = tempMonIndex; i < attendanceDataListForOvertimeCalc.size(); i++) {
                 String tempTime = attendanceDataListForOvertimeCalc.get(i).getTotalHoursOfWork();
-                actualTotalHoursOfWork = DateUtils.timeAddition(
-                        actualTotalHoursOfWork.trim().isEmpty() ? "00:00" : actualTotalHoursOfWork,
-                        tempTime.trim().isEmpty() ? "00:00" : tempTime);
+                actualTotalHoursOfWork = DateUtils.timeAddition(actualTotalHoursOfWork, tempTime.trim().isEmpty() ? "00:00" : tempTime);
             }
             if (checkForNegativeTime(DateUtils.timeSubtraction(weeklyWorkingHours, actualTotalHoursOfWork))) {
                 overtime = DateUtils.timeSubtraction(actualTotalHoursOfWork, weeklyWorkingHours);
@@ -222,7 +221,8 @@ public class AttendanceDataHandler {
         }
 
         for (int i = sundayIndex; i >= 0; i--) {
-            if (Objects.equals(attendanceDataList.get(i).getDay(), DateUtils.WEEKDAYS.get(0))) {
+            if (Objects.equals(attendanceDataList.get(i).getDay(), DateUtils.WEEKDAYS.get(0)) &&
+                    !Objects.equals(attendanceDataList.get(Math.max(i - 1, 0)).getDay(), DateUtils.WEEKDAYS.get(0))) {
                 startIndex = i;
                 break;
             }
@@ -326,11 +326,6 @@ public class AttendanceDataHandler {
         String totalHoursOfOvertimeWork = "00:00";
 
         for (AttendanceData attendanceData : attendanceDataList) {
-
-            if (attendanceData.getDate() == 31) {
-                System.out.println("test");
-            }
-
             if (!Objects.equals(attendanceData.getTotalHoursOfWork(), "")) {
                 totalHoursOfWork = DateUtils.timeAddition(totalHoursOfWork, attendanceData.getTotalHoursOfWork());
             }

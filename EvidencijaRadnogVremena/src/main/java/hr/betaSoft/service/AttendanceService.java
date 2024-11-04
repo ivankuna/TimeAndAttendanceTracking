@@ -30,4 +30,9 @@ public interface AttendanceService {
 
     List<Attendance> findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(Employee employee, Date before, Date after);
 
+    Attendance setClockInDayBasedOnDBData(Attendance attendance);
+
+    List<Attendance> setClockInDaysBasedOnDBData(List<Attendance> attendances);
+
+    boolean dateAndTimeOverlap(Attendance firstAttendance, Attendance secondAttendance);
 }
