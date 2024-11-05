@@ -26,6 +26,8 @@ public interface AttendanceService {
 
     Attendance findFirstByEmployeeOrderByIdDesc(Employee employee);
 
+    Attendance findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee);
+
     List<Attendance> findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(Employee employee, Date startDate, Date endDate);
 
     List<Attendance> findByEmployeeAndClockInDateBeforeAndClockOutDateAfterOrderByClockInDateAscClockInTimeAsc(Employee employee, Date before, Date after);

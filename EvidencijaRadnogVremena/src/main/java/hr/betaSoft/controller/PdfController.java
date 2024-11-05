@@ -94,7 +94,7 @@ public class PdfController {
         }
 
         setSessionAttributes(session, employeeId, year, month);
-        List<AttendanceData> attendanceDataList = getSampleAttendanceData(session, employeeId);
+        List<AttendanceData> attendanceDataList = getAttendanceDataForAttendanceRecord(session, employeeId);
 
         if (attendanceDataList.isEmpty()) {
             ra.addFlashAttribute("message", "Nepotpuni podaci za radnika/cu " +
@@ -106,6 +106,29 @@ public class PdfController {
         model.addAttribute("pageTitle", "Šihterica");
         model.addAttribute("title", "Šihterica");
         model.addAttribute("dataList", attendanceDataList);
+
+        return "attendance-data-template";
+    }
+
+    @PostMapping("/attendance-html")
+    public String showAttHtmlControllerMethod(
+            @RequestParam("employeeId") Long employeeId,
+            @RequestParam("month") String month,
+            @RequestParam("year") String year,
+            HttpSession session,
+            RedirectAttributes ra,
+            Model model) {
+
+        if (checkGlobalVariables(employeeId, year, month)) {
+            return "redirect:/employees/show-attendance";
+        }
+
+        setSessionAttributes(session, employeeId, year, month);
+        List<Attendance> attendanceList = attendanceService.setClockInDaysBasedOnDBData(getAttendanceForAttendanceRecord(session, employeeId));
+
+        model.addAttribute("pageTitle", "Prikaz dolazaka/odlazaka");
+        model.addAttribute("title", "Prikaz dolazaka/odlazaka");
+        model.addAttribute("dataList", attendanceList);
 
         return "attendance-template";
     }
@@ -147,7 +170,7 @@ public class PdfController {
 
         try {
             Long employeeId = (Long) session.getAttribute(SESSION_EMPLOYEE_ID);
-            List<AttendanceData> attendanceDataList = getSampleAttendanceData(session, employeeId);
+            List<AttendanceData> attendanceDataList = getAttendanceDataForAttendanceRecord(session, employeeId);
 
             model.addAttribute("pageTitle", "Šihterica");
             model.addAttribute("title", "Šihterica");
@@ -173,7 +196,7 @@ public class PdfController {
     private String renderHtml(Model model) {
         Context context = new Context();
         context.setVariables(model.asMap());
-        return templateEngine.process("attendance-template", context);
+        return templateEngine.process("attendance-data-template", context);
     }
 
     public static void convertHtmlContentToPdf(String htmlContent, String pdfFilePath) throws IOException, DocumentException {
@@ -230,7 +253,7 @@ public class PdfController {
         return originalDate;
     }
 
-    private List<AttendanceData> getSampleAttendanceData(HttpSession session, Long id) {
+    private List<AttendanceData> getAttendanceDataForAttendanceRecord(HttpSession session, Long id) {
 
         Employee employee = employeeService.totalWorkHoursCalcForEmployee(employeeService.findById(id));
         String year = (String) session.getAttribute(SESSION_YEAR);
@@ -255,6 +278,19 @@ public class PdfController {
         List<Holiday> holidayList = holidayService.findAll();
 
         return AttendanceDataHandler.getFormattedAttendanceData(employee, attendanceList, attendanceListForOvertimeCalc, holidayList, year, month);
+    }
+
+    private List<Attendance> getAttendanceForAttendanceRecord(HttpSession session, Long employeeId) {
+
+        Employee employee = employeeService.findById(employeeId);
+        String year = (String) session.getAttribute(SESSION_YEAR);
+        String month = (String) session.getAttribute(SESSION_MONTH);
+
+        Date firstDateOfMonth = DateUtils.getFirstDateOfMonth(year, month);
+        Date lastDateOfMonth = DateUtils.getLastDateOfMonth(year, month);
+
+        return attendanceService.findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(
+                employee, firstDateOfMonth, lastDateOfMonth);
     }
 
     private boolean checkGlobalVariables(Long employeeId, String year, String month) {

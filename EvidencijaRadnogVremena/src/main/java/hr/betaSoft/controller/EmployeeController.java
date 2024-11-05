@@ -43,6 +43,7 @@ public class EmployeeController {
         attributes.put("updateLink", "/employees/update/{id}");
         attributes.put("deleteLink", "/employees/delete/{id}");
         model.addAttribute("pdfLink", "");
+        model.addAttribute("showLink", "");
 
         defineShowData(model, request, attributes);
 
@@ -57,6 +58,7 @@ public class EmployeeController {
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
         attributes.put("pdfLink", "dummy");
+        model.addAttribute("showLink", "dummy");
 
         defineShowData(model, request, attributes);
 
@@ -90,7 +92,6 @@ public class EmployeeController {
         model.addAttribute("dataList", employeeList);
         model.addAttribute("path", "/employees");
         model.addAttribute("sendLink", "");
-        model.addAttribute("showLink", "");
         model.addAttribute("tableName", "employees");
         model.addAttribute("script", "/js/table-employees.js");
     }

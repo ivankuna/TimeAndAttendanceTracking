@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="hr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
+    <title th:text="${pageTitle}"></title>
+
+    <style>
+        * {
+            font-size: 15px;
+          }
+
+	    body {
+		    padding: 0px;
+		    font-family: calibri;
+		}
+
+		h4 {
+            text-align: center;
+            padding: 0px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 0.1px dotted black;
+            padding: 5px;
+            text-align: left;
+            border-style: dotted;
+            border-color: gray;
+
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .small-width {
+            width: 5%;
+            text-align: center;
+        }
+        .half-width {
+            width: 30%;
+        }
+        .double-width {
+            width: 65%;
+        }
+        .double-width-left {
+            width: 65%;
+            text-align: left;
+        }
+        .double-width-right {
+            width: 65%;
+            text-align: right;
+        }
+         .full-width {
+            width: 100%;
+            text-align: center;
+        }
+
+        @media print {
+            th, td {
+                border-style: dotted;
+            }
+        }
+
+        .vertical-lr {
+          writing-mode: vertical-lr;
+          font-weight: 700;
+        }
+
+        .rotate {
+          transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body style="font-family:calibri">
+
+<h4 th:text="${title}"></h4>
+
+<table id="myTable" style="margin-bottom: 20px;">
+    <tr>
+        <th class="vertical-lr rotate">DATUM</th>
+        <th class="vertical-lr rotate">DAN</th>
+        <th class="vertical-lr rotate">POČETAK RADA</th>
+        <th class="vertical-lr rotate">ZAVRŠETAK RADA</th>
+        <th class="vertical-lr rotate">UKUPNO SATI RADA</th>
+        <th class="vertical-lr rotate">NOĆNI RAD</th>
+        <th class="vertical-lr rotate">RAD NEDJELJOM</th>
+        <th class="vertical-lr rotate">RAD BLAGDANOM</th>
+        <th class="vertical-lr rotate">PREKOVREMENI RAD</th>
+        <th class="vertical-lr rotate">SR</th>
+        <th class="vertical-lr rotate">DR</th>
+        <th class="vertical-lr rotate">TR</th>
+        <th class="vertical-lr rotate">VR</th>
+    </tr>
+    <tr th:each="data : ${dataList}">
+        <td th:text="${data.date}">name</td>
+        <td th:text="${data.day}">name</td>
+        <td th:text="${data.startOfWork}">name</td>
+        <td th:text="${data.endOfWork}">name</td>
+        <td th:text="${data.totalHoursOfWork}">name</td>
+        <td th:text="${data.nightWork}">name</td>
+        <td th:text="${data.sundayWork}">name</td>
+        <td th:text="${data.holidayWork}">name</td>
+        <td th:text="${data.overtimeWork}">name</td>
+        <td th:text="${data.shiftWork}">name</td>
+        <td th:text="${data.splitShiftWork}">name</td>
+        <td th:text="${data.fieldWork}">name</td>
+        <td th:text="${data.standByHours}">name</td>
+    </tr>
+</table>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+</body>
+</html>

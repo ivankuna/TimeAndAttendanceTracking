@@ -1,6 +1,5 @@
 package hr.betaSoft.utils;
 
-import hr.betaSoft.model.Attendance;
 import hr.betaSoft.tools.DateTimeStorage;
 
 import java.sql.Date;

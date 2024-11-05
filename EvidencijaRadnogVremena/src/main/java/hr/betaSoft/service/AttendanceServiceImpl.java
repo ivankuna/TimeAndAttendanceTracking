@@ -30,7 +30,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         Attendance clockIn = new Attendance();
 
-        if (Objects.equals(lastAttendanceRecord.getStatus(), 1) || Objects.equals(lastAttendanceRecord.getId(), null)) {
+        if (Objects.equals(lastAttendanceRecord.getStatus(), 1) && !Objects.equals(lastAttendanceRecord.getId(), null)) {
             sendWarningEmail(employee, lastAttendanceRecord, "clockIn");
         }
 
@@ -44,13 +44,14 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void processClockOutData(Employee employee) {
-        Attendance lastAttendanceRecord = findFirstByEmployeeOrderByIdDesc(employee) == null ? new Attendance() : findFirstByEmployeeOrderByIdDesc(employee);
+        Attendance lastAttendanceRecord = findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee) == null ?
+                new Attendance() : findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
 
         Attendance clockOut = new Attendance();
 
         boolean error = false;
 
-        if (Objects.equals(lastAttendanceRecord.getStatus(), 1)) {
+        if (Objects.equals(lastAttendanceRecord.getStatus(), 1) && !Objects.equals(lastAttendanceRecord.getId(), null)) {
             clockOut = lastAttendanceRecord;
         } else {
             sendWarningEmail(employee, lastAttendanceRecord, "clockOut");
@@ -150,6 +151,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public Attendance findFirstByEmployeeOrderByIdDesc(Employee employee) {
         return attendanceRepository.findFirstByEmployeeOrderByIdDesc(employee);
+    }
+
+    @Override
+    public Attendance findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee) {
+        return attendanceRepository.findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
     }
 
     @Override

@@ -7,6 +7,7 @@ import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.tools.Column;
 import hr.betaSoft.tools.Data;
+import hr.betaSoft.tools.DateTimeStorage;
 import hr.betaSoft.tools.DeviceDetector;
 import hr.betaSoft.utils.DateUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -172,13 +173,23 @@ public class AttendanceController {
             return redirect(attendance);
         }
 
+        if (!Objects.equals(attendance.getClockInDate(), null) && !Objects.equals(attendance.getClockOutDate(), null)) {
+            if (attendance.getClockInDate().after(attendance.getClockOutDate())) {
+                ra.addFlashAttribute("attendance", attendance);
+                ra.addFlashAttribute("message", "Datum odlaska ne može biti prije datuma dolaska!");
+                return redirect(attendance);
+            }
+        }
+
         if (attendance.getClockInDate() != null && attendance.getClockOutDate() != null) {
             List<Attendance> attendanceList = attendanceService.findByEmployee(employee);
             for (Attendance att : attendanceList) {
                 if (att.getClockInDate() != null && att.getClockOutDate() != null) {
                     if (attendanceService.dateAndTimeOverlap(attendance, att) && !Objects.equals(attendance.getId(), att.getId())) {
                         ra.addFlashAttribute("attendance", attendance);
-                        ra.addFlashAttribute("message", "Uneseni vremenski interval se sukobljava s postojećim podacima o prisutnosti radnika");
+                        ra.addFlashAttribute("message",
+                                "Nije moguće upisati dolazak/odlazak jer već postoji zapis: " + DateTimeStorage.DATE_FORMAT.format(att.getClockInDate()) + " " +
+                                att.getClockInTime() + " - " + DateTimeStorage.DATE_FORMAT.format(att.getClockOutDate()) + " " + att.getClockOutTime());
                         return redirect(attendance);
                     }
                 }
@@ -219,11 +230,11 @@ public class AttendanceController {
 
         List<String> items = new ArrayList<>();
 
-        dataList.add(new Data("1.", "Datum dolaska (DD.MM.YYYY)", "clockInDate", "", "", "", "date-pick", "false","true", items, "false"));
+        dataList.add(new Data("1.", "Datum dolaska", "clockInDate", "", "", "", "date-pick", "false","true", items, "false"));
         ;
         dataList.add(new Data("2.", "Vrijeme dolaska (HH:mm)", "clockInTime", "", "", "", "text", "false", "true", items, "false"));
         ;
-        dataList.add(new Data("3.", "Datum odlaska (DD.MM.YYYY)", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
+        dataList.add(new Data("3.", "Datum odlaska", "clockOutDate", "", "", "", "date-pick", "false", "true", items, "false"));
         ;
         dataList.add(new Data("4.", "Vrijeme odlaska (HH:mm)", "clockOutTime", "", "", "", "text", "false", "true", items, "false"));
         ;
