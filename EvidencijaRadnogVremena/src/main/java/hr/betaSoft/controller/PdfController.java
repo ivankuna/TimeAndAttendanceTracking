@@ -43,6 +43,8 @@ public class PdfController {
 
     private static final String SESSION_MONTH = "month";
 
+    private static final String SESSION_OVERTIME_SCHEDULE = "overtimeSchedule";
+
     private final EmployeeService employeeService;
 
     private final AttendanceService attendanceService;
@@ -55,10 +57,11 @@ public class PdfController {
         this.holidayService = holidayService;
     }
 
-    private void setSessionAttributes(HttpSession session, Long employeeId, String year, String month) {
+    private void setSessionAttributes(HttpSession session, Long employeeId, String year, String month, String overtimeSchedule) {
         session.setAttribute(SESSION_EMPLOYEE_ID, employeeId);
         session.setAttribute(SESSION_YEAR, year);
         session.setAttribute(SESSION_MONTH, month);
+        session.setAttribute(SESSION_OVERTIME_SCHEDULE, overtimeSchedule);
     }
 
     @PostMapping("/pdf")
@@ -70,13 +73,13 @@ public class PdfController {
             Model model, RedirectAttributes ra,
             HttpServletResponse response) throws IOException {
 
-        if (checkGlobalVariables(employeeId, year, month)) {
+        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
             ra.addFlashAttribute("message", "Invalid input values");
             response.sendRedirect("/employees/show-attendance");
             return;
         }
 
-        setSessionAttributes(session, employeeId, year, month);
+        setSessionAttributes(session, employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule());
         showPdf(session, model, ra, response);
     }
 
@@ -89,22 +92,28 @@ public class PdfController {
             RedirectAttributes ra,
             Model model) {
 
-        if (checkGlobalVariables(employeeId, year, month)) {
+        Employee employee = employeeService.findById(employeeId);
+
+        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
             return "redirect:/employees/show-attendance";
         }
 
-        setSessionAttributes(session, employeeId, year, month);
+        setSessionAttributes(session, employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule());
         List<AttendanceData> attendanceDataList = getAttendanceDataForAttendanceRecord(session, employeeId);
 
         if (attendanceDataList.isEmpty()) {
             ra.addFlashAttribute("message", "Nepotpuni podaci za radnika/cu " +
-                    employeeService.findById(employeeId).getFirstName() + " " + employeeService.findById(employeeId).getLastName() +
+                    employee.getFirstName() + " " + employee.getLastName() +
                     " za " + month + ". mjesec " + year + ". godine!");
             return "redirect:/employees/show-attendance";
         }
 
         model.addAttribute("pageTitle", "Šihterica");
         model.addAttribute("title", "Šihterica");
+        model.addAttribute("employeeName", employee.getFirstName() + " " + employee.getLastName());
+        model.addAttribute("year", year);
+        model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1));
+
         model.addAttribute("dataList", attendanceDataList);
 
         return "attendance-data-template";
@@ -119,11 +128,11 @@ public class PdfController {
             RedirectAttributes ra,
             Model model) {
 
-        if (checkGlobalVariables(employeeId, year, month)) {
+        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
             return "redirect:/employees/show-attendance";
         }
 
-        setSessionAttributes(session, employeeId, year, month);
+        setSessionAttributes(session, employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule());
         List<Attendance> attendanceList = attendanceService.setClockInDaysBasedOnDBData(getAttendanceForAttendanceRecord(session, employeeId));
 
         model.addAttribute("pageTitle", "Prikaz dolazaka/odlazaka");
@@ -293,7 +302,8 @@ public class PdfController {
                 employee, firstDateOfMonth, lastDateOfMonth);
     }
 
-    private boolean checkGlobalVariables(Long employeeId, String year, String month) {
-        return employeeId == null || (Objects.equals(year, "") || year.isEmpty()) || (Objects.equals(month, "") || month.isEmpty());
+    private boolean checkGlobalVariables(Long employeeId, String year, String month, String overtimeSchedule) {
+        return employeeId == null || (Objects.equals(year, "") || year.isEmpty()) ||
+                (Objects.equals(month, "") || month.isEmpty()) || (Objects.equals(overtimeSchedule, "") || overtimeSchedule.isEmpty());
     }
 }

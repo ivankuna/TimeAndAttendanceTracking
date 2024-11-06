@@ -96,7 +96,7 @@
                                    onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
-                                <a th:if="${pdfLink != ''}" href="javascript:void(0);" th:onclick="'openPopup(' + ${data[columnList[0].id]} + ', \'/html\')'">
+                                <a th:if="${pdfLink != ''}" href="javascript:void(0);" th:onclick="'openPopup(' + ${data[columnList[0].id]} + ', \'/html\')'" style="margin-right: 16px;">
                                     <i class="far fa-file-pdf fa-lg"></i>
                                 </a>
                                 <a th:if="${showLink != ''}" href="javascript:void(0);" th:onclick="'openPopup(' + ${data[columnList[0].id]} + ', \'/attendance-html\')'">

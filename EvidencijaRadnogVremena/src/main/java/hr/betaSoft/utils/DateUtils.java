@@ -19,6 +19,21 @@ public class DateUtils {
             "Ned"
     );
 
+    public static final List<String> MONTHS = Arrays.asList(
+            "Siječanj",
+            "Veljača",
+            "Ožujak",
+            "Travanj",
+            "Svibanj",
+            "Lipanj",
+            "Srpanj",
+            "Kolovoz",
+            "Rujan",
+            "Listopad",
+            "Studeni",
+            "Prosinac"
+    );
+
     public static Date getFirstDateOfMonth(String year, String month) {
 
         int yearInt = Integer.parseInt(year);

@@ -17,27 +17,11 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        java.sql.Date dateInA = java.sql.Date.valueOf("2024-11-01");
+        int num = 123;
 
-        java.sql.Date dateOutA = java.sql.Date.valueOf("2024-11-02");
+        String workHoursForGivenDay = String.format("%02d:00", num);
 
-        java.sql.Date dateInB = java.sql.Date.valueOf("2024-11-02");
-
-        java.sql.Date dateOutB = java.sql.Date.valueOf("2024-11-03");
-
-        Attendance attendanceA = new Attendance();
-
-        Attendance attendanceB = new Attendance();
-
-        attendanceA.setClockInDate(dateInA);
-        attendanceA.setClockInTime("12:00");
-        attendanceA.setClockOutDate(dateOutA);
-        attendanceA.setClockOutTime("12:00");
-
-        attendanceB.setClockInDate(dateInB);
-        attendanceB.setClockInTime("12:00");
-        attendanceB.setClockOutDate(dateOutB);
-        attendanceB.setClockOutTime("12:00");
+        System.out.println(workHoursForGivenDay);
     }
 
     public static boolean overlaps(Attendance attendance1, Attendance attendance2) {

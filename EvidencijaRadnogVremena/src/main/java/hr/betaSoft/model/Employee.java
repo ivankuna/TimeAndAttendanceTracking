@@ -22,6 +22,8 @@ public class Employee {
 
     public static final List<String> GENDER = Arrays.asList("Muško", "Žensko");
 
+    public static final List<String> OVERTIME_SCHEDULE = Arrays.asList("Tjedno", "Dnevno");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -56,6 +58,9 @@ public class Employee {
 
     @Column
     private List<String> nonWorkingDays;
+
+    @Column
+    private String overtimeSchedule;
 
     @Column
     private Integer mondayWorkHours;
