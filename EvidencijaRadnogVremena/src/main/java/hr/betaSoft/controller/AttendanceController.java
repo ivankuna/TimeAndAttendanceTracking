@@ -145,7 +145,7 @@ public class AttendanceController {
             return "form";
         } catch (AttendanceNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
-            return "redirect:/employees/show";
+            return "redirect:/attendance/show/" + id;
         }
     }
 
@@ -159,11 +159,11 @@ public class AttendanceController {
             return redirect(attendance);
         }
 
-        List<String> emptyAttributes = attendance.checkForEmptyAttributes();
+        List<String> emptyAttributes = attendance.checkForEmptyAttendanceAttributes();
 
         if (!emptyAttributes.isEmpty()) {
             ra.addFlashAttribute("attendance", attendance);
-            ra.addFlashAttribute("message", Attendance.defineErrorMessageForEmptyAttributes(emptyAttributes));
+            ra.addFlashAttribute("message", Attendance.defineErrorMessageForEmptyAttendanceAttributes(emptyAttributes));
             return redirect(attendance);
         }
 

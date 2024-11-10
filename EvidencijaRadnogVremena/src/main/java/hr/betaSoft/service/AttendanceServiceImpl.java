@@ -18,7 +18,7 @@ import java.util.Objects;
 @Service
 public class AttendanceServiceImpl implements AttendanceService {
 
-    private AttendanceRepository attendanceRepository;
+    private final AttendanceRepository attendanceRepository;
 
     public AttendanceServiceImpl(AttendanceRepository attendanceRepository) {
         this.attendanceRepository = attendanceRepository;

@@ -5,10 +5,8 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import hr.betaSoft.exception.EmployeeNotFoundException;
-import hr.betaSoft.model.Attendance;
-import hr.betaSoft.model.AttendanceData;
-import hr.betaSoft.model.Employee;
-import hr.betaSoft.model.Holiday;
+import hr.betaSoft.model.*;
+import hr.betaSoft.service.AbsenceRecordService;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.service.HolidayService;
@@ -51,10 +49,13 @@ public class PdfController {
 
     private final HolidayService holidayService;
 
-    public PdfController(EmployeeService employeeService, AttendanceService attendanceService, HolidayService holidayService) {
+    private final AbsenceRecordService absenceRecordService;
+
+    public PdfController(EmployeeService employeeService, AttendanceService attendanceService, HolidayService holidayService, AbsenceRecordService absenceRecordService) {
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
         this.holidayService = holidayService;
+        this.absenceRecordService = absenceRecordService;
     }
 
     private void setSessionAttributes(HttpSession session, Long employeeId, String year, String month, String overtimeSchedule) {
@@ -140,6 +141,26 @@ public class PdfController {
         model.addAttribute("dataList", attendanceList);
 
         return "attendance-template";
+    }
+
+    @PostMapping("/absence-html")
+    public String showAbsHtmlControllerMethod(
+            @RequestParam("employeeId") Long employeeId,
+            @RequestParam("year") String year,
+            HttpSession session,
+            RedirectAttributes ra,
+            Model model) {
+
+        Date firstDayOfYear = DateUtils.getFirstDateOfMonth(year, "01");
+        Date lastDayOfYear = DateUtils.getFirstDateOfMonth(year, "12");
+
+        List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployeeAndStartDateBetween(employeeService.findById(employeeId), firstDayOfYear, lastDayOfYear);
+
+        model.addAttribute("pageTitle", "Prikaz nenazočnosti na poslu");
+        model.addAttribute("title", "Prikaz nenazočnosti na poslu");
+        model.addAttribute("dataList", absenceRecordList);
+
+        return "absence-record-template";
     }
 
     private void showPdf(HttpSession session, Model model, RedirectAttributes ra, HttpServletResponse response) {

@@ -49,6 +49,7 @@ public class HolidayController {
         model.addAttribute("addLink", "/holidays/new");
         model.addAttribute("sendLink", "");
         model.addAttribute("pdfLink", "");
+        model.addAttribute("absencePdfLink", "");
         model.addAttribute("updateLink", "/holidays/update/{id}");
         model.addAttribute("deleteLink", "/holidays/delete/{id}");
         model.addAttribute("showLink", "");

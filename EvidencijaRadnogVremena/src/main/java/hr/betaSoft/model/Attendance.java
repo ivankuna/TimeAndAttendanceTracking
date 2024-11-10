@@ -58,13 +58,13 @@ public class Attendance {
 
     private String clockInDay;
 
-    public List<String> checkForEmptyAttributes() {
+    public List<String> checkForEmptyAttendanceAttributes() {
 
         List<String> emptyAttributes = new ArrayList<>();
 
         Stream.of(ATTRIBUTE_VALUES_FOR_CHECKING)
                 .filter(attributeName -> {
-                    Object value = getValueByName(attributeName);
+                    Object value = getValueByNameForAttendance(attributeName);
                     if (value instanceof String) {
                         return ((String) value).isEmpty();
                     } else if (value instanceof List<?>) {
@@ -93,7 +93,7 @@ public class Attendance {
         return emptyAttributes;
     }
 
-    private Object getValueByName(String attributeName) {
+    private Object getValueByNameForAttendance(String attributeName) {
         switch (attributeName) {
             case "Datum dolaska":
                 return clockInDate;
@@ -108,7 +108,7 @@ public class Attendance {
         }
     }
 
-    public static String defineErrorMessageForEmptyAttributes(List<String> emptyAttributes) {
+    public static String defineErrorMessageForEmptyAttendanceAttributes(List<String> emptyAttributes) {
 
         return emptyAttributes.size() == ATTRIBUTE_VALUES_FOR_CHECKING.length ? "Ne možete spremiti praznu formu!" :
                                        "Popunite sva obavezna polja: " + String.join(", ", emptyAttributes);

@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class AttendanceNotFoundException extends RuntimeException {
+public class AbsenceRecordNotFoundException extends RuntimeException {
 
-    public AttendanceNotFoundException(String message) {
+    public AbsenceRecordNotFoundException(String message) {
         super(message);
     }
 }

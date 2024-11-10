@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class HolidayServiceImpl implements HolidayService{
 
-    private HolidayRepository holidayRepository;
+    private final HolidayRepository holidayRepository;
 
     public HolidayServiceImpl(HolidayRepository holidayRepository) {
         this.holidayRepository = holidayRepository;

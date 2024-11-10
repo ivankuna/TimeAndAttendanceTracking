@@ -62,6 +62,7 @@ public class UserController {
         model.addAttribute("addLink", "/users/new");
         model.addAttribute("sendLink", "");
         model.addAttribute("pdfLink", "");
+        model.addAttribute("absencePdfLink", "");
         model.addAttribute("updateLink", "/users/update/{id}");
         model.addAttribute("deleteLink", "/users/delete/{id}");
         model.addAttribute("showLink", "");

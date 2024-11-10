@@ -43,6 +43,7 @@ public class EmployeeController {
         attributes.put("updateLink", "/employees/update/{id}");
         attributes.put("deleteLink", "/employees/delete/{id}");
         model.addAttribute("pdfLink", "");
+        attributes.put("absencePdfLink", "");
         model.addAttribute("showLink", "");
 
         defineShowData(model, request, attributes);
@@ -58,7 +59,24 @@ public class EmployeeController {
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
         attributes.put("pdfLink", "dummy");
+        attributes.put("absencePdfLink", "");
         model.addAttribute("showLink", "dummy");
+
+        defineShowData(model, request, attributes);
+
+        return "table";
+    }
+
+    @GetMapping("/show-absence-record")
+    public String showEmployeeAbsenceRecord(Model model, HttpServletRequest request) {
+
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("title", "Popis radnika - Nenazočnost na poslu");
+        attributes.put("updateLink", "/absence-record/show/{id}");
+        attributes.put("deleteLink", "");
+        attributes.put("pdfLink", "");
+        attributes.put("absencePdfLink", "dummy");
+        model.addAttribute("showLink", "");
 
         defineShowData(model, request, attributes);
 

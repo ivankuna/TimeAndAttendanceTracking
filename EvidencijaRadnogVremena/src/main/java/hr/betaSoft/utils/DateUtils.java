@@ -95,7 +95,7 @@ public class DateUtils {
         return day;
     }
 
-    public static int getNumOfDaysInMonth(String paramMonth, String paramYear) {
+    public static int getNumOfDaysInMonth(String paramYear, String paramMonth) {
 
         boolean leapYear = isLeapYear(paramYear);
 
@@ -305,5 +305,17 @@ public class DateUtils {
         LocalTime localTime = LocalTime.parse(time);
 
         return LocalDateTime.of(localDate, localTime);
+    }
+
+    public static String returnWeekday(int dateDayValue, String month, String year) {
+
+        Date date = DateUtils.getFirstDateOfMonth(year, month);
+        String day = DateUtils.getDayOfDate(date);
+
+        for (int i = 1; i < dateDayValue; i++) {
+            day = DateUtils.getDayAfter(day);
+        }
+
+        return  day;
     }
 }

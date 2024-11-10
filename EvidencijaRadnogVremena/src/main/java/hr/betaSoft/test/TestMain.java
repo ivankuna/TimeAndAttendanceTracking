@@ -17,11 +17,9 @@ public class TestMain {
 
     public static void main(String[] args) {
 
-        int num = 123;
+        long test = 123;
 
-        String workHoursForGivenDay = String.format("%02d:00", num);
-
-        System.out.println(workHoursForGivenDay);
+        System.out.println("test " + test);
     }
 
     public static boolean overlaps(Attendance attendance1, Attendance attendance2) {
