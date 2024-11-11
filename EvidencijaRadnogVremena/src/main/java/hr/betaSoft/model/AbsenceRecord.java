@@ -24,7 +24,6 @@ public class AbsenceRecord {
     private static final String[] ATTRIBUTE_VALUES_FOR_CHECKING = new String[]{"Od datuma", "Do datuma"};
 
     public static final List<String> TYPES_OF_ABSENCE = Arrays.asList(
-            "Neradni dani i blagdani",
             "Godišnji odmor",
             "Bolovanje",
             "Plaćeni dopust",

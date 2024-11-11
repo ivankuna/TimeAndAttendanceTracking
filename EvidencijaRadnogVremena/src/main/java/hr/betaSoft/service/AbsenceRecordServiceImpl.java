@@ -47,7 +47,8 @@ public class AbsenceRecordServiceImpl implements AbsenceRecordService{
         return firstAbsenceRecord.getStartDate().after(secondAbsenceRecord.getStartDate()) && firstAbsenceRecord.getStartDate().before(secondAbsenceRecord.getEndDate()) ||
                 firstAbsenceRecord.getEndDate().after(secondAbsenceRecord.getStartDate()) && firstAbsenceRecord.getEndDate().before(secondAbsenceRecord.getEndDate()) ||
                 secondAbsenceRecord.getStartDate().after(firstAbsenceRecord.getStartDate()) && secondAbsenceRecord.getStartDate().before(firstAbsenceRecord.getEndDate()) ||
-                secondAbsenceRecord.getEndDate().after(firstAbsenceRecord.getStartDate()) && secondAbsenceRecord.getEndDate().before(firstAbsenceRecord.getEndDate());
+                secondAbsenceRecord.getEndDate().after(firstAbsenceRecord.getStartDate()) && secondAbsenceRecord.getEndDate().before(firstAbsenceRecord.getEndDate()) ||
+                firstAbsenceRecord.getStartDate().toLocalDate().equals(secondAbsenceRecord.getStartDate().toLocalDate()) && firstAbsenceRecord.getEndDate().toLocalDate().equals(secondAbsenceRecord.getEndDate().toLocalDate());
     }
 
     @Override

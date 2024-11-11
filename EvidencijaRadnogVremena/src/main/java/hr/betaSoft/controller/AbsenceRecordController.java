@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/absence-record")
@@ -159,7 +160,7 @@ public class AbsenceRecordController {
         List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployee(employee);
 
         for (AbsenceRecord ar : absenceRecordList) {
-            if (absenceRecordService.dateOverlap(absenceRecord, ar)) {
+            if (absenceRecordService.dateOverlap(absenceRecord, ar) && !Objects.equals(absenceRecord.getId(), ar.getId())) {
                 ra.addFlashAttribute("absenceRecord", absenceRecord);
                 ra.addFlashAttribute("message",
                         "Nije moguće upisati nenazočnost na poslu jer već postoji zapis: " + DateTimeStorage.DATE_FORMAT.format(ar.getStartDate()) +
