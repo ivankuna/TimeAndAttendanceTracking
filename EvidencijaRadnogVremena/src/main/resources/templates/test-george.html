@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PIN Verification</title>
+  <style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #1b1b1d;
+        color: #ffffff;
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        text-align: center;
+        width: 250px;
+    }
+
+    .logo {
+        font-size: 40px;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 20px;
+        color: #a0a0a5;
+    }
+
+    .pin-input {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .pin-input input {
+        width: 20%;
+        padding: 10px;
+        font-size: 24px;
+        background-color: #3a3a3c;
+        border: none;
+        border-radius: 10px;
+        color: #ffffff;
+        text-align: center;
+        outline: none;
+    }
+
+    .pin-pad {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .pin-pad button {
+        width: 100%;
+        padding: 15px;
+        font-size: 24px;
+        background-color: #3a3a3c;
+        border: none;
+        border-radius: 50%;
+        color: #ffffff;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .pin-pad button:hover {
+        background-color: #505054;
+    }
+
+    .pin-pad .backspace {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+    }
+
+    .cancel {
+        margin-top: 15px;
+        color: #a0a0a5;
+        cursor: pointer;
+        font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo">👁️</div>
+  <div class="title">Hello</div>
+  <div class="subtitle">Please enter the PIN for user ***5306.</div>
+
+  <div class="pin-input">
+    <input type="password" maxlength="1" disabled>
+    <input type="password" maxlength="1" disabled>
+    <input type="password" maxlength="1" disabled>
+    <input type="password" maxlength="1" disabled>
+  </div>
+
+  <div class="pin-pad">
+    <button onclick="enterPin('1')">1</button>
+    <button onclick="enterPin('2')">2</button>
+    <button onclick="enterPin('3')">3</button>
+    <button onclick="enterPin('4')">4</button>
+    <button onclick="enterPin('5')">5</button>
+    <button onclick="enterPin('6')">6</button>
+    <button onclick="enterPin('7')">7</button>
+    <button onclick="enterPin('8')">8</button>
+    <button onclick="enterPin('9')">9</button>
+    <button onclick="enterPin('0')">0</button>
+    <button class="backspace" onclick="deletePin()">⌫</button>
+  </div>
+
+  <div class="cancel" onclick="resetPin()">Cancel</div>
+</div>
+
+<script>
+  let pin = '';
+  const pinInputs = document.querySelectorAll('.pin-input input');
+
+  function enterPin(num) {
+      if (pin.length < 4) {
+          pin += num;
+          pinInputs[pin.length - 1].value = '*';
+      }
+      if (pin.length === 4) {
+          verifyPin();
+      }
+  }
+
+  function deletePin() {
+      if (pin.length > 0) {
+          pinInputs[pin.length - 1].value = '';
+          pin = pin.slice(0, -1);
+      }
+  }
+
+  function resetPin() {
+      pin = '';
+      pinInputs.forEach(input => input.value = '');
+  }
+
+  function verifyPin() {
+      alert('PIN entered: ' + pin);
+      resetPin();
+  }
+</script>
+
+</body>
+</html>

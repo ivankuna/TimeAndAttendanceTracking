@@ -23,125 +23,131 @@
 
     <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
 
-
     <style>
-        .container-fluid {
-            padding: 0;
-        }
-        .content {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            padding-top: 120px; /* Space for fixed-top */
-            padding-bottom: 80px; /* Space for fixed-bottom */
-        }
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-        }
+    .container-fluid {
+        padding: 0;
+    }
+    .content {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-top: 100px;
+        padding-bottom: 80px;
+    }
+    .button-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        width: 100%;
+    }
+    .button-grid button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-size: 1.5em;
+        height: 70px;
+    }
+    .action-buttons button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-size: 1.5em;
+        height: 70px;
+    }
+    .pin-input {
+        padding: 20px;
+        font-size: 1.5em;
+        height: 70px;
+    }
+    .pin-input-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+    .pin-input {
+        width: 100%;
+        max-width: 100%;
+        font-size: 1.5em;
+        text-align: center;
+        padding: 20px;
+    }
+    .action-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+    .action-buttons button {
+        flex: 1;
+        margin: 0 5px;
+        font-size: 1.5em;
+    }
+
+    @media (min-width: 768px) {
         .button-grid button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-size: 1.5em;
-            height: 70px;
-        }
-        .action-buttons button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            font-size: 1.5em;
-            height: 70px;
-        }
-        .pin-input {
-            padding: 20px;
-            font-size: 1.5em;
-            height: 70px;
-        }
-        .pin-input-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-        .pin-input {
-            width: 100%;
-            max-width: 100%;
-            font-size: 1.5em;
-            text-align: center;
-            padding: 20px;
-        }
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-        .action-buttons button {
-            flex: 1;
-            margin: 0 5px;
-            font-size: 1.5em;
-        }
-
-        @media (min-width: 768px) {
-            .button-grid button {
-                padding: 30px;
-                font-size: 2em;
-                height: 100px;
-            }
-            .action-buttons button{
-                padding: 30px;
-                font-size: 2em;
-                height: 100px;
-            }
-            .pin-input {
-                padding: 30px;
-                font-size: 2em;
-                height: 100px;
-            }
-            .pin-input {
-                font-size: 2em;
-            }
-            .action-buttons button {
-                font-size: 2em;
-            }
-        }
-		#digitalClock {
+            padding: 30px;
             font-size: 2em;
-            text-align: center;
-            font-weight: bold;
-            padding: 20px;
-            background-color: #fff;
-            border: none; /* Uklanja okvir */
-            outline: none; /* Uklanja fokusni okvir ako postoji */
-            box-shadow: none; /* Uklanja sve senke */
+            height: 100px;
         }
+        .action-buttons button{
+            padding: 30px;
+            font-size: 2em;
+            height: 100px;
+        }
+        .pin-input {
+            padding: 30px;
+            font-size: 2em;
+            height: 100px;
+        }
+        .pin-input {
+            font-size: 2em;
+        }
+        .action-buttons button {
+            font-size: 2em;
+        }
+    }
+    #digitalClock {
+        font-size: 2.5em;
+        text-align: center;
+        font-weight: bold;
+        padding: 20px;
+        background-color: #fff;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
 
-	    .fixed-top {
-            position: fixed;
-            top: 0px;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            display: flex;
-            justify-content: center;
-            background-color: #fff;
-            padding: 10px 0;
-        }
-        .fixed-bottom {
-            position: fixed;
-            bottom: 0px;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            display: flex;
-            justify-content: center;
-            background-color: #fff;
-            padding: 10px 0;
-        }
+    .fixed-top {
+        position: fixed;
+        top: 0px;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        padding: 10px 0;
+    }
+    .fixed-bottom {
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        z-index: 1030;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        padding: 10px 0;
+    }
 
-    </style>
+    .text-title {
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+    }
+
+</style>
+
 </head>
 <body>
 <div class="container-fluid">
@@ -153,6 +159,8 @@
             <div class="fixed-top col-12 text-center mt-3">
                 <div id="digitalClock" class="pin-input">00:00:00</div>
             </div>
+
+            <h2 class="text-center text-title my-3">ODLAZAK</h2>
 
             <div class="pin-input-container">
                 <input type="password" id="pinInput" class="form-control pin-input" maxlength="4" readonly>
@@ -172,8 +180,8 @@
                 <button type="button" class="btn btn-secondary" onclick="deleteLast()"><i class="fa-solid fa-backspace"></i></button>
             </div>
             <div class="action-buttons mt-3">
-                <button type="button" class="btn btn-danger" onclick="window.location.href='/pin'">Odustani</button>
-                <button type="button" class="btn btn-success" onclick="submitAction('clockOut')">Potvrdi</button>
+                <button type="button" class="btn btn-danger" onclick="window.location.href='/pin'">Odustanite</button>
+                <button type="button" class="btn btn-success" onclick="submitAction('clockOut')">Potvrdite</button>
             </div>
             <div class="fixed-bottom col-12 text-center mt-3">
                 <h4 id="currentDate"></h4>

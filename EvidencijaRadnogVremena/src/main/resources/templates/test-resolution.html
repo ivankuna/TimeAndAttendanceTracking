@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezolucija pregledača</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #resolution {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+<div id="resolution">Rezolucija: <span id="width"></span> x <span id="height"></span> px</div>
+
+<script>
+    function updateResolution() {
+        document.getElementById("width").textContent = window.innerWidth;
+        document.getElementById("height").textContent = window.innerHeight;
+    }
+
+    // Inicijalno prikazivanje rezolucije
+    updateResolution();
+
+    // Ažuriranje rezolucije kada se promeni veličina prozora
+    window.addEventListener("resize", updateResolution);
+</script>
+</body>
+</html>

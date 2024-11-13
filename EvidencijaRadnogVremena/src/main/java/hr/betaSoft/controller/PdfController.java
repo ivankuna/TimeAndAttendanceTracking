@@ -352,7 +352,9 @@ public class PdfController {
 
         List<Holiday> holidayList = holidayService.findAll();
 
-        return AttendanceDataHandler.getFormattedAttendanceData(employee, attendanceList, attendanceListForOvertimeCalc, holidayList, year, month);
+        List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployeeAndStartDateBetween(employee, firstDateOfMonth, lastDateOfMonth);
+
+        return AttendanceDataHandler.getFormattedAttendanceData(employee, attendanceList, attendanceListForOvertimeCalc, holidayList, absenceRecordList, year, month);
     }
 
     private List<Attendance> getAttendanceForAttendanceRecord(HttpSession session, Long employeeId) {

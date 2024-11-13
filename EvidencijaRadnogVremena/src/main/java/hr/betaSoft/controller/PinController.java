@@ -11,16 +11,31 @@ public class PinController {
 
         model.addAttribute("path", "/employees");
 
-        return "menu-pin";
+        return "pin-menu";
     }
 
     @GetMapping("/pin/pin-in")
     public String renderPinIn() {
-        return "enter-pin-in";
+        return "pin-in";
     }
 
     @GetMapping("/pin/pin-out")
     public String renderPinOut() {
-        return "enter-pin-out";
+        return "pin-out";
+    }
+
+    @GetMapping("/pin/camera")
+    public String showCamera() {
+        return "pin-camera";
+    }
+
+    @GetMapping("/pin/resolution")
+    public String showRes() {
+        return "test-resolution";
+    }
+
+    @GetMapping("/pin/george")
+    public String showGeorge() {
+        return "test-george";
     }
 }

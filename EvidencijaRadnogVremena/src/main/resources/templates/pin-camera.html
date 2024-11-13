@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kamera bez modula</title>
+  <!-- Uključivanje Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+        #video {
+            display: none; /* Sakrij video element */
+        }
+        #canvas {
+            display: none; /* Sakrij canvas dok se ne snimi slika */
+            border: 2px solid #007bff;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body class="bg-light text-center">
+
+<div class="container mt-5">
+  <h1 class="mb-4">Test kamere</h1>
+
+  <!-- Video stream s kamere -->
+  <div id="videoContainer" class="mb-4">
+    <video id="video" class="img-fluid rounded" autoplay playsinline></video>
+  </div>
+
+
+
+
+  <!-- Prikazana slika -->
+  <canvas id="canvas" class="img-fluid rounded mt-3"></canvas>
+
+  <!-- Gumb za slikanje -->
+  <button id="captureButton" class="btn btn-primary btn-lg">Slikaj</button>
+
+</div>
+
+<!-- Uključivanje Bootstrap JS i jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Dohvaćanje elemenata
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const captureButton = document.getElementById('captureButton');
+    const context = canvas.getContext('2d');
+
+    // Pokreni kameru kad se stranica učita
+    navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+            // Poveži stream s video elementom
+            video.srcObject = stream;
+        })
+        .catch(function(error) {
+            console.error("Greška pri pristupu kameri: ", error);
+        });
+
+    // Funkcija za slikanje
+    captureButton.addEventListener('click', function() {
+        // Prikazi video i sakrij gumb "Slikaj" nakon prvog klika
+        video.style.display = 'block';
+
+        // Postavi veličinu canvas-a na veličinu videa
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+
+        // Prikazuj video kao sliku na canvas
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Sakrij video i prikaži canvas
+        video.style.display = 'none';
+        canvas.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>

@@ -1,9 +1,6 @@
 package hr.betaSoft.utils;
 
-import hr.betaSoft.model.Attendance;
-import hr.betaSoft.model.AttendanceData;
-import hr.betaSoft.model.Employee;
-import hr.betaSoft.model.Holiday;
+import hr.betaSoft.model.*;
 import hr.betaSoft.tools.DateTimeStorage;
 
 import java.sql.Date;
@@ -18,6 +15,7 @@ public class AttendanceDataHandler {
             List<Attendance> paramAttendanceList,
             List<Attendance> paramAttendanceListForOvertimeCalc,
             List<Holiday> paramHolidayList,
+            List<AbsenceRecord> absenceRecordList,
             String year, String month) {
 
         List<AttendanceData> resultList = new ArrayList<>();
@@ -41,6 +39,8 @@ public class AttendanceDataHandler {
         } else {
             resultList = populateMiscTypeWorkHourAttributes(resultList, attendanceDataListForOvertimeCalc, paramHolidayList, year, month, employee);
         }
+
+        resultList = populateAbsenceHoursAttributes(employee, resultList, absenceRecordList, year, month);
 
         resultList = displayTotalHoursOfWork(resultList);
 
@@ -190,6 +190,109 @@ public class AttendanceDataHandler {
         }
 
         return attendanceDataList;
+    }
+
+    private static List<AttendanceData> populateAbsenceHoursAttributes(
+            Employee employee,
+            List<AttendanceData> attendanceDataList,
+            List<AbsenceRecord> absenceRecordList,
+            String year, String month) {
+
+        List<Integer> dayValueOfAbsenceDatesList = new ArrayList<>();
+        List<String> typeOfAbsenceList = new ArrayList<>();
+//        List<Integer> recurringDateIndexList = new ArrayList<>();
+//        List<AttendanceData> recurringDateAttendanceDataList = new ArrayList<>();
+
+//        int numberOfDaysInMonth = DateUtils.getNumOfDaysInMonth(year, month);
+//        int counter = 0;
+//        String timeHolder = "00:00";
+//
+//        for (int i = 1; i <= numberOfDaysInMonth; i++) {
+//            for (AttendanceData attendanceData : attendanceDataList) {
+//                if (i == attendanceData.getDate()) {
+//                    recurringDateIndexList.add(attendanceDataList.indexOf(attendanceData));
+//                    recurringDateAttendanceDataList.add(attendanceData);
+//                    counter++;
+//                }
+//            }
+//            if (counter > 1) {
+//                for (Integer index : recurringDateIndexList) {
+//                    timeHolder = DateUtils.timeAddition(timeHolder, attendanceDataList.get(index).getTotalHoursOfWork());
+//                }
+//                attendanceDataList.get(recurringDateIndexList.get(recurringDateIndexList.size() - 1)).setTotalHoursOfWorkForAbsenceCalc(timeHolder);
+//            }
+//            recurringDateIndexList.clear();
+//            counter = 0;
+//            timeHolder = "00:00";
+//        }
+
+        for (AbsenceRecord absenceRecord : absenceRecordList) {
+            if (absenceRecord.getEndDate().after(absenceRecord.getStartDate())) {
+                for (int i = DateUtils.reduceDateToDay(absenceRecord.getStartDate()); i <= DateUtils.reduceDateToDay(absenceRecord.getEndDate()); i++) {
+                    dayValueOfAbsenceDatesList.add(i);
+                    typeOfAbsenceList.add(absenceRecord.getTypeOfAbsence());
+                }
+            } else {
+                dayValueOfAbsenceDatesList.add(DateUtils.reduceDateToDay(absenceRecord.getStartDate()));
+                typeOfAbsenceList.add(absenceRecord.getTypeOfAbsence());
+            }
+        }
+
+        for (AttendanceData attendanceData : attendanceDataList) {
+            for (Integer date : dayValueOfAbsenceDatesList) {
+//                if (Objects.equals(attendanceData.getDate(), date) && !recurringDateAttendanceDataList.contains(attendanceData)) {
+                if (Objects.equals(attendanceData.getDate(), date)) {
+                    attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), false);
+                }
+            }
+        }
+
+//        recurringDateAttendanceDataList.removeIf(attendanceData -> Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null));
+//
+//        for (AttendanceData attendanceData : recurringDateAttendanceDataList) {
+//            for (Integer date : dayValueOfAbsenceDatesList) {
+//                if (Objects.equals(attendanceData.getDate(), date)) {
+//                    attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), true);
+//                }
+//            }
+//        }
+
+        return attendanceDataList;
+    }
+
+    private static AttendanceData setTypeOfAbsenceValueForAttendanceData(
+            Employee employee,
+            AttendanceData attendanceData,
+            String typeOfAbsence,
+            boolean recurringDateData) {
+
+        String workHoursForGivenDay = getWorkHoursForGivenDayStr(employee, attendanceData.getDay());
+        String totalHoursOfWork = recurringDateData ? attendanceData.getTotalHoursOfWorkForAbsenceCalc() : attendanceData.getTotalHoursOfWork();
+        String hoursOfAbsence = DateUtils.timeSubtraction(workHoursForGivenDay, totalHoursOfWork);
+
+        if (checkForNegativeTime(hoursOfAbsence) || Objects.equals(hoursOfAbsence, "00:00")) {
+            hoursOfAbsence = "";
+        }
+
+        switch (typeOfAbsence) {
+            case "Godišnji odmor":
+                attendanceData.setAnnualLeave(hoursOfAbsence);
+                break;
+            case "Bolovanje":
+                attendanceData.setSickLeave(hoursOfAbsence);
+                break;
+            case "Plaćeni dopust":
+                attendanceData.setPaidLeave(hoursOfAbsence);
+                break;
+            case "Neplaćeni dopust":
+                attendanceData.setUnpaidLeave(hoursOfAbsence);
+                break;
+            case "Opravdani izostanak":
+                attendanceData.setExcusedAbsence(hoursOfAbsence);
+                break;
+        }
+
+        return attendanceData;
     }
 
     private static String returnTotalHoursOfNightWork(AttendanceData attendanceData, Employee employee, String year, String month) {
@@ -376,20 +479,6 @@ public class AttendanceDataHandler {
                 (time.compareTo(employee.getNightWorkEnd()) <= 0 && time.compareTo("00:00") >= 0);
     }
 
-    private static Date returnSqlDate(Integer day, String month, String year) {
-
-        java.util.Date utilDate;
-
-        try {
-            String date = String.format("%02d." + month + "." + year, day);
-            utilDate = DateTimeStorage.DATE_FORMAT.parse(date);
-        } catch (Exception e) {
-            utilDate = null;
-        }
-
-        return utilDate != null ? new java.sql.Date(utilDate.getTime()) : null;
-    }
-
     private static boolean isHoliday(List<Holiday> holidayList, Date date) {
 
         boolean isHoliday = false;
@@ -402,6 +491,20 @@ public class AttendanceDataHandler {
         }
 
         return isHoliday;
+    }
+
+    private static Date returnSqlDate(Integer day, String month, String year) {
+
+        java.util.Date utilDate;
+
+        try {
+            String date = String.format("%02d." + month + "." + year, day);
+            utilDate = DateTimeStorage.DATE_FORMAT.parse(date);
+        } catch (Exception e) {
+            utilDate = null;
+        }
+
+        return utilDate != null ? new java.sql.Date(utilDate.getTime()) : null;
     }
 
     private static boolean checkForNegativeTime(String time) {
