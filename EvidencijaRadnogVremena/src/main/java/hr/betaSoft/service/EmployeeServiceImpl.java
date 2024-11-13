@@ -3,10 +3,12 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.repository.EmployeeRepository;
 import hr.betaSoft.security.model.User;
+import hr.betaSoft.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -105,6 +107,19 @@ public class EmployeeServiceImpl implements EmployeeService {
                 sundayWorkHours;
 
         employee.setWeeklyWorkingHours(weeklyWorkingHours);
+
+        return employee;
+    }
+
+    @Override
+    public Employee setEmployeeDailyWorkHours(Employee employee) {
+        employee.setMondayWorkHours(employee.getMondayWorkHours() == null ? 0 : employee.getMondayWorkHours());
+        employee.setTuesdayWorkHours(employee.getTuesdayWorkHours() == null ? 0 : employee.getTuesdayWorkHours());
+        employee.setWednesdayWorkHours(employee.getWednesdayWorkHours() == null ? 0 : employee.getWednesdayWorkHours());
+        employee.setThursdayWorkHours(employee.getThursdayWorkHours() == null ? 0 : employee.getThursdayWorkHours());
+        employee.setFridayWorkHours(employee.getFridayWorkHours() == null ? 0 : employee.getFridayWorkHours());
+        employee.setSaturdayWorkHours(employee.getSaturdayWorkHours() == null ? 0 : employee.getSaturdayWorkHours());
+        employee.setSundayWorkHours(employee.getSundayWorkHours() == null ? 0 : employee.getSundayWorkHours());
 
         return employee;
     }

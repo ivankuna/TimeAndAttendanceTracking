@@ -1,47 +1,58 @@
-package hr.betaSoft.test;
+package hr.betaSoft.utils;
 
-import hr.betaSoft.model.Attendance;
-import hr.betaSoft.model.AttendanceData;
 import hr.betaSoft.model.Employee;
+import hr.betaSoft.model.EmployeeFundHours;
 import hr.betaSoft.model.Holiday;
-import hr.betaSoft.utils.DateUtils;
 
-import java.sql.Date;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
-public class TestMain {
+public class EmployeeFundHoursHandler {
 
-    public static void main(String[] args) {
+    public static List<EmployeeFundHours> getFormattedEmployeeFundHours(
+            List<Employee> employees,
+            List<Holiday> holidayList,
+            String year, String month) {
 
-        Employee employee = new Employee();
-        employee.setMondayWorkHours(8);
-        employee.setTuesdayWorkHours(8);
-        employee.setWednesdayWorkHours(8);
-        employee.setThursdayWorkHours(8);
-        employee.setFridayWorkHours(8);
-        employee.setSaturdayWorkHours(0);
-        employee.setSundayWorkHours(0);
+        List<EmployeeFundHours> employeeFundHoursList = new ArrayList<>();
+        int serialNumber = 1;
 
-        Holiday holiday1 = new Holiday();
-        holiday1.setDateOfHoliday(Date.valueOf("2024-11-01"));
-        Holiday holiday2 = new Holiday();
-        holiday2.setDateOfHoliday(Date.valueOf("2024-11-18"));
+        for (Employee employee : employees) {
 
-        List<Holiday> holidayList = new ArrayList<>();
+            employeeFundHoursList.add(new EmployeeFundHours(
+                    serialNumber,
+                    employee.getFirstName() + " " + employee.getLastName(),
+                    employee.getMondayWorkHours(),
+                    employee.getTuesdayWorkHours(),
+                    employee.getWednesdayWorkHours(),
+                    employee.getThursdayWorkHours(),
+                    employee.getFridayWorkHours(),
+                    employee.getSaturdayWorkHours(),
+                    employee.getSundayWorkHours(),
+                    getTotalWeeklyWorkHours(employee),
+                    getTotalEmployeeFundHours(employee, year, month),
+                    getTotalEmployeeFundHours(employee, year, month) - getNonWorkingHours(employee, year, month, holidayList),
+                    getNonWorkingHours(employee, year, month, holidayList)
+            ));
+            serialNumber ++;
+        }
 
-        holidayList.add(holiday1);
-        holidayList.add(holiday2);
-
-        System.out.println(tempGetNonWorkingHours(employee, "2024", "11", holidayList));
+        return employeeFundHoursList;
     }
 
-    private static Integer tempGetTotalEmployeeFundHours(Employee employee, String year, String month) {
+    private static Integer getTotalWeeklyWorkHours(Employee employee) {
+
+        return employee.getMondayWorkHours() +
+                employee.getTuesdayWorkHours() +
+                employee.getWednesdayWorkHours() +
+                employee.getThursdayWorkHours() +
+                employee.getFridayWorkHours() +
+                employee.getSaturdayWorkHours() +
+                employee.getSundayWorkHours();
+    }
+
+    private static Integer getTotalEmployeeFundHours(Employee employee, String year, String month) {
 
         List<Integer> weekdayCountList = new ArrayList<>();
         int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(year, month);
@@ -50,7 +61,7 @@ public class TestMain {
         for (String day : DateUtils.WEEKDAYS) {
             for (int i = 1; i <= numOfDaysInMonth; i++) {
                 if (Objects.equals(day, DateUtils.returnWeekday(i, month, year))) {
-                    counter++;
+                   counter++;
                 }
             }
             weekdayCountList.add(counter);
@@ -66,7 +77,7 @@ public class TestMain {
                 employee.getSundayWorkHours() * weekdayCountList.get(6);
     }
 
-    private static Integer tempGetNonWorkingHours(Employee employee, String year, String month, List<Holiday> holidayList) {
+    private static Integer getNonWorkingHours(Employee employee, String year, String month, List<Holiday> holidayList) {
 
         List<Holiday> relevantHolidays = new ArrayList<>();
         int nonWorkingHours = 0;
@@ -78,14 +89,14 @@ public class TestMain {
         }
 
         for (Holiday holiday : relevantHolidays) {
-            nonWorkingHours = nonWorkingHours + tempGetWorkHoursForGivenDayInt(employee, DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
+            nonWorkingHours = nonWorkingHours + getWorkHoursForGivenDayInt(employee, DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
         }
 
         return nonWorkingHours;
     }
 
 
-    private static Integer tempGetWorkHoursForGivenDayInt(Employee employee, String day) {
+    private static Integer getWorkHoursForGivenDayInt(Employee employee, String day) {
 
         int intWorkHoursForGivenDay = 0;
 

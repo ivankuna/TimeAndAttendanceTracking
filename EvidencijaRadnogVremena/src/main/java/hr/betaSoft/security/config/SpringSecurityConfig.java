@@ -30,6 +30,7 @@ public class SpringSecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/authorization").permitAll()
+                                .requestMatchers("/pin/**").permitAll()
                                 .requestMatchers("/js/**").permitAll()
                                 .requestMatchers("/css/**").permitAll()
                                 .requestMatchers("/access-denied").permitAll()
@@ -42,8 +43,8 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/html/**").hasRole("USER")
                                 .requestMatchers("/attendance-html/**").hasRole("USER")
                                 .requestMatchers("/absence-html/**").hasRole("USER")
+                                .requestMatchers("/fund-hours-html/**").hasRole("USER")
                                 .requestMatchers("/test/**").hasRole("USER")
-                                .requestMatchers("/pin/**").permitAll()
                                 .requestMatchers("/audio/**").permitAll()
                                 .requestMatchers("/favicon.png").permitAll()
                                 .requestMatchers("/favicon.ico").permitAll()

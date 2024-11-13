@@ -211,6 +211,8 @@ public class EmployeeController {
             return "redirect:/employees/new";
         }
 
+        employee = employeeService.setEmployeeDailyWorkHours(employee);
+
         employee.setUser(tempUser);
         employeeService.saveEmployee(employee);
         return "redirect:/employees/show";

@@ -6,12 +6,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.tool.xml.XMLWorkerHelper;
 import hr.betaSoft.exception.EmployeeNotFoundException;
 import hr.betaSoft.model.*;
+import hr.betaSoft.security.model.User;
+import hr.betaSoft.security.service.UserService;
 import hr.betaSoft.service.AbsenceRecordService;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.service.HolidayService;
+import hr.betaSoft.tools.DateTimeStorage;
 import hr.betaSoft.utils.AttendanceDataHandler;
 import hr.betaSoft.utils.DateUtils;
+import hr.betaSoft.utils.EmployeeFundHoursHandler;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.pdfbox.io.IOUtils;
@@ -19,6 +23,7 @@ import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -43,6 +48,8 @@ public class PdfController {
 
     private static final String SESSION_OVERTIME_SCHEDULE = "overtimeSchedule";
 
+    private final UserService userService;
+
     private final EmployeeService employeeService;
 
     private final AttendanceService attendanceService;
@@ -51,7 +58,8 @@ public class PdfController {
 
     private final AbsenceRecordService absenceRecordService;
 
-    public PdfController(EmployeeService employeeService, AttendanceService attendanceService, HolidayService holidayService, AbsenceRecordService absenceRecordService) {
+    public PdfController(UserService userService, EmployeeService employeeService, AttendanceService attendanceService, HolidayService holidayService, AbsenceRecordService absenceRecordService) {
+        this.userService = userService;
         this.employeeService = employeeService;
         this.attendanceService = attendanceService;
         this.holidayService = holidayService;
@@ -161,6 +169,43 @@ public class PdfController {
         model.addAttribute("dataList", absenceRecordList);
 
         return "absence-record-template";
+    }
+
+    @GetMapping("/fund-hours-html")
+    public String showFundHrsHtmlControllerMethod(Model model) {
+
+        // TESTNI PODACI
+        String year = "2024";
+        String month = "11";
+
+        User user = userService.getAuthenticatedUser();
+
+        List<EmployeeFundHours> employeeFundHoursList = EmployeeFundHoursHandler.getFormattedEmployeeFundHours(
+                employeeService.findByUser(user),
+                holidayService.findAll(),
+                year, month
+        );
+
+        StringBuilder sbHoliday = new StringBuilder();
+        List<String> strHolidayList = new ArrayList<>();
+
+        for (Holiday holiday : holidayService.findAll()) {
+            if (Objects.equals(month, DateUtils.reduceDateToMonth(holiday.getDateOfHoliday()))) {
+                sbHoliday
+                        .append(DateTimeStorage.DATE_FORMAT.format(holiday.getDateOfHoliday())).append(" - ")
+                        .append(DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
+                strHolidayList.add(sbHoliday.toString());
+                sbHoliday.setLength(0);
+            }
+        }
+
+        model.addAttribute("pageTitle", "Izračun mjesečnog fonda sati");
+        model.addAttribute("title", "Izračun mjesečnog fonda sati");
+        model.addAttribute("dataList", employeeFundHoursList);
+        model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1));
+        model.addAttribute("holidayList", strHolidayList);
+
+        return "employee-fund-hours-template";
     }
 
     private void showPdf(HttpSession session, Model model, RedirectAttributes ra, HttpServletResponse response) {

@@ -307,7 +307,7 @@ public class AttendanceDataHandler {
                 }
             }
             if (counter > 1) {
-                workHoursForGivenDayForRecurringDate = getWorkHoursForGivenDay(employee, attendanceDataList.get(recurringDateIndexList.get(0)).getDay());
+                workHoursForGivenDayForRecurringDate = getWorkHoursForGivenDayStr(employee, attendanceDataList.get(recurringDateIndexList.get(0)).getDay());
                 for (Integer index : recurringDateIndexList) {
                     totalHoursOfWorkForRecurringDate = DateUtils.timeAddition(attendanceDataList.get(index).getTotalHoursOfWork(), totalHoursOfWorkForRecurringDate);
                 }
@@ -337,7 +337,7 @@ public class AttendanceDataHandler {
 
             String currentDay = attendanceData.getDay();
 
-            String workHoursForGivenDay = getWorkHoursForGivenDay(employee, currentDay);
+            String workHoursForGivenDay = getWorkHoursForGivenDayStr(employee, currentDay);
 
             if (checkForNegativeTime(DateUtils.timeSubtraction(workHoursForGivenDay, attendanceData.getTotalHoursOfWork())) && attendanceData.getOvertimeWork() == null) {
                 attendanceData.setOvertimeWork(DateUtils.timeSubtraction(attendanceData.getTotalHoursOfWork(), workHoursForGivenDay));
@@ -347,7 +347,7 @@ public class AttendanceDataHandler {
         return attendanceDataList;
     }
 
-    private static String getWorkHoursForGivenDay(Employee employee, String day) {
+    private static String getWorkHoursForGivenDayStr(Employee employee, String day) {
 
         int intWorkHoursForGivenDay = 0;
 

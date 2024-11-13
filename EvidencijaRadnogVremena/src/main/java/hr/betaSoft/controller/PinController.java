@@ -2,15 +2,14 @@ package hr.betaSoft.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.ui.Model;
 
 @Controller
 public class PinController {
-    @GetMapping("/pin/{called}")
-    public String renderMenuPin(@PathVariable("called") String called, Model model) {
+    @GetMapping("/pin")
+    public String renderMenuPin(Model model) {
 
-        model.addAttribute("path", "/" + called);
+        model.addAttribute("path", "/employees");
 
         return "menu-pin";
     }

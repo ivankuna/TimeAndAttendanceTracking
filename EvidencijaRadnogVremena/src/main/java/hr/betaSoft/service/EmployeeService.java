@@ -30,4 +30,6 @@ public interface EmployeeService {
     List<Employee> totalWorkHoursCalcForEmployees(List<Employee> employees);
 
     Employee totalWorkHoursCalcForEmployee(Employee employee);
+
+    Employee setEmployeeDailyWorkHours(Employee employee);
 }

@@ -172,7 +172,7 @@
         <button type="button" class="btn btn-secondary" onclick="deleteLast()"><i class="fa-solid fa-backspace"></i></button>
       </div>
       <div class="action-buttons mt-3">
-        <button type="button" class="btn btn-danger" onclick="window.location.href='/pin/employees'">Odustani</button>
+        <button type="button" class="btn btn-danger" onclick="window.location.href='/pin'">Odustani</button>
         <button type="button" class="btn btn-success" onclick="submitAction('clockIn')">Potvrdi</button>
       </div>
       <div class="fixed-bottom col-12 text-center mt-3">
@@ -238,7 +238,7 @@
               console.log('Response data:', responseData);
               alert('Akcija: ' + action + ', PIN: ' + pinInput + ' - Uspješno poslan!');
               clearInput();
-              window.location.href='/pin/employees'
+              window.location.href='/pin'
           })
           .catch(error => {
               console.error('There was a problem with the fetch operation:', error);
