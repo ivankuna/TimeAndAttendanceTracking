@@ -28,7 +28,8 @@ public class AbsenceRecord {
             "Bolovanje",
             "Plaćeni dopust",
             "Neplaćeni dopust",
-            "Opravdani izostanak"
+            "Opravdani izostanak",
+            "Neopravdani izostanak"
     );
 
     @Id

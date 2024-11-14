@@ -137,8 +137,6 @@ public class DateUtils {
 
     public static String reduceDateToMonth(Date date) {
 
-        boolean yearDigitsPassed = false;
-
         char[] dateCharArray = date.toString().toCharArray();
 
         String month = String.valueOf(dateCharArray[5]) + dateCharArray[6];

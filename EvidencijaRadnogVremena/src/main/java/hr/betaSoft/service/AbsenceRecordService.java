@@ -18,5 +18,7 @@ public interface AbsenceRecordService {
 
     boolean dateOverlap(AbsenceRecord firstAbsenceRecord, AbsenceRecord secondAbsenceRecord);
 
-    List<AbsenceRecord> findByEmployeeAndStartDateBetween(Employee employee, Date startDate, Date endDate);
+    List<AbsenceRecord> findByEmployeeAndStartDateBetweenOrderByStartDateAsc(Employee employee, Date startDate, Date endDate);
+
+    List<AbsenceRecord> findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(Employee employee, Date before, Date after);
 }

@@ -8,19 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-
-
     <link rel="shortcut icon" type="image/png" sizes="16x16"
           href="https://betastudio.hr/betasoft/png/employee-16x16.png">
-
     <link rel="shortcut icon" type="image/png" sizes="32x32"
           href="https://betastudio.hr/betasoft/png/employee-32x32.png">
-
     <link rel="icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
-
     <link rel="icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
-
     <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
 
     <style>
@@ -34,20 +27,21 @@
         padding-top: 100px;
         padding-bottom: 80px;
     }
-    .button-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        width: 100%;
-    }
-    .button-grid button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        font-size: 1.5em;
-        height: 70px;
-    }
+<!--    .button-grid {-->
+<!--        display: grid;-->
+<!--        grid-template-columns: repeat(3, 1fr);-->
+<!--        gap: 10px;-->
+<!--        width: 80%;-->
+<!--        justify-content: center;-->
+<!--    }-->
+<!--    .button-grid button {-->
+<!--        display: flex;-->
+<!--        align-items: center;-->
+<!--        justify-content: center;-->
+<!--        padding: 10px;-->
+<!--        font-size: 1.2em;-->
+<!--        height: 60px;-->
+<!--    }-->
     .action-buttons button {
         display: flex;
         align-items: center;
@@ -56,23 +50,67 @@
         font-size: 1.5em;
         height: 70px;
     }
-    .pin-input {
+    .pin-password {
+        font-size: 2em;
         padding: 20px;
-        font-size: 1.5em;
-        height: 70px;
-    }
-    .pin-input-container {
         display: flex;
         justify-content: center;
-        margin-bottom: 15px;
-    }
-    .pin-input {
-        width: 100%;
-        max-width: 100%;
-        font-size: 1.5em;
         text-align: center;
-        padding: 20px;
+        letter-spacing: 0.2em;
+        width: 80%;
+        height: 70px;
     }
+<!--    .pin-input-container {-->
+<!--        width: 100%;-->
+<!--        display: flex;-->
+<!--        justify-content: center;-->
+<!--        margin-bottom: 15px;-->
+<!--    }-->
+<!--    .pin-input {-->
+<!--        width: 80%;-->
+<!--        height: 70px;-->
+<!--        max-width: 80%;-->
+<!--        font-size: 1.5em;-->
+<!--        text-align: center;-->
+<!--        padding: 20px;-->
+<!--    }-->
+
+ .pin-input-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.pin-input {
+    width: 80%;  /* Ovdje ostavljamo širinu inputa na 80% */
+    max-width: 80%;
+    height: 70px;
+    font-size: 1.5em;
+    text-align: center;
+    padding: 20px;
+}
+
+.button-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 80%;  /* Grid širine je postavljeno na 80% */
+    justify-content: center;
+    margin: 0 auto; /* Ovo je ključno za centriranje grida */
+}
+
+.button-grid button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 1.2em;
+    height: 60px;
+    width: 100%; /* Ovdje postavljamo dugmadi da zauzmu cijelu širinu grida */
+}
+
+
     .action-buttons {
         display: flex;
         justify-content: space-between;
@@ -80,7 +118,7 @@
     .action-buttons button {
         flex: 1;
         margin: 0 5px;
-        font-size: 1.5em;
+        font-size: 1.2em;
     }
 
     @media (min-width: 768px) {
@@ -91,7 +129,7 @@
         }
         .action-buttons button{
             padding: 30px;
-            font-size: 2em;
+            font-size: 1em;
             height: 100px;
         }
         .pin-input {
@@ -103,14 +141,15 @@
             font-size: 2em;
         }
         .action-buttons button {
-            font-size: 2em;
+            font-size: 1em;
         }
     }
-    #digitalClock {
-        font-size: 2.5em;
+
+     #digitalClock {
+        font-size: 2em;
         text-align: center;
         font-weight: bold;
-        padding: 20px;
+        padding: 0px;
         background-color: #fff;
         border: none;
         outline: none;
@@ -127,7 +166,11 @@
         justify-content: center;
         background-color: #fff;
         padding: 10px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
+
     .fixed-bottom {
         position: fixed;
         bottom: 0px;
@@ -137,7 +180,7 @@
         display: flex;
         justify-content: center;
         background-color: #fff;
-        padding: 10px 0;
+        padding: 30px 0;
     }
 
     .text-title {
@@ -147,7 +190,6 @@
     }
 
 </style>
-
 </head>
 <body>
 <div class="container-fluid">
@@ -155,36 +197,57 @@
     <div class="row mt-3 justify-content-center">
         <div class="content">
 
-
             <div class="fixed-top col-12 text-center mt-3">
-                <div id="digitalClock" class="pin-input">00:00:00</div>
+                <div style="font-size: 60%;" id="currentMachineId"></div>
+                <br>
+                <div id="digitalClock">00:00:00</div>
+                <div class="text-center text-title my-3">Unesite pin za <strong>ODLAZAK</strong></div>
+
             </div>
 
-            <h2 class="text-center text-title my-3">ODLAZAK</h2>
+
+
+
+            <br>
+            <br>
+            <br>
+            <br>
+
+
+
+
 
             <div class="pin-input-container">
-                <input type="password" id="pinInput" class="form-control pin-input" maxlength="4" readonly>
+                <input type="password" id="pinInput" class="form-control pin-password" maxlength="4" readonly>
             </div>
             <div class="button-grid">
-                <button type="button" class="btn btn-primary" onclick="appendNumber(1)"><i class="fa-solid fa-1"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(2)"><i class="fa-solid fa-2"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(3)"><i class="fa-solid fa-3"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(4)"><i class="fa-solid fa-4"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(5)"><i class="fa-solid fa-5"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(6)"><i class="fa-solid fa-6"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(7)"><i class="fa-solid fa-7"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(8)"><i class="fa-solid fa-8"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(9)"><i class="fa-solid fa-9"></i></button>
-                <button type="button" class="btn btn-secondary" onclick="clearInput()"><i class="fa-solid fa-c"></i></button>
-                <button type="button" class="btn btn-primary" onclick="appendNumber(0)"><i class="fa-solid fa-0"></i></button>
-                <button type="button" class="btn btn-secondary" onclick="deleteLast()"><i class="fa-solid fa-backspace"></i></button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(1)">1</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(2)">2</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(3)">3</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(4)">4</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(5)">5</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(6)">6</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(7)">7</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(8)">8</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(9)">9</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="clearInput()">C</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(0)">0</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="deleteLast()"><</button>
             </div>
-            <div class="action-buttons mt-3">
-                <button type="button" class="btn btn-danger" onclick="window.location.href='/pin'">Odustanite</button>
-                <button type="button" class="btn btn-success" onclick="submitAction('clockOut')">Potvrdite</button>
+
+            <br>
+            <div class="action-buttons mt-3 d-flex justify-content-center">
+                <a href="/pin" class="font-weight-bold" style="font-size: 120%; color: black;">Odustanite</a>
             </div>
+
+
+
             <div class="fixed-bottom col-12 text-center mt-3">
-                <h4 id="currentDate"></h4>
+                <h6>
+                    <div style="font-size: 60%;" id="currentDate"></div>
+                    <br>
+                    <div style="font-size: 60%;">ABEL d.o.o. & BETA STUDIO d.o.o.</div>
+                </h6>
             </div>
 
         </div>
@@ -193,20 +256,85 @@
 </div>
 
 
-
 <script>
+    let inactivityTimer;
+
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(redirectToCancel, 15000); // 15000 ms = 15 seconds
+    }
+
+    function redirectToCancel() {
+        window.location.href = '/pin'; // zamijenite s pravom URL putanjom za "Odustanite"
+    }
+
+    function initializeApp() {
+        // Povezivanje s funkcijama za prikaz ID-a i ažuriranje vremena
+        getMachineId();
+        updateCurrentMachineIdDisplay();
+        updateClock();
+        updateDate();
+        resetInactivityTimer(); // Pokretanje prvog tajmera pri učitavanju stranice
+    }
+
+    // Praćenje aktivnosti korisnika za resetiranje tajmera
+    window.onload = initializeApp;
+    window.onmousemove = resetInactivityTimer;
+    window.onkeypress = resetInactivityTimer;
+    window.onclick = resetInactivityTimer;
+
+    function getMachineId() {
+        let machineId = localStorage.getItem('MachineId');
+        if (!machineId) {
+            machineId = "Uređaj nije prijavljen.";
+            localStorage.setItem('MachineId', machineId);
+        }
+        return machineId;
+    }
+
+    function updateCurrentMachineIdDisplay() {
+        var machineId = localStorage.getItem('MachineId');
+        var currentMachineIdElement = document.getElementById('currentMachineId');
+        currentMachineIdElement.innerText = machineId
+            ? `${machineId} - Evidencija radnog vremena ver. 01-1-24`
+            : "Uređaj nije prijavljen.";
+    }
+
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById('digitalClock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    setInterval(updateClock, 1000);
+
+    function updateDate() {
+        var now = new Date();
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var currentDate = now.toLocaleDateString('hr-HR', options);
+        document.getElementById('currentDate').textContent = currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
+    }
+
     function appendNumber(number) {
+        resetInactivityTimer(); // Reset timer after each number press
         var pinInput = document.getElementById('pinInput');
         if (pinInput.value.length < 4) {
             pinInput.value += number;
-		}
+        }
+        if (pinInput.value.length === 4) {
+            submitAction('clockOut')
+        }
     }
 
     function clearInput() {
+        resetInactivityTimer();
         document.getElementById('pinInput').value = '';
     }
 
     function deleteLast() {
+        resetInactivityTimer();
         var pinInput = document.getElementById('pinInput');
         pinInput.value = pinInput.value.slice(0, -1);
     }
@@ -215,70 +343,32 @@
         var pinInput = document.getElementById('pinInput').value;
         if (pinInput.length === 4) {
             var machineId = localStorage.getItem('MachineId');
-
             if (!machineId) {
                 alert('Nema postavljenog Machine ID-a. Molimo postavite Machine ID prvo.');
                 return;
             }
 
-            var data = {
-                pin: pinInput,
-                machineId: machineId,
-                action: action
-            };
-
+            var data = { pin: pinInput, machineId: machineId, action: action };
             fetch('/pin/record', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
             })
-            .then(response => {
-                console.log('Response status:', response.status);
-                console.log('Response headers:', response.headers);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok.');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(responseData => {
-                console.log('Response data:', responseData);
-                alert('Akcija: ' + action + ', PIN: ' + pinInput + ' - Uspješno poslan!');
+                alert(`Akcija: ${action}, PIN: ${pinInput} - Uspješno poslan!`);
                 clearInput();
-                window.location.href='/pin'
+                window.location.href = '/pin';
             })
             .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
                 alert('Došlo je do pogreške. Pokušajte ponovo.');
             });
-
         } else {
             alert('Unesite četveroznamenkasti PIN');
         }
     }
-
-	
-	function updateClock() {
-		var now = new Date();
-		var hours = now.getHours().toString().padStart(2, '0');
-		var minutes = now.getMinutes().toString().padStart(2, '0');
-		var seconds = now.getSeconds().toString().padStart(2, '0');
-		document.getElementById('digitalClock').textContent = hours + ':' + minutes + ':' + seconds;
-	}
-
-	setInterval(updateClock, 1000); // Ažuriraj svake sekunde
-	updateClock(); // Inicijalno postavljanje vremena
-
-	function updateDate() {
-		var now = new Date();
-		var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-		var currentDate = now.toLocaleDateString('hr-HR', options);
-		document.getElementById('currentDate').textContent = currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
-	}
-
-	updateDate(); // Postavljanje datuma
-
 </script>
+
+
 </body>
 </html>

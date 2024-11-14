@@ -162,7 +162,7 @@ public class PdfController {
         Date firstDayOfYear = DateUtils.getFirstDateOfMonth(year, "01");
         Date lastDayOfYear = DateUtils.getFirstDateOfMonth(year, "12");
 
-        List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployeeAndStartDateBetween(employeeService.findById(employeeId), firstDayOfYear, lastDayOfYear);
+        List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployeeAndStartDateBetweenOrderByStartDateAsc(employeeService.findById(employeeId), firstDayOfYear, lastDayOfYear);
 
         model.addAttribute("pageTitle", "Prikaz nenazočnosti na poslu");
         model.addAttribute("title", "Prikaz nenazočnosti na poslu");
@@ -352,7 +352,12 @@ public class PdfController {
 
         List<Holiday> holidayList = holidayService.findAll();
 
-        List<AbsenceRecord> absenceRecordList = absenceRecordService.findByEmployeeAndStartDateBetween(employee, firstDateOfMonth, lastDateOfMonth);
+        List<AbsenceRecord> absenceRecordList = new ArrayList<>();
+
+        absenceRecordList.addAll(absenceRecordService.findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(
+                employee, firstDateOfMonth, lastDateOfPreviousMonth));
+
+        absenceRecordList.addAll(absenceRecordService.findByEmployeeAndStartDateBetweenOrderByStartDateAsc(employee, firstDateOfMonth, lastDateOfMonth));
 
         return AttendanceDataHandler.getFormattedAttendanceData(employee, attendanceList, attendanceListForOvertimeCalc, holidayList, absenceRecordList, year, month);
     }

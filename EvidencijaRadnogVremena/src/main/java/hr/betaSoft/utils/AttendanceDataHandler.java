@@ -200,33 +200,43 @@ public class AttendanceDataHandler {
 
         List<Integer> dayValueOfAbsenceDatesList = new ArrayList<>();
         List<String> typeOfAbsenceList = new ArrayList<>();
-//        List<Integer> recurringDateIndexList = new ArrayList<>();
-//        List<AttendanceData> recurringDateAttendanceDataList = new ArrayList<>();
-
-//        int numberOfDaysInMonth = DateUtils.getNumOfDaysInMonth(year, month);
-//        int counter = 0;
-//        String timeHolder = "00:00";
-//
-//        for (int i = 1; i <= numberOfDaysInMonth; i++) {
-//            for (AttendanceData attendanceData : attendanceDataList) {
-//                if (i == attendanceData.getDate()) {
-//                    recurringDateIndexList.add(attendanceDataList.indexOf(attendanceData));
-//                    recurringDateAttendanceDataList.add(attendanceData);
-//                    counter++;
-//                }
-//            }
-//            if (counter > 1) {
-//                for (Integer index : recurringDateIndexList) {
-//                    timeHolder = DateUtils.timeAddition(timeHolder, attendanceDataList.get(index).getTotalHoursOfWork());
-//                }
-//                attendanceDataList.get(recurringDateIndexList.get(recurringDateIndexList.size() - 1)).setTotalHoursOfWorkForAbsenceCalc(timeHolder);
-//            }
-//            recurringDateIndexList.clear();
-//            counter = 0;
-//            timeHolder = "00:00";
-//        }
+        List<Integer> tempRecurringDateIndexList = new ArrayList<>();
+        List<Integer> recurringDateIndexList = new ArrayList<>();
+        int counter = 0;
+        String totalWorkHoursForRecurringDate = "00:00";
 
         for (AbsenceRecord absenceRecord : absenceRecordList) {
+            if (!Objects.equals(DateUtils.reduceDateToMonth(absenceRecord.getStartDate()), month)) {
+                absenceRecord.setStartDate(DateUtils.getFirstDateOfMonth(year, month));
+            }
+            if (!Objects.equals(DateUtils.reduceDateToMonth(absenceRecord.getEndDate()), month)) {
+                absenceRecord.setEndDate(DateUtils.getLastDateOfMonth(year, month));
+            }
+        }
+
+        for (int i = 1; i <= DateUtils.getNumOfDaysInMonth(year, month); i++) {
+            for (AttendanceData attendanceData : attendanceDataList) {
+                if (Objects.equals(attendanceData.getDate(), i)) {
+                    tempRecurringDateIndexList.add(attendanceDataList.indexOf(attendanceData));
+                    counter++;
+                }
+            }
+            if (counter > 1) {
+                recurringDateIndexList.addAll(tempRecurringDateIndexList);
+                for (int j = tempRecurringDateIndexList.size() - 1; j >= 0; j--) {
+                    totalWorkHoursForRecurringDate = DateUtils.timeAddition(totalWorkHoursForRecurringDate, attendanceDataList.get(tempRecurringDateIndexList.get(j)).getTotalHoursOfWork());
+                }
+                attendanceDataList.get(tempRecurringDateIndexList.get(tempRecurringDateIndexList.size() - 1)).setTotalHoursOfWorkForAbsenceCalc(totalWorkHoursForRecurringDate);
+            }
+            tempRecurringDateIndexList.clear();
+            counter = 0;
+            totalWorkHoursForRecurringDate = "00:00";
+        }
+
+        for (AbsenceRecord absenceRecord : absenceRecordList) {
+
+            AbsenceRecord test = absenceRecord;
+
             if (absenceRecord.getEndDate().after(absenceRecord.getStartDate())) {
                 for (int i = DateUtils.reduceDateToDay(absenceRecord.getStartDate()); i <= DateUtils.reduceDateToDay(absenceRecord.getEndDate()); i++) {
                     dayValueOfAbsenceDatesList.add(i);
@@ -240,22 +250,16 @@ public class AttendanceDataHandler {
 
         for (AttendanceData attendanceData : attendanceDataList) {
             for (Integer date : dayValueOfAbsenceDatesList) {
-//                if (Objects.equals(attendanceData.getDate(), date) && !recurringDateAttendanceDataList.contains(attendanceData)) {
                 if (Objects.equals(attendanceData.getDate(), date)) {
-                    attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), false);
+                    if (!recurringDateIndexList.contains(attendanceDataList.indexOf(attendanceData))) {
+                        attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), false);
+                    } else {
+                        attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), true);
+                    }
                 }
+
             }
         }
-
-//        recurringDateAttendanceDataList.removeIf(attendanceData -> Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null));
-//
-//        for (AttendanceData attendanceData : recurringDateAttendanceDataList) {
-//            for (Integer date : dayValueOfAbsenceDatesList) {
-//                if (Objects.equals(attendanceData.getDate(), date)) {
-//                    attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), true);
-//                }
-//            }
-//        }
 
         return attendanceDataList;
     }
@@ -265,6 +269,10 @@ public class AttendanceDataHandler {
             AttendanceData attendanceData,
             String typeOfAbsence,
             boolean recurringDateData) {
+
+        if (attendanceData.getTotalHoursOfWorkForAbsenceCalc() == null && recurringDateData) {
+            return attendanceData;
+        }
 
         String workHoursForGivenDay = getWorkHoursForGivenDayStr(employee, attendanceData.getDay());
         String totalHoursOfWork = recurringDateData ? attendanceData.getTotalHoursOfWorkForAbsenceCalc() : attendanceData.getTotalHoursOfWork();
@@ -289,6 +297,9 @@ public class AttendanceDataHandler {
                 break;
             case "Opravdani izostanak":
                 attendanceData.setExcusedAbsence(hoursOfAbsence);
+                break;
+            case "Neopravdani izostanak":
+                attendanceData.setUnexcusedAbsence(hoursOfAbsence);
                 break;
         }
 

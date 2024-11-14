@@ -52,7 +52,12 @@ public class AbsenceRecordServiceImpl implements AbsenceRecordService{
     }
 
     @Override
-    public List<AbsenceRecord> findByEmployeeAndStartDateBetween(Employee employee, Date startDate, Date endDate) {
-        return absenceRecordRepository.findByEmployeeAndStartDateBetween(employee, startDate, endDate);
+    public List<AbsenceRecord> findByEmployeeAndStartDateBetweenOrderByStartDateAsc(Employee employee, Date startDate, Date endDate) {
+        return absenceRecordRepository.findByEmployeeAndStartDateBetweenOrderByStartDateAsc(employee, startDate, endDate);
+    }
+
+    @Override
+    public List<AbsenceRecord> findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(Employee employee, Date before, Date after) {
+        return absenceRecordRepository.findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(employee, before, after);
     }
 }
