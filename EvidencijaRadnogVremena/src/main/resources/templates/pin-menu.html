@@ -119,17 +119,107 @@
         padding: 10px;
         margin-top: 5px;
         margin-bottom: 10px;
+        font-size: 1.5em;
     }
     .menu-buttons {
           height: 100px;
-      }
+    }
 
-      .menu-buttons button {
-          width: 320px;
-          height: 100%;
-          font-size: 1.8em;
-      }
+    .menu-buttons button {
+      width: 320px;
+      height: 100%;
+      font-size: 1.8em;
+    }
 
+    /* Dark Theme Styles */
+
+    body.dark-theme {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    body.dark-theme .container-fluid {
+        background-color: #1e1e1e; /* Osiguranje tamne pozadine za cijeli sadržaj */
+    }
+
+    .dark-theme .content {
+        background-color: #1e1e1e; /* Tamnija pozadina za sadržaj */
+        color: #ffffff;
+    }
+
+    .dark-theme .btn {
+        background-color: #333333;
+        color: #ffffff;
+        border-color: #444444;
+    }
+
+    .dark-theme .btn-outline-dark {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .dark-theme .fixed-top,
+    .dark-theme .fixed-bottom {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    .dark-theme #digitalClock {
+        color: #ffffff;
+        background-color: #1e1e1e;
+    }
+
+    .dark-theme .url-link {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+
+    /* Stilovi za sklopku */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #444444;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
 
 
     </style>
@@ -139,12 +229,6 @@
 
     <div class="row mt-3 justify-content-center">
         <div class="content">
-
-<!--            <div class="fixed-top col-12 text-center mt-3">-->
-<!--                <div><h6 id="currentMachineId"></h6></div>-->
-<!--                <br>-->
-<!--                <div id="digitalClock">00:00:00</div>-->
-<!--            </div>-->
 
             <div class="fixed-top col-12 text-center mt-3">
                 <div style="font-size: 60%;" id="currentMachineId"></div>
@@ -157,6 +241,8 @@
             <br>
             <br>
 
+
+
             <div class="menu-buttons col-12 text-center mt-3">
                 <button class="btn btn-outline-dark font-weight-bold btn-block mb-3" onclick="window.location.href='/pin/pin-in'">
                     <span>DOLAZAK</span>
@@ -165,13 +251,22 @@
                 <button class="btn btn-outline-dark font-weight-bold btn-block mb-3" onclick="window.location.href='/pin/pin-out'">
                     <span>ODLAZAK</span>
                 </button>
+
             </div>
+
+
 
             <div class="fixed-bottom col-12 text-center mt-3">
                 <h6>
+                    <label class="switch">
+                        <input type="checkbox" onclick="toggleTheme()">
+                        <span class="slider"></span>
+                    </label>
                     <div style="font-size: 60%;" id="currentDate"></div>
                     <br>
                     <div style="font-size: 60%;">ABEL d.o.o. & BETA STUDIO d.o.o.</div>
+
+
                 </h6>
             </div>
 
@@ -185,6 +280,7 @@
   window.onload = function() {
         getMachineId();
         updateCurrentMachineIdDisplay();
+        loadTheme();
     };
 
   function getMachineId() {
@@ -230,7 +326,20 @@
 
   updateDate();
 
+   // Funkcija za prebacivanje teme
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const isDarkTheme = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+    }
 
+    // Inicijalizacija teme prema postavci iz localStorage-a
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    }
 
 </script>
 
