@@ -16,4 +16,6 @@ public interface AbsenceRecordRepository extends JpaRepository<AbsenceRecord, Lo
     List<AbsenceRecord> findByEmployeeAndStartDateBetweenOrderByStartDateAsc(Employee employee, Date startDate, Date endDate);
 
     List<AbsenceRecord> findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(Employee employee, Date before, Date after);
+
+    void deleteAllByEmployee(Employee employee);
 }

@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="betaSoft" />
+        <module name="EvidencijaRadnogVremena" />
         <module name="EmploymentApplicationManager" />
         <module name="prijavaRadnika" />
       </profile>

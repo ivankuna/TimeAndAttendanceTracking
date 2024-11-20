@@ -37,18 +37,22 @@ public class PinValidationController {
         Employee employee = employeeService.findByPinAndMachineId(pin, machineId);
 
         boolean error = false;
+        String entry_message = "";
 
         if (employee != null) {
+
             if (action.equals("clockIn")) {
                 attendanceService.processClockInData(employee);
+                entry_message = "DOLAZAK: " + employee.getFirstName() + " "+ employee.getLastName();
             } else if (action.equals("clockOut")){
                 attendanceService.processClockOutData(employee);
+                entry_message = "ODLAZAK: " + employee.getFirstName() + " "+ employee.getLastName();
             }
         } else {
             error = true;
         }
 
-        String message = error ? "Unešeni PIN nije valjan!" : "Podaci uspješno primljeni!";
+        String message = error ? "Unijeli ste nepostojeći PIN!" : entry_message;
         Map<String, String> response = Map.of("message", message);
         return ResponseEntity.ok()
                 .header("Content-Type", "application/json")

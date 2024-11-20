@@ -60,4 +60,9 @@ public class AbsenceRecordServiceImpl implements AbsenceRecordService{
     public List<AbsenceRecord> findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(Employee employee, Date before, Date after) {
         return absenceRecordRepository.findByEmployeeAndStartDateBeforeAndEndDateAfterOrderByStartDateAsc(employee, before, after);
     }
+
+    @Override
+    public void deleteAllByEmployee(Employee employee) {
+        absenceRecordRepository.deleteAllByEmployee(employee);
+    }
 }

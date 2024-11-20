@@ -15,7 +15,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     Attendance findFirstByEmployeeOrderByIdDesc(Employee employee);
 
-    Attendance findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee);
+    Attendance findTopByEmployeeOrderByClockInDateDescClockInTimeDesc(Employee employee);
+
+    List<Attendance> findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee);
 
     List<Attendance> findByEmployeeAndClockInDateBetweenOrderByClockInDateAscClockInTimeAsc(Employee employee, Date startDate, Date endDate);
 

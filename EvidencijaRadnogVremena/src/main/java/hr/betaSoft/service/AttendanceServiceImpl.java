@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,6 +27,7 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void processClockInData(Employee employee) {
+
         Attendance lastAttendanceRecord = findFirstByEmployeeOrderByIdDesc(employee) == null ? new Attendance() : findFirstByEmployeeOrderByIdDesc(employee);
 
         Attendance clockIn = new Attendance();
@@ -44,8 +46,10 @@ public class AttendanceServiceImpl implements AttendanceService {
 
     @Override
     public void processClockOutData(Employee employee) {
-        Attendance lastAttendanceRecord = findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee) == null ?
-                new Attendance() : findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
+
+        List<Attendance> attendanceList = new ArrayList<>(findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee));
+
+        Attendance lastAttendanceRecord = attendanceList.isEmpty() ? new Attendance() : attendanceList.get(Math.max(attendanceList.size() - 1, 0));
 
         Attendance clockOut = new Attendance();
 
@@ -154,8 +158,13 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public Attendance findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee) {
-        return attendanceRepository.findFirstByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
+    public Attendance findTopByEmployeeOrderByClockInDateDescClockInTimeDesc(Employee employee) {
+        return attendanceRepository.findTopByEmployeeOrderByClockInDateDescClockInTimeDesc(employee);
+    }
+
+    @Override
+    public List<Attendance> findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee) {
+        return attendanceRepository.findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
     }
 
     @Override

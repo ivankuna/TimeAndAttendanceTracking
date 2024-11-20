@@ -170,7 +170,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/save")
-    public String addEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes ra) {
+    public String addEmployee(@ModelAttribute("employee") Employee employee, BindingResult result, RedirectAttributes ra) {
 
         User tempUser = userService.getAuthenticatedUser();
 
@@ -204,11 +204,23 @@ public class EmployeeController {
         if (error) {
             ra.addFlashAttribute("employee", employee);
             ra.addFlashAttribute("message", errorMessage);
+            return redirect(employee);
+        }
 
-            if (employee.getId() != null) {
-                return "redirect:/employees/update/" + employee.getId();
+        List<String> emptyAttributes = employee.checkForEmptyEmployeeAttributes();
+
+        if (!emptyAttributes.isEmpty()) {
+            ra.addFlashAttribute("employee", employee);
+            ra.addFlashAttribute("message", Employee.defineErrorMessageForEmptyEmployeeAttributes(emptyAttributes));
+            return redirect(employee);
+        }
+
+        if (!Objects.equals(employee.getSignOutDate(), null)) {
+            if (employee.getSignUpDate().after(employee.getSignOutDate())) {
+                ra.addFlashAttribute("employee", employee);
+                ra.addFlashAttribute("message", "Datum kraja rada radnika u tvrtci ne može biti prije datuma početka rada radnika u tvrtci!");
+                return redirect(employee);
             }
-            return "redirect:/employees/new";
         }
 
         employee = employeeService.setEmployeeDailyWorkHours(employee);
@@ -277,6 +289,14 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
+    private String redirect(Employee employee) {
+
+        if (employee.getId() != null) {
+            return "redirect:/employees/update/" + employee.getId();
+        }
+        return "redirect:/employees/new";
+    }
+
     private List<Data> defineDataList() {
 
         List<Data> dataList = new ArrayList<>();
@@ -323,7 +343,11 @@ public class EmployeeController {
         ;
         dataList.add(new Data("20.", "Vrijeme završetka noćnog rada", "nightWorkEnd", "", "", "", "text", "true", "true", items, "false"));
         ;
-        dataList.add(new Data("21.", "PIN", "pin", "", "", "", "number-input", "true", "", items, "false"));
+        dataList.add(new Data("21.", "Datum početka rada u tvrtci", "signUpDate", "", "", "", "date-pick", "false","true", items, "false"));
+        ;
+        dataList.add(new Data("22.", "Datum kraja rada u tvrtci", "signOutDate", "", "", "", "date-pick", "false","true", items, "false"));
+        ;
+        dataList.add(new Data("23.", "PIN", "pin", "", "", "", "number-input", "true", "", items, "false"));
         ;
 
         return dataList;

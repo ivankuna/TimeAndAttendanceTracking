@@ -3,6 +3,7 @@ package hr.betaSoft.controller;
 import hr.betaSoft.exception.AttendanceNotFoundException;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
+import hr.betaSoft.security.service.UserService;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.tools.Column;
@@ -33,12 +34,15 @@ public class AttendanceController {
 
     private final EmployeeService employeeService;
 
+    private final UserService userService;
+
     private static final String SESSION_EMPLOYEE_ID = "employeeId";
 
     @Autowired
-    public AttendanceController(AttendanceService attendanceService, EmployeeService employeeService) {
+    public AttendanceController(AttendanceService attendanceService, EmployeeService employeeService, UserService userService) {
         this.attendanceService = attendanceService;
         this.employeeService = employeeService;
+        this.userService = userService;
     }
 
     @GetMapping("show/{id}")
@@ -82,6 +86,45 @@ public class AttendanceController {
         model.addAttribute("path", "/employees/show-attendance");
         model.addAttribute("updateLink", "/attendance/update/{id}");
         model.addAttribute("deleteLink", "/attendance/delete/{id}");
+        model.addAttribute("tableName", "attendence");
+        model.addAttribute("script", "/js/table-users.js");
+
+        return "table";
+    }
+
+    @GetMapping("/show-current-attendance")
+    public String showCurrentAttendance(Model model, HttpServletRequest request) {
+
+        List<Column> columnList = new ArrayList<>();
+
+        if (DeviceDetector.isMobileDevice(request)) {
+            columnList.add(new Column("Radnik", "employee", "id",""));
+            columnList.add(new Column("Datum dolaska", "clockInDate", "id",""));
+            columnList.add(new Column("Vrijeme dolaska", "clockInTime", "id",""));
+        } else {
+            columnList.add(new Column("Radnik", "employee", "id",""));
+            columnList.add(new Column("Datum dolaska", "clockInDate", "id",""));
+            columnList.add(new Column("Vrijeme dolaska", "clockInTime", "id",""));
+        }
+
+        List<Employee> employeeList = employeeService.findByUser(userService.getAuthenticatedUser());
+        List<Attendance> attendanceList = new ArrayList<>();
+        Attendance tempAttendance;
+
+        for (Employee employee : employeeList) {
+            tempAttendance = attendanceService.findTopByEmployeeOrderByClockInDateDescClockInTimeDesc(employee);
+            if (Objects.equals(tempAttendance.getStatus(), 1)) {
+                attendanceList.add(tempAttendance);
+            }
+        }
+
+        model.addAttribute("title", "Prisutnost na poslu");
+        model.addAttribute("columnList", columnList);
+        model.addAttribute("dataList", attendanceList);
+        model.addAttribute("addLink", "");
+        model.addAttribute("path", "/employees");
+        model.addAttribute("updateLink", "");
+        model.addAttribute("deleteLink", "");
         model.addAttribute("tableName", "attendence");
         model.addAttribute("script", "/js/table-users.js");
 

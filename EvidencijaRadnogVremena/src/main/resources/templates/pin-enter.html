@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PIN Unos</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
+
+
+<style>
+    /* Main container for the page, removes any padding */
+    .container-fluid {
+        padding: 0;
+    }
+
+    /* Content section - centers content and adds padding to the top and bottom */
+    .content {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-top: 100px;
+        padding-bottom: 80px;
+    }
+
+    /* Action buttons are styled for centered flex layout */
+    .action-buttons button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        font-size: 1.5em;
+        height: 70px;
+    }
+
+    /* Pin password display with a larger font and centered text */
+    .pin-password {
+        font-size: 2em;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        letter-spacing: 0.2em;
+        width: 80%;
+        height: 70px;
+    }
+
+    /* Pin input container to center inputs and provide spacing */
+    .pin-input-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    /* Individual pin input field */
+    .pin-input {
+        width: 80%;
+        height: 70px;
+        font-size: 1.5em;
+        text-align: center;
+        padding: 20px;
+    }
+
+    /* Button grid layout - 3 equal columns */
+    .button-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        width: 80%;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    /* Styling for buttons inside the grid */
+    .button-grid button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px;
+        font-size: 1.8em;
+        height: 80px;
+        width: 100%;
+    }
+
+    /* Fixed top and bottom positioning for the navigation */
+    .fixed-top, .fixed-bottom {
+        position: fixed;
+        z-index: 1030;
+        display: flex;
+        justify-content: center;
+        background-color: #fff;
+        padding: 10px 0;
+    }
+
+    /* Fixed top - aligns elements in a column */
+    .fixed-top {
+        top: 0;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Fixed bottom - aligns elements in a row and adds extra padding */
+    .fixed-bottom {
+        bottom: 0;
+        padding: 30px 0;
+    }
+
+    /* Text title styling */
+    .text-title {
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        font-size: 1.5em;
+    }
+
+    /* URL link styling */
+    .url-link {
+        background-color: #ffffff;
+        color: #121212;
+        font-size: 1.4em;
+    }
+
+    /* Dark theme styles */
+    body.dark-theme {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    /* Dark theme specific styles for containers and buttons */
+    body.dark-theme .container-fluid {
+        background-color: #1e1e1e;
+    }
+
+    .dark-theme .content {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    .dark-theme .btn {
+        background-color: #333333;
+        color: #ffffff;
+        border-color: #444444;
+    }
+
+    .dark-theme .btn-outline-dark {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+
+    .dark-theme .fixed-top, .dark-theme .fixed-bottom {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    .dark-theme #digitalClock {
+        color: #ffffff;
+        background-color: #1e1e1e;
+    }
+
+    .dark-theme .url-link {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+
+    /* Digital clock styling */
+    #digitalClock {
+        font-size: 2em;
+        text-align: center;
+        font-weight: bold;
+        padding: 0px;
+        background-color: #fff;
+        border: none;
+        outline: none;
+        box-shadow: none;
+    }
+
+    /* Media query for smaller screens (max height 800px) */
+    @media (max-height: 800px) {
+
+        /* Adjust content padding for smaller screens */
+        .content {
+            padding-top: 80px;
+            padding-bottom: 30px;
+        }
+
+        /* Adjust pin input size for smaller screens */
+        .pin-input {
+            height: 50px;
+            font-size: 1.2em;
+            padding: 10px;
+        }
+
+        /* Adjust button size for smaller screens */
+        .button-grid button {
+            height: 50px;
+            padding: 8px;
+            font-size: 1em;
+        }
+
+        /* Adjust fixed top and bottom padding for smaller screens */
+        .fixed-top, .fixed-bottom {
+            padding: 10px 0;
+        }
+
+        /* Adjust digital clock size for smaller screens */
+        #digitalClock {
+            font-size: 1.5em;
+        }
+    }
+
+
+</style>
+
+    <script>
+        // Set default theme
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.className = 'dark-theme';
+            }
+        })();
+    </script>
+
+</head>
+<body>
+<div class="container-fluid">
+
+    <div class="row mt-3 justify-content-center">
+        <div class="content">
+
+            <div class="fixed-top col-12 text-center mt-3">
+                <div style="font-size: 60%;" id="currentMachineId"></div>
+                <br>
+                <div id="digitalClock">00:00:00</div>
+                <div class="text-center text-title my-3">
+                    Unesite pin za <strong th:text="${title}">ACTION</strong>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div class="pin-input-container">
+                <input type="password" id="pinInput" class="form-control pin-password" maxlength="4" readonly>
+            </div>
+            <div class="button-grid" id="buttonGrid">
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(1)">1</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(2)">2</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(3)">3</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(4)">4</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(5)">5</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(6)">6</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(7)">7</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(8)">8</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(9)">9</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="clearInput()">C</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="appendNumber(0)">0</button>
+                <button type="button" class="btn btn-outline-dark font-weight-bold" onclick="deleteLast()"><</button>
+            </div>
+            <br>
+            <div class="action-buttons mt-3 d-flex justify-content-center">
+                <a href="/pin" class="font-weight-bold url-link">Odustanite</a>
+            </div>
+            <div class="fixed-bottom col-12 text-center mt-3">
+                <h6>
+                    <div style="font-size: 60%;" id="currentDate"></div>
+                    <br>
+                    <div style="font-size: 60%;">ABEL d.o.o. & BETA STUDIO d.o.o.</div>
+                </h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let inactivityTimer;
+
+    // Resets the inactivity timer and starts it again
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        inactivityTimer = setTimeout(redirectToCancel, 10000); // Redirect after 10 seconds of inactivity
+        //inactivityTimer = setTimeout(redirectToCancel, 10000000); // Redirect after 10 seconds of inactivity
+    }
+
+    // Redirects the user to the '/pin' page after inactivity
+    function redirectToCancel() {
+        window.location.href = '/pin';
+    }
+
+    // Initializes the application by setting up necessary functions and settings
+    function initializeApp() {
+        loadTheme(); // Apply saved theme from localStorage
+        getMachineId(); // Retrieve the machine ID from localStorage
+        CheckMachineId();
+        updateCurrentMachineIdDisplay(); // Update the display with the current machine ID
+        updateClock(); // Start the clock
+        updateDate(); // Display the current date
+        resetInactivityTimer(); // Reset inactivity timer on page load
+        randomizeButtons(); // Randomize number buttons
+    }
+
+    // Set up event listeners for user activity
+
+    window.onload = initializeApp;
+    window.onmousemove = resetInactivityTimer; // Reset timer on mouse movement
+    window.onkeypress = resetInactivityTimer; // Reset timer on key press
+    window.onclick = resetInactivityTimer; // Reset timer on mouse click
+
+
+    // Check if machine ID exist
+    function CheckMachineId() {
+        let machineId = localStorage.getItem('MachineId');
+        if (machineId === "Uređaj nije prijavljen!") {
+            window.location.href = '/pin/message?message=' + encodeURIComponent('Uređaj nije prijavljen!');
+        }
+    }
+
+
+    // Retrieves the machine ID from localStorage or sets a default value
+    function getMachineId() {
+        let machineId = localStorage.getItem('MachineId');
+        if (!machineId) {
+            machineId = "Uređaj nije prijavljen!"; // Default message if no ID is found
+            localStorage.setItem('MachineId', machineId);
+        }
+        return machineId;
+    }
+
+    // Updates the display with the current machine ID and application version
+    function updateCurrentMachineIdDisplay() {
+        var machineId = localStorage.getItem('MachineId');
+        var currentMachineIdElement = document.getElementById('currentMachineId');
+        currentMachineIdElement.innerText = machineId
+            ? `${machineId} Evidencija radnog vremena v. 1.1.24`
+            : "Uređaj nije prijavljen!"; // Display a fallback message if no ID
+    }
+
+    // Updates the digital clock displayed on the page
+    function updateClock() {
+        var now = new Date();
+        var hours = now.getHours().toString().padStart(2, '0');
+        var minutes = now.getMinutes().toString().padStart(2, '0');
+        var seconds = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById('digitalClock').textContent = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+
+    // Updates the displayed date in a human-readable format
+    function updateDate() {
+        var now = new Date();
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var currentDate = now.toLocaleDateString('hr-HR', options);
+        document.getElementById('currentDate').textContent = currentDate.charAt(0).toUpperCase() + currentDate.slice(1);
+    }
+
+    // Toggles between light and dark themes
+    function toggleTheme() {
+        document.body.classList.toggle('dark-theme');
+        const isDarkTheme = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light'); // Save theme preference
+    }
+
+    // Loads the saved theme from localStorage and applies it
+    function loadTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
+    }
+
+    function randomizeButtons() {
+        const grid = document.getElementById("buttonGrid"); // Get the grid container
+        const buttons = Array.from(grid.getElementsByTagName("button")); // Get all button elements in the grid
+
+        // Find the "C" (Clear) and "<" (Delete) buttons
+        const clearButton = buttons.find(button => button.innerText === 'C');
+        const deleteButton = buttons.find(button => button.innerText === '<');
+
+        // Filter out the "C" and "<" buttons, leaving only the number buttons
+        const numberButtons = buttons.filter(button => button !== clearButton && button !== deleteButton);
+
+        // Shuffle (randomly reorder) the number buttons
+        for (let i = numberButtons.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // Generate a random index
+            [numberButtons[i], numberButtons[j]] = [numberButtons[j], numberButtons[i]]; // Swap positions
+        }
+
+        // First, append the shuffled number buttons back into the grid
+        numberButtons.forEach(button => grid.appendChild(button));
+
+        // Then, add the "C" button at the middle position of the last row
+        grid.appendChild(clearButton); // The "C" button goes to the 9th position (middle of the last row)
+
+        // Finally, add the "<" button at the far-right position of the last row
+        grid.appendChild(deleteButton); // The "<" button goes to the last position
+
+        const lastNumberButton = grid.children[grid.children.length - 3]; // Get the second-to-last number button
+
+        // Remove the last number button, "C", and "<" buttons from the grid
+        grid.removeChild(lastNumberButton);
+        grid.removeChild(clearButton);
+        grid.removeChild(deleteButton);
+
+        // Re-add the "C", second-to-last number button, and "<" in new positions
+        grid.appendChild(clearButton); // Add "C" back to the 9th position
+        grid.appendChild(lastNumberButton); // Place the second-to-last number button in its new position
+        grid.appendChild(deleteButton); // Add the "<" button back to the last position
+    }
+
+
+</script>
+
+<script th:inline="javascript">
+    let action = /*[[${action}]]*/ 'clockIn';
+
+    // Appends a number to the PIN input field and submits if PIN is complete
+    function appendNumber(number) {
+        resetInactivityTimer(); // Reset inactivity timer
+        var pinInput = document.getElementById('pinInput');
+        if (pinInput.value.length < 4) { // Allow only up to 4 digits
+            pinInput.value += number;
+        }
+        if (pinInput.value.length === 4) { // Automatically submit once 4 digits are entered
+            submitAction(action);
+        }
+    }
+
+    // Clears the PIN input field
+    function clearInput() {
+        resetInactivityTimer(); // Reset inactivity timer
+        document.getElementById('pinInput').value = '';
+    }
+
+    // Deletes the last digit from the PIN input field
+    function deleteLast() {
+        resetInactivityTimer(); // Reset inactivity timer
+        var pinInput = document.getElementById('pinInput');
+        pinInput.value = pinInput.value.slice(0, -1); // Remove the last character
+    }
+
+    // Submits the action along with the entered PIN and machine ID to the server
+    function submitAction(action) {
+        var pinInput = document.getElementById('pinInput').value;
+        if (pinInput.length === 4) { // Ensure PIN has exactly 4 digits
+            var machineId = localStorage.getItem('MachineId');
+            if (!machineId || machineId === 'Uređaj nije prijavljen!') {
+                window.location.href = '/pin/message?message=' + encodeURIComponent('Uređaj nije prijavljen!');
+            }
+
+            // Create data object for submission
+            var data = { pin: pinInput, machineId: machineId, action: action };
+            fetch('/pin/record', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(responseData => {
+                if (responseData.message) {
+                    window.location.href = `/pin/message?message=${encodeURIComponent(responseData.message)}`;
+                } else {
+                    window.location.href = '/pin/message?message=' + encodeURIComponent('Došlo je do greške. Pokušajte ponovno.');
+                }
+                clearInput(); // Clear the PIN input field
+            })
+            .catch(error => {
+                window.location.href = '/pin/message?message=' + encodeURIComponent('Došlo je do greške. Pokušajte ponovno.');
+            });
+        }
+    }
+
+</script>
+
+
+
+</body>
+</html>

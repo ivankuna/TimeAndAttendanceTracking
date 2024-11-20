@@ -176,7 +176,7 @@ public class PdfController {
 
         // TESTNI PODACI
         String year = "2024";
-        String month = "11";
+        String month = "12";
 
         User user = userService.getAuthenticatedUser();
 
@@ -193,7 +193,8 @@ public class PdfController {
             if (Objects.equals(month, DateUtils.reduceDateToMonth(holiday.getDateOfHoliday()))) {
                 sbHoliday
                         .append(DateTimeStorage.DATE_FORMAT.format(holiday.getDateOfHoliday())).append(" - ")
-                        .append(DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
+                        .append(DateUtils.getDayOfDate(holiday.getDateOfHoliday())).append(" - ")
+                        .append(holiday.getNameOfHoliday());
                 strHolidayList.add(sbHoliday.toString());
                 sbHoliday.setLength(0);
             }
@@ -202,7 +203,7 @@ public class PdfController {
         model.addAttribute("pageTitle", "Izračun mjesečnog fonda sati");
         model.addAttribute("title", "Izračun mjesečnog fonda sati");
         model.addAttribute("dataList", employeeFundHoursList);
-        model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1));
+        model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1) + " " + year);
         model.addAttribute("holidayList", strHolidayList);
 
         return "employee-fund-hours-template";

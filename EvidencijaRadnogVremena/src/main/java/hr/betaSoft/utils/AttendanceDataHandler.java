@@ -40,7 +40,7 @@ public class AttendanceDataHandler {
             resultList = populateMiscTypeWorkHourAttributes(resultList, attendanceDataListForOvertimeCalc, paramHolidayList, year, month, employee);
         }
 
-        resultList = populateAbsenceHoursAttributes(employee, resultList, absenceRecordList, year, month);
+        resultList = populateAbsenceHoursAttributes(employee, resultList, absenceRecordList, paramHolidayList, year, month);
 
         resultList = displayTotalHoursOfWork(resultList);
 
@@ -196,6 +196,7 @@ public class AttendanceDataHandler {
             Employee employee,
             List<AttendanceData> attendanceDataList,
             List<AbsenceRecord> absenceRecordList,
+            List<Holiday> holidayList,
             String year, String month) {
 
         List<Integer> dayValueOfAbsenceDatesList = new ArrayList<>();
@@ -234,9 +235,6 @@ public class AttendanceDataHandler {
         }
 
         for (AbsenceRecord absenceRecord : absenceRecordList) {
-
-            AbsenceRecord test = absenceRecord;
-
             if (absenceRecord.getEndDate().after(absenceRecord.getStartDate())) {
                 for (int i = DateUtils.reduceDateToDay(absenceRecord.getStartDate()); i <= DateUtils.reduceDateToDay(absenceRecord.getEndDate()); i++) {
                     dayValueOfAbsenceDatesList.add(i);
@@ -257,7 +255,34 @@ public class AttendanceDataHandler {
                         attendanceData = setTypeOfAbsenceValueForAttendanceData(employee, attendanceData, typeOfAbsenceList.get(dayValueOfAbsenceDatesList.indexOf(date)), true);
                     }
                 }
+            }
+        }
 
+        Date tempDate;
+        String tempOffDaysAndHolidays = "";
+
+        for (AttendanceData attendanceData : attendanceDataList) {
+            tempDate = returnSqlDate(attendanceData.getDate(), month, year);
+            for (Holiday holiday : holidayList) {
+                if (Objects.equals(tempDate, holiday.getDateOfHoliday())) {
+                    if (!recurringDateIndexList.contains(attendanceDataList.indexOf(attendanceData)) ||
+                            recurringDateIndexList.contains(attendanceDataList.indexOf(attendanceData)) && !Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null)) {
+                        if (!Objects.equals(employee.getSignOutDate(), null)) {
+                            if ((holiday.getDateOfHoliday().after(employee.getSignUpDate()) || holiday.getDateOfHoliday().equals(employee.getSignUpDate())) &&
+                                    (holiday.getDateOfHoliday().before(employee.getSignOutDate()) || holiday.getDateOfHoliday().equals(employee.getSignOutDate()))) {
+                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
+                                        Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null) ? attendanceData.getTotalHoursOfWork() : attendanceData.getTotalHoursOfWorkForAbsenceCalc());
+                                attendanceData.setOffDaysAndHolidays(checkForNegativeTime(tempOffDaysAndHolidays) ? "" : tempOffDaysAndHolidays);
+                            }
+                        } else {
+                            if (holiday.getDateOfHoliday().after(employee.getSignUpDate()) || holiday.getDateOfHoliday().equals(employee.getSignUpDate())) {
+                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
+                                        Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null) ? attendanceData.getTotalHoursOfWork() : attendanceData.getTotalHoursOfWorkForAbsenceCalc());
+                                attendanceData.setOffDaysAndHolidays(checkForNegativeTime(tempOffDaysAndHolidays) ? "" : tempOffDaysAndHolidays);
+                            }
+                        }
+                    }
+                }
             }
         }
 

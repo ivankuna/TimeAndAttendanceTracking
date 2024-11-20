@@ -3,12 +3,10 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.repository.EmployeeRepository;
 import hr.betaSoft.security.model.User;
-import hr.betaSoft.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -17,9 +15,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final AttendanceService attendanceService;
 
-    public EmployeeServiceImpl(EmployeeRepository employeeRepository, AttendanceService attendanceService) {
+    private final AbsenceRecordService absenceRecordService;
+
+    public EmployeeServiceImpl(EmployeeRepository employeeRepository, AttendanceService attendanceService, AbsenceRecordService absenceRecordService) {
         this.employeeRepository = employeeRepository;
         this.attendanceService = attendanceService;
+        this.absenceRecordService = absenceRecordService;
     }
 
     @Override
@@ -34,6 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         if (employee != null) {
             attendanceService.deleteAllByEmployee(employee);
+            absenceRecordService.deleteAllByEmployee(employee);
             employeeRepository.delete(employee);
         }
     }
