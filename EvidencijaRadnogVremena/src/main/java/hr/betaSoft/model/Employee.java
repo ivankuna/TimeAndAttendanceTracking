@@ -2,6 +2,7 @@ package hr.betaSoft.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import hr.betaSoft.security.model.User;
+import hr.betaSoft.utils.DateUtils;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Getter
@@ -150,6 +152,34 @@ public class Employee {
     public static String defineErrorMessageForEmptyEmployeeAttributes(List<String> emptyAttributes) {
 
         return !emptyAttributes.isEmpty() ? "Obavezno definirati datum početka rada radnika u tvrtci" : null;
+    }
+
+    public static Integer getWorkHoursForGivenDayInt(Employee employee, String day) {
+
+        int intWorkHoursForGivenDay = 0;
+
+        if (Objects.equals(day, DateUtils.WEEKDAYS.get(0))) {
+            intWorkHoursForGivenDay = employee.getMondayWorkHours() == null ? 0 : employee.getMondayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(1))) {
+            intWorkHoursForGivenDay = employee.getTuesdayWorkHours() == null ? 0 : employee.getTuesdayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(2))) {
+            intWorkHoursForGivenDay = employee.getWednesdayWorkHours() == null ? 0 : employee.getWednesdayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(3))) {
+            intWorkHoursForGivenDay = employee.getThursdayWorkHours() == null ? 0 : employee.getThursdayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(4))) {
+            intWorkHoursForGivenDay = employee.getFridayWorkHours() == null ? 0 : employee.getFridayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(5))) {
+            intWorkHoursForGivenDay = employee.getSaturdayWorkHours() == null ? 0 : employee.getSaturdayWorkHours();
+        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(6))) {
+            intWorkHoursForGivenDay = employee.getSundayWorkHours() == null ? 0 : employee.getSundayWorkHours();
+        }
+
+        return intWorkHoursForGivenDay;
+    }
+
+    public static String  getWorkHoursForGivenDayStr(Employee employee, String day) {
+
+        return String.format("%02d:00", getWorkHoursForGivenDayInt(employee, day));
     }
 
     @Override

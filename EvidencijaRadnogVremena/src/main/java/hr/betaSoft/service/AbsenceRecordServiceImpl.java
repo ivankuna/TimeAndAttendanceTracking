@@ -3,9 +3,11 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.AbsenceRecord;
 import hr.betaSoft.model.Employee;
 import hr.betaSoft.repository.AbsenceRecordRepository;
+import hr.betaSoft.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -20,6 +22,20 @@ public class AbsenceRecordServiceImpl implements AbsenceRecordService{
 
     @Override
     public void saveAbsenceRecord(AbsenceRecord absenceRecord) {
+
+        int totalHoursOfAbsence = 0;
+        Date tempStartDate = absenceRecord.getStartDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(tempStartDate);
+
+        while(!tempStartDate.after(absenceRecord.getEndDate())) {
+            totalHoursOfAbsence = totalHoursOfAbsence + Employee.getWorkHoursForGivenDayInt(absenceRecord.getEmployee(), DateUtils.getDayOfDate(tempStartDate));
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            tempStartDate = new Date(calendar.getTimeInMillis());
+        }
+
+        absenceRecord.setTotalHoursOfAbsence(totalHoursOfAbsence);
+
         absenceRecordRepository.save(absenceRecord);
     }
 

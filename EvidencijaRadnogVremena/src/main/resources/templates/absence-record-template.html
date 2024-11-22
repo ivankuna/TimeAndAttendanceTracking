@@ -63,15 +63,6 @@
                 border-style: dotted;
             }
         }
-
-        .vertical-lr {
-          writing-mode: vertical-lr;
-          font-weight: 700;
-        }
-
-        .rotate {
-          transform: rotate(180deg);
-        }
     </style>
 </head>
 <body style="font-family:calibri">
@@ -80,16 +71,18 @@
 
 <table id="myTable" style="margin-bottom: 20px;">
     <tr>
-        <th class="vertical-lr rotate">DATUM OD</th>
-        <th class="vertical-lr rotate">DATUM DO</th>
-        <th class="vertical-lr rotate">VRSTA</th>
-        <th class="vertical-lr rotate">NAPOMENA</th>
+        <th>DATUM OD</th>
+        <th>DATUM DO</th>
+        <th>SATI</th>
+        <th>VRSTA</th>
+        <th>NAPOMENA</th>
     </tr>
     <tr th:each="data : ${dataList}">
-        <td th:text="${data.startDate}">name</td>
-        <td th:text="${data.endDate}">name</td>
-        <td th:text="${data.typeOfAbsence}">name</td>
-        <td th:text="${data.note}">name</td>
+        <td th:text="${#dates.format(data.startDate, 'dd.MM.yyyy')}"></td>
+        <td th:text="${#dates.format(data.endDate, 'dd.MM.yyyy')}"></td>
+        <td th:text="${data.totalHoursOfAbsence}"></td>
+        <td th:text="${data.typeOfAbsence}"></td>
+        <td th:text="${data.note}"></td>
     </tr>
 </table>
 

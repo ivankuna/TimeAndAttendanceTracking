@@ -144,6 +144,15 @@ public class DateUtils {
         return month;
     }
 
+    public static String reduceDateToYear(Date date) {
+
+        char[] dateCharArray = date.toString().toCharArray();
+
+        String year = String.valueOf(dateCharArray[0]) + dateCharArray[1] + dateCharArray[2] + dateCharArray[3];
+
+        return year;
+    }
+
     public static String getDayBefore(String paramDay) {
 
         String dayBefore = "";
@@ -315,5 +324,22 @@ public class DateUtils {
         }
 
         return  day;
+    }
+
+    public static String getCurrentMonth() {
+
+        Date currentDate = DateTimeStorage.getCurrentDate();
+
+        return String.valueOf(currentDate.toString().toCharArray()[5]) + currentDate.toString().toCharArray()[6];
+    }
+
+    public static String getCurrentYear() {
+
+        Date currentDate = DateTimeStorage.getCurrentDate();
+
+        return String.valueOf(currentDate.toString().toCharArray()[0])
+                + currentDate.toString().toCharArray()[1]
+                + currentDate.toString().toCharArray()[2]
+                + currentDate.toString().toCharArray()[3];
     }
 }

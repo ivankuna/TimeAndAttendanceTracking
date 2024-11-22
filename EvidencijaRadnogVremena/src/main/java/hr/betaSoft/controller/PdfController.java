@@ -12,6 +12,7 @@ import hr.betaSoft.service.AbsenceRecordService;
 import hr.betaSoft.service.AttendanceService;
 import hr.betaSoft.service.EmployeeService;
 import hr.betaSoft.service.HolidayService;
+import hr.betaSoft.tools.Column;
 import hr.betaSoft.tools.DateTimeStorage;
 import hr.betaSoft.utils.AttendanceDataHandler;
 import hr.betaSoft.utils.DateUtils;
@@ -24,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -82,7 +84,7 @@ public class PdfController {
             Model model, RedirectAttributes ra,
             HttpServletResponse response) throws IOException {
 
-        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
+        if (checkGlobalVariables(employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule())) {
             ra.addFlashAttribute("message", "Invalid input values");
             response.sendRedirect("/employees/show-attendance");
             return;
@@ -103,7 +105,7 @@ public class PdfController {
 
         Employee employee = employeeService.findById(employeeId);
 
-        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
+        if (checkGlobalVariables(employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule())) {
             return "redirect:/employees/show-attendance";
         }
 
@@ -137,7 +139,7 @@ public class PdfController {
             RedirectAttributes ra,
             Model model) {
 
-        if (checkGlobalVariables(employeeId, year, month,  employeeService.findById(employeeId).getOvertimeSchedule())) {
+        if (checkGlobalVariables(employeeId, year, month, employeeService.findById(employeeId).getOvertimeSchedule())) {
             return "redirect:/employees/show-attendance";
         }
 
@@ -172,11 +174,27 @@ public class PdfController {
     }
 
     @GetMapping("/fund-hours-html")
-    public String showFundHrsHtmlControllerMethod(Model model) {
+    public String fondSatiTest(@ModelAttribute("year") String year,
+                               @ModelAttribute("month") String month,
+                               Model model) {
 
-        // TESTNI PODACI
-        String year = "2024";
-        String month = "12";
+//        String year = DateUtils.getCurrentYear();
+//        String month = DateUtils.getCurrentMonth();
+//
+//        if (!Objects.equals(model.getAttribute("year"), null) || !Objects.equals(model.getAttribute("month"), null)) {
+//            year = (String) model.getAttribute("year");
+//            month = (String) model.getAttribute("month");
+//        }
+
+        if ((year.isEmpty() || year == null) || (month.isEmpty() || month == null)) {
+            year = DateUtils.getCurrentYear();
+            month = DateUtils.getCurrentMonth();
+        } else {
+            year = String.format("%02d", Integer.parseInt(year));
+            month = String.format("%02d", Integer.parseInt(month));
+
+            System.out.println("test");
+        }
 
         User user = userService.getAuthenticatedUser();
 
@@ -186,27 +204,49 @@ public class PdfController {
                 year, month
         );
 
-        StringBuilder sbHoliday = new StringBuilder();
-        List<String> strHolidayList = new ArrayList<>();
+        List<Column> columnList = new ArrayList<>();
 
-        for (Holiday holiday : holidayService.findAll()) {
-            if (Objects.equals(month, DateUtils.reduceDateToMonth(holiday.getDateOfHoliday()))) {
-                sbHoliday
-                        .append(DateTimeStorage.DATE_FORMAT.format(holiday.getDateOfHoliday())).append(" - ")
-                        .append(DateUtils.getDayOfDate(holiday.getDateOfHoliday())).append(" - ")
-                        .append(holiday.getNameOfHoliday());
-                strHolidayList.add(sbHoliday.toString());
-                sbHoliday.setLength(0);
-            }
-        }
+        columnList.add(new Column("", "serialNumber", "id", ""));
+        columnList.add(new Column("Raspored radnog vremena", "employeeName", "id", ""));
+        columnList.add(new Column("P", "mondayWorkHours", "id", ""));
+        columnList.add(new Column("U", "tuesdayWorkHours", "id", ""));
+        columnList.add(new Column("S", "wednesdayWorkHours", "id", ""));
+        columnList.add(new Column("Č", "thursdayWorkHours", "id", ""));
+        columnList.add(new Column("P", "fridayWorkHours", "id", ""));
+        columnList.add(new Column("S", "saturdayWorkHours", "id", ""));
+        columnList.add(new Column("N", "sundayWorkHours", "id", ""));
+        columnList.add(new Column("UKUPNO", "totalWeeklyWorkHours", "id", ""));
+        columnList.add(new Column("UFS", "totalEmployeeFundHours", "id", ""));
+        columnList.add(new Column("RS", "totalEmployeeWorkHours", "id", ""));
+        columnList.add(new Column("NS", "nonWorkingHours", "id", ""));
 
+        model.addAttribute("dataList", employeeFundHoursList);
+        model.addAttribute("columnList", columnList);
         model.addAttribute("pageTitle", "Izračun mjesečnog fonda sati");
         model.addAttribute("title", "Izračun mjesečnog fonda sati");
-        model.addAttribute("dataList", employeeFundHoursList);
-        model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1) + " " + year);
-        model.addAttribute("holidayList", strHolidayList);
+        model.addAttribute("path", "/employees");
+        model.addAttribute("script", "/js/table-users.js");
 
-        return "employee-fund-hours-template";
+        return "test";
+    }
+
+    @GetMapping("/fund-hours-html/loading")
+    public String testMetoda(@RequestParam("year") String year,
+                             @RequestParam("month") String month,
+                             RedirectAttributes redirectAttributes,
+                             Model model) {
+
+        //TEST
+        String test1 = year;
+        String test2 = month;
+
+        redirectAttributes.addFlashAttribute("year", year);
+        redirectAttributes.addFlashAttribute("month", month);
+
+//        model.addAttribute("year", year);
+//        model.addAttribute("month", month);
+
+        return "redirect:/fund-hours-html";
     }
 
     private void showPdf(HttpSession session, Model model, RedirectAttributes ra, HttpServletResponse response) {

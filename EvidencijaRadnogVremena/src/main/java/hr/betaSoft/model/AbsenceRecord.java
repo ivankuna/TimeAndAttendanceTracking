@@ -54,6 +54,9 @@ public class AbsenceRecord {
     @Column
     private String note;
 
+    @Column
+    private Integer totalHoursOfAbsence;
+
     public List<String> checkForEmptyAbsenceRecordAttributes() {
 
         List<String> emptyAttributes = new ArrayList<>();

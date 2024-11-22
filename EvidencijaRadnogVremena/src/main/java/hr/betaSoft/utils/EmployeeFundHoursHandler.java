@@ -4,6 +4,7 @@ import hr.betaSoft.model.Employee;
 import hr.betaSoft.model.EmployeeFundHours;
 import hr.betaSoft.model.Holiday;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -56,10 +57,27 @@ public class EmployeeFundHoursHandler {
 
         List<Integer> weekdayCountList = new ArrayList<>();
         int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(year, month);
+        int tempDateDayStart = 1;
+        int tempDateDayEnd = numOfDaysInMonth;
         int counter = 0;
+        Date tempSignUpDate = employee.getSignUpDate();
+        Date tempSignOutDate = employee.getSignOutDate();
+
+        // Ako je signUpDate radnika prije trenutnog mjeseca, tempSignUpDate mora biti prvi dan u trenutnom mjesecu
+
+        if (Objects.equals(tempSignOutDate, null)) {
+            if (Objects.equals(DateUtils.reduceDateToMonth(tempSignUpDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignUpDate), year)) {
+                tempDateDayStart = DateUtils.reduceDateToDay(tempSignUpDate);
+            }
+        } else {
+            if (Objects.equals(DateUtils.reduceDateToMonth(tempSignUpDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignUpDate), year) &&
+                    Objects.equals(DateUtils.reduceDateToMonth(tempSignOutDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignOutDate), year)) {
+                tempDateDayEnd = DateUtils.reduceDateToDay(tempSignOutDate);
+            }
+        }
 
         for (String day : DateUtils.WEEKDAYS) {
-            for (int i = 1; i <= numOfDaysInMonth; i++) {
+            for (int i = tempDateDayStart; i <= tempDateDayEnd; i++) {
                 if (Objects.equals(day, DateUtils.returnWeekday(i, month, year))) {
                    counter++;
                 }
@@ -81,41 +99,29 @@ public class EmployeeFundHoursHandler {
 
         List<Holiday> relevantHolidays = new ArrayList<>();
         int nonWorkingHours = 0;
+        Date tempSignUpDate = employee.getSignUpDate();
+        Date tempSignOutDate = employee.getSignOutDate();
 
         for (Holiday holiday : holidayList) {
-            if (Objects.equals(month, DateUtils.reduceDateToMonth(holiday.getDateOfHoliday()))) {
-                relevantHolidays.add(holiday);
+            if (Objects.equals(month, DateUtils.reduceDateToMonth(holiday.getDateOfHoliday())) &&
+                    Objects.equals(year, DateUtils.reduceDateToYear(holiday.getDateOfHoliday()))) {
+                if (Objects.equals(tempSignOutDate, null)) {
+                    if (Objects.equals(tempSignUpDate, holiday.getDateOfHoliday()) || holiday.getDateOfHoliday().after(tempSignUpDate)) {
+                        relevantHolidays.add(holiday);
+                    }
+                } else {
+                    if ((Objects.equals(tempSignUpDate, holiday.getDateOfHoliday()) || holiday.getDateOfHoliday().after(tempSignUpDate)) &&
+                            (Objects.equals(tempSignOutDate, holiday.getDateOfHoliday()) || holiday.getDateOfHoliday().before(tempSignOutDate))) {
+                        relevantHolidays.add(holiday);
+                    }
+                }
             }
         }
 
         for (Holiday holiday : relevantHolidays) {
-            nonWorkingHours = nonWorkingHours + getWorkHoursForGivenDayInt(employee, DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
+            nonWorkingHours = nonWorkingHours + Employee.getWorkHoursForGivenDayInt(employee, DateUtils.getDayOfDate(holiday.getDateOfHoliday()));
         }
 
         return nonWorkingHours;
-    }
-
-
-    private static Integer getWorkHoursForGivenDayInt(Employee employee, String day) {
-
-        int intWorkHoursForGivenDay = 0;
-
-        if (Objects.equals(day, DateUtils.WEEKDAYS.get(0))) {
-            intWorkHoursForGivenDay = employee.getMondayWorkHours() == null ? 0 : employee.getMondayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(1))) {
-            intWorkHoursForGivenDay = employee.getTuesdayWorkHours() == null ? 0 : employee.getTuesdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(2))) {
-            intWorkHoursForGivenDay = employee.getWednesdayWorkHours() == null ? 0 : employee.getWednesdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(3))) {
-            intWorkHoursForGivenDay = employee.getThursdayWorkHours() == null ? 0 : employee.getThursdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(4))) {
-            intWorkHoursForGivenDay = employee.getFridayWorkHours() == null ? 0 : employee.getFridayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(5))) {
-            intWorkHoursForGivenDay = employee.getSaturdayWorkHours() == null ? 0 : employee.getSaturdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(6))) {
-            intWorkHoursForGivenDay = employee.getSundayWorkHours() == null ? 0 : employee.getSundayWorkHours();
-        }
-
-        return intWorkHoursForGivenDay;
     }
 }

@@ -63,15 +63,6 @@
             border-style: dotted;
         }
     }
-
-    .vertical-lr {
-      writing-mode: vertical-lr;
-      font-weight: 700;
-    }
-
-    .rotate {
-      transform: rotate(180deg);
-    }
   </style>
 </head>
 <body style="font-family:calibri">
@@ -80,18 +71,18 @@
 
 <table id="myTable" style="margin-bottom: 20px;">
   <tr>
-    <th class="vertical-lr rotate">DATUM DOLASKA</th>
-    <th class="vertical-lr rotate">DAN</th>
-    <th class="vertical-lr rotate">VRIJEME DOLASKA</th>
-    <th class="vertical-lr rotate">VRIJEME ODLASKA</th>
-    <th class="vertical-lr rotate">VRIJEME NA POSLU</th>
+    <th>DATUM DOLASKA</th>
+    <th>DAN</th>
+    <th>VRIJEME DOLASKA</th>
+    <th>VRIJEME ODLASKA</th>
+    <th>VRIJEME NA POSLU</th>
   </tr>
   <tr th:each="data : ${dataList}">
-    <td th:text="${data.clockInDate}">name</td>
-    <td th:text="${data.clockInDay}">name</td>
-    <td th:text="${data.clockInTime}">name</td>
-    <td th:text="${data.clockOutTime}">name</td>
-    <td th:text="${data.hoursAtWork}">name</td>
+    <td th:text="${#dates.format(data.clockInDate, 'dd.MM.yyyy')}"></td>
+    <td th:text="${data.clockInDay}"></td>
+    <td th:text="${data.clockInTime}"></td>
+    <td th:text="${data.clockOutTime}"></td>
+    <td th:text="${data.hoursAtWork}"></td>
   </tr>
 </table>
 

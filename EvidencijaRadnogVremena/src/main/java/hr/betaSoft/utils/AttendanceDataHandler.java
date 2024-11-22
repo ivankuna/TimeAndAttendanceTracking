@@ -270,13 +270,13 @@ public class AttendanceDataHandler {
                         if (!Objects.equals(employee.getSignOutDate(), null)) {
                             if ((holiday.getDateOfHoliday().after(employee.getSignUpDate()) || holiday.getDateOfHoliday().equals(employee.getSignUpDate())) &&
                                     (holiday.getDateOfHoliday().before(employee.getSignOutDate()) || holiday.getDateOfHoliday().equals(employee.getSignOutDate()))) {
-                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
+                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(Employee.getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
                                         Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null) ? attendanceData.getTotalHoursOfWork() : attendanceData.getTotalHoursOfWorkForAbsenceCalc());
                                 attendanceData.setOffDaysAndHolidays(checkForNegativeTime(tempOffDaysAndHolidays) ? "" : tempOffDaysAndHolidays);
                             }
                         } else {
                             if (holiday.getDateOfHoliday().after(employee.getSignUpDate()) || holiday.getDateOfHoliday().equals(employee.getSignUpDate())) {
-                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
+                                tempOffDaysAndHolidays = DateUtils.timeSubtraction(Employee.getWorkHoursForGivenDayStr(employee, attendanceData.getDay()),
                                         Objects.equals(attendanceData.getTotalHoursOfWorkForAbsenceCalc(), null) ? attendanceData.getTotalHoursOfWork() : attendanceData.getTotalHoursOfWorkForAbsenceCalc());
                                 attendanceData.setOffDaysAndHolidays(checkForNegativeTime(tempOffDaysAndHolidays) ? "" : tempOffDaysAndHolidays);
                             }
@@ -299,7 +299,7 @@ public class AttendanceDataHandler {
             return attendanceData;
         }
 
-        String workHoursForGivenDay = getWorkHoursForGivenDayStr(employee, attendanceData.getDay());
+        String workHoursForGivenDay = Employee.getWorkHoursForGivenDayStr(employee, attendanceData.getDay());
         String totalHoursOfWork = recurringDateData ? attendanceData.getTotalHoursOfWorkForAbsenceCalc() : attendanceData.getTotalHoursOfWork();
         String hoursOfAbsence = DateUtils.timeSubtraction(workHoursForGivenDay, totalHoursOfWork);
 
@@ -446,7 +446,7 @@ public class AttendanceDataHandler {
                 }
             }
             if (counter > 1) {
-                workHoursForGivenDayForRecurringDate = getWorkHoursForGivenDayStr(employee, attendanceDataList.get(recurringDateIndexList.get(0)).getDay());
+                workHoursForGivenDayForRecurringDate = Employee.getWorkHoursForGivenDayStr(employee, attendanceDataList.get(recurringDateIndexList.get(0)).getDay());
                 for (Integer index : recurringDateIndexList) {
                     totalHoursOfWorkForRecurringDate = DateUtils.timeAddition(attendanceDataList.get(index).getTotalHoursOfWork(), totalHoursOfWorkForRecurringDate);
                 }
@@ -476,7 +476,7 @@ public class AttendanceDataHandler {
 
             String currentDay = attendanceData.getDay();
 
-            String workHoursForGivenDay = getWorkHoursForGivenDayStr(employee, currentDay);
+            String workHoursForGivenDay = Employee.getWorkHoursForGivenDayStr(employee, currentDay);
 
             if (checkForNegativeTime(DateUtils.timeSubtraction(workHoursForGivenDay, attendanceData.getTotalHoursOfWork())) && attendanceData.getOvertimeWork() == null) {
                 attendanceData.setOvertimeWork(DateUtils.timeSubtraction(attendanceData.getTotalHoursOfWork(), workHoursForGivenDay));
@@ -484,29 +484,6 @@ public class AttendanceDataHandler {
         }
 
         return attendanceDataList;
-    }
-
-    private static String getWorkHoursForGivenDayStr(Employee employee, String day) {
-
-        int intWorkHoursForGivenDay = 0;
-
-        if (Objects.equals(day, DateUtils.WEEKDAYS.get(0))) {
-            intWorkHoursForGivenDay = employee.getMondayWorkHours() == null ? 0 : employee.getMondayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(1))) {
-            intWorkHoursForGivenDay = employee.getTuesdayWorkHours() == null ? 0 : employee.getTuesdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(2))) {
-            intWorkHoursForGivenDay = employee.getWednesdayWorkHours() == null ? 0 : employee.getWednesdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(3))) {
-            intWorkHoursForGivenDay = employee.getThursdayWorkHours() == null ? 0 : employee.getThursdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(4))) {
-            intWorkHoursForGivenDay = employee.getFridayWorkHours() == null ? 0 : employee.getFridayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(5))) {
-            intWorkHoursForGivenDay = employee.getSaturdayWorkHours() == null ? 0 : employee.getSaturdayWorkHours();
-        } else if (Objects.equals(day, DateUtils.WEEKDAYS.get(6))) {
-            intWorkHoursForGivenDay = employee.getSundayWorkHours() == null ? 0 : employee.getSundayWorkHours();
-        }
-
-        return String.format("%02d:00", intWorkHoursForGivenDay);
     }
 
     private static boolean isNightWork(Employee employee, String time) {
