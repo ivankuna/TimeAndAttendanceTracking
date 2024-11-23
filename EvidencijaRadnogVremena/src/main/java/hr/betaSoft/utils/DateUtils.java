@@ -342,4 +342,18 @@ public class DateUtils {
                 + currentDate.toString().toCharArray()[2]
                 + currentDate.toString().toCharArray()[3];
     }
+
+    public static Date returnSqlDate(Integer day, String month, String year) {
+
+        java.util.Date utilDate;
+
+        try {
+            String date = String.format("%02d." + month + "." + year, day);
+            utilDate = DateTimeStorage.DATE_FORMAT.parse(date);
+        } catch (Exception e) {
+            utilDate = null;
+        }
+
+        return utilDate != null ? new java.sql.Date(utilDate.getTime()) : null;
+    }
 }

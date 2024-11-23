@@ -163,13 +163,13 @@ public class AttendanceDataHandler {
             attendanceData.setNightWork(returnTotalHoursOfNightWork(attendanceData, employee, year, month));
             // 2) Setting the "sundayWork" value
             if (attendanceData.getDay().equals(DateUtils.WEEKDAYS.get(6))) {
-                if (!isHoliday(paramHolidayList, returnSqlDate(attendanceData.getDate(), month, year))) {
+                if (!isHoliday(paramHolidayList, DateUtils.returnSqlDate(attendanceData.getDate(), month, year))) {
                     attendanceData.setSundayWork(Objects.equals(attendanceData.getTotalHoursOfWork(), "00:00") ? "" : attendanceData.getTotalHoursOfWork());
                 }
                 listOfSundayIndex.add(attendanceDataList.indexOf(attendanceData));
             }
             // 3) Setting the "holidayWork" value
-            if (isHoliday(paramHolidayList, returnSqlDate(attendanceData.getDate(), month, year))) {
+            if (isHoliday(paramHolidayList, DateUtils.returnSqlDate(attendanceData.getDate(), month, year))) {
                 attendanceData.setHolidayWork(attendanceData.getTotalHoursOfWork());
             }
             // Adds the final day of the month to the list of sundays for overtime calculation
@@ -262,7 +262,7 @@ public class AttendanceDataHandler {
         String tempOffDaysAndHolidays = "";
 
         for (AttendanceData attendanceData : attendanceDataList) {
-            tempDate = returnSqlDate(attendanceData.getDate(), month, year);
+            tempDate = DateUtils.returnSqlDate(attendanceData.getDate(), month, year);
             for (Holiday holiday : holidayList) {
                 if (Objects.equals(tempDate, holiday.getDateOfHoliday())) {
                     if (!recurringDateIndexList.contains(attendanceDataList.indexOf(attendanceData)) ||
@@ -504,20 +504,6 @@ public class AttendanceDataHandler {
         }
 
         return isHoliday;
-    }
-
-    private static Date returnSqlDate(Integer day, String month, String year) {
-
-        java.util.Date utilDate;
-
-        try {
-            String date = String.format("%02d." + month + "." + year, day);
-            utilDate = DateTimeStorage.DATE_FORMAT.parse(date);
-        } catch (Exception e) {
-            utilDate = null;
-        }
-
-        return utilDate != null ? new java.sql.Date(utilDate.getTime()) : null;
     }
 
     private static boolean checkForNegativeTime(String time) {

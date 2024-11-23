@@ -19,24 +19,40 @@ public class EmployeeFundHoursHandler {
         List<EmployeeFundHours> employeeFundHoursList = new ArrayList<>();
         int serialNumber = 1;
 
+        Date firstDateOfMonth = DateUtils.getFirstDateOfMonth(year, month);
+        Date lastDateOfMonth = DateUtils.getLastDateOfMonth(year, month);
+        boolean goAhead;
+
         for (Employee employee : employees) {
 
-            employeeFundHoursList.add(new EmployeeFundHours(
-                    serialNumber,
-                    employee.getFirstName() + " " + employee.getLastName(),
-                    employee.getMondayWorkHours(),
-                    employee.getTuesdayWorkHours(),
-                    employee.getWednesdayWorkHours(),
-                    employee.getThursdayWorkHours(),
-                    employee.getFridayWorkHours(),
-                    employee.getSaturdayWorkHours(),
-                    employee.getSundayWorkHours(),
-                    getTotalWeeklyWorkHours(employee),
-                    getTotalEmployeeFundHours(employee, year, month),
-                    getTotalEmployeeFundHours(employee, year, month) - getNonWorkingHours(employee, year, month, holidayList),
-                    getNonWorkingHours(employee, year, month, holidayList)
-            ));
-            serialNumber ++;
+            goAhead = true;
+
+            if (employee.getSignUpDate().after(lastDateOfMonth)) {
+                goAhead = false;
+            } else if (!Objects.equals(employee.getSignOutDate(), null)) {
+                if (employee.getSignOutDate().before(firstDateOfMonth)) {
+                    goAhead = false;
+                }
+            }
+
+            if (goAhead) {
+                employeeFundHoursList.add(new EmployeeFundHours(
+                        serialNumber,
+                        employee.getFirstName() + " " + employee.getLastName(),
+                        employee.getMondayWorkHours(),
+                        employee.getTuesdayWorkHours(),
+                        employee.getWednesdayWorkHours(),
+                        employee.getThursdayWorkHours(),
+                        employee.getFridayWorkHours(),
+                        employee.getSaturdayWorkHours(),
+                        employee.getSundayWorkHours(),
+                        getTotalWeeklyWorkHours(employee),
+                        getTotalEmployeeFundHours(employee, year, month),
+                        getTotalEmployeeFundHours(employee, year, month) - getNonWorkingHours(employee, year, month, holidayList),
+                        getNonWorkingHours(employee, year, month, holidayList)
+                ));
+                serialNumber ++;
+            }
         }
 
         return employeeFundHoursList;
@@ -57,27 +73,23 @@ public class EmployeeFundHoursHandler {
 
         List<Integer> weekdayCountList = new ArrayList<>();
         int numOfDaysInMonth = DateUtils.getNumOfDaysInMonth(year, month);
-        int tempDateDayStart = 1;
-        int tempDateDayEnd = numOfDaysInMonth;
+        int tempDayStart = 1;
+        int tempDayEnd = numOfDaysInMonth;
         int counter = 0;
         Date tempSignUpDate = employee.getSignUpDate();
         Date tempSignOutDate = employee.getSignOutDate();
 
-        // Ako je signUpDate radnika prije trenutnog mjeseca, tempSignUpDate mora biti prvi dan u trenutnom mjesecu
-
-        if (Objects.equals(tempSignOutDate, null)) {
-            if (Objects.equals(DateUtils.reduceDateToMonth(tempSignUpDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignUpDate), year)) {
-                tempDateDayStart = DateUtils.reduceDateToDay(tempSignUpDate);
-            }
-        } else {
-            if (Objects.equals(DateUtils.reduceDateToMonth(tempSignUpDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignUpDate), year) &&
-                    Objects.equals(DateUtils.reduceDateToMonth(tempSignOutDate), month) && Objects.equals(DateUtils.reduceDateToYear(tempSignOutDate), year)) {
-                tempDateDayEnd = DateUtils.reduceDateToDay(tempSignOutDate);
+        if (Integer.parseInt(DateUtils.reduceDateToMonth(tempSignUpDate)) == Integer.parseInt(month)) {
+            tempDayStart = DateUtils.reduceDateToDay(tempSignUpDate);
+        }
+        if (!Objects.equals(tempSignOutDate, null)) {
+            if (Integer.parseInt(DateUtils.reduceDateToMonth(tempSignOutDate)) == Integer.parseInt(month)) {
+                tempDayEnd = DateUtils.reduceDateToDay(tempSignOutDate);
             }
         }
 
         for (String day : DateUtils.WEEKDAYS) {
-            for (int i = tempDateDayStart; i <= tempDateDayEnd; i++) {
+            for (int i = tempDayStart; i <= tempDayEnd; i++) {
                 if (Objects.equals(day, DateUtils.returnWeekday(i, month, year))) {
                    counter++;
                 }
