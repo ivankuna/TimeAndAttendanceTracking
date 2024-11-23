@@ -113,8 +113,10 @@ public class AttendanceController {
 
         for (Employee employee : employeeList) {
             tempAttendance = attendanceService.findTopByEmployeeOrderByClockInDateDescClockInTimeDesc(employee);
-            if (Objects.equals(tempAttendance.getStatus(), 1)) {
-                attendanceList.add(tempAttendance);
+            if (tempAttendance != null) {
+                if (Objects.equals(tempAttendance.getStatus(), 1)) {
+                    attendanceList.add(tempAttendance);
+                }
             }
         }
 
