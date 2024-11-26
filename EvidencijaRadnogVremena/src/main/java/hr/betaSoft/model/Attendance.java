@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,12 @@ public class Attendance {
 
     @Column
     private boolean clockOutDataUserUpdate;
+
+    @Column(name = "latitude", precision = 10, scale = 6)
+    private BigDecimal latitude;
+
+    @Column(name = "longitude", precision = 10, scale = 6)
+    private BigDecimal longitude;
 
     private String clockInDay;
 

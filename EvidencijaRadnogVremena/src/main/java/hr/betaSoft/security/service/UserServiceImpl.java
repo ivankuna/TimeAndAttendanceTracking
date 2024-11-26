@@ -161,6 +161,16 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByMachineID(machineID);
     }
 
+    @Override
+    public String getAuthenticatedUserDetailsForHtml() {
+        User authenticatedUser = getAuthenticatedUser();
+
+        return authenticatedUser.getCompany() + ", " +
+                authenticatedUser.getAddress() + ", " +
+                authenticatedUser.getCity() + ", OIB: " +
+                authenticatedUser.getOib();
+    }
+
     public boolean isUserTableEmpty() {
         long userCount = userRepository.count();
         return userCount == 0;

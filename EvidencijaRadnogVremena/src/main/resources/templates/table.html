@@ -13,6 +13,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
+
+
     <link rel="shortcut icon" type="image/png" sizes="16x16"
           href="https://betastudio.hr/betasoft/png/employee-16x16.png">
 
@@ -184,7 +186,7 @@
                             <script>
                                 let yearDropdown = document.getElementById("year");
                                 const currentYear = new Date().getFullYear();
-                                for (let year = 2024; year <= currentYear; year++) {
+                                for (let year = 2024; year <= currentYear+1; year++) {
                                     let option = document.createElement("option");
                                     option.value = year;
                                     option.text = year;

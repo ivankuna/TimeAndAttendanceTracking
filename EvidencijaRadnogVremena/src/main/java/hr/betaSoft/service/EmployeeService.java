@@ -32,4 +32,6 @@ public interface EmployeeService {
     Employee totalWorkHoursCalcForEmployee(Employee employee);
 
     Employee setEmployeeDailyWorkHours(Employee employee);
+
+    String getEmployeeDetailsForHtml(Long id);
 }

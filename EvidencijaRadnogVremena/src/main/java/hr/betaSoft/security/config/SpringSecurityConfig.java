@@ -44,6 +44,7 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/attendance-html/**").hasRole("USER")
                                 .requestMatchers("/absence-html/**").hasRole("USER")
                                 .requestMatchers("/fund-hours-html/**").hasRole("USER")
+                                .requestMatchers("/fund-hours-html-template/**").hasRole("USER")
                                 .requestMatchers("/test/**").hasRole("USER")
                                 .requestMatchers("/audio/**").permitAll()
                                 .requestMatchers("/favicon.png").permitAll()

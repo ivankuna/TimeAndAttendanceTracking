@@ -48,11 +48,25 @@ public class AttendanceData {
             String nightWork,
             String sundayWork,
             String holidayWork,
-            String overtimeWork) {
+            String overtimeWork,
+            String offDaysAndHolidays,
+            String annualLeave,
+            String sickLeave,
+            String paidLeave,
+            String unpaidLeave,
+            String excusedAbsence,
+            String unexcusedAbsence) {
         this.totalHoursOfWork = totalHoursOfWork;
         this.nightWork = nightWork;
         this.sundayWork = sundayWork;
         this.holidayWork = holidayWork;
         this.overtimeWork = overtimeWork;
+        this.offDaysAndHolidays = offDaysAndHolidays;
+        this.annualLeave = annualLeave;
+        this.sickLeave = sickLeave;
+        this.paidLeave = paidLeave;
+        this.unpaidLeave = unpaidLeave;
+        this.excusedAbsence = excusedAbsence;
+        this.unexcusedAbsence = unexcusedAbsence;
     }
 }

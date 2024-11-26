@@ -118,13 +118,13 @@
         font-size: 1.5em;
     }
     .menu-buttons {
-          height: 100px;
+          height: 50px;
     }
 
     .menu-buttons button {
       width: 320px;
       height: 100%;
-      font-size: 1.8em;
+      font-size: 1.2em;
     }
 
     /* Dark Theme Styles */
@@ -231,11 +231,6 @@
     }
 }
 
-
-
-
-
-
     </style>
 
     <script>
@@ -266,13 +261,18 @@
                 <br>
                 <br>
                 <br>
-                <div><h2 th:text="${message}"></h2></div>
+                <div><h2 th:utext="${message}"></h2></div>
             </div>
 
             <div class="menu-buttons col-12 text-center mt-3">
 
                 <div class="menu-buttons col-12 text-center mt-3">
-
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
                     <br>
                     <br>
                     <br>
@@ -280,9 +280,8 @@
                     <br>
                     <button class="btn btn-outline-dark font-weight-bold btn-block mb-3"
                             onclick="window.location.href='/pin'">
-                        <span>POVRATAK</span>
+                        <span>OK</span>
                     </button>
-
 
                 </div>
             </div>

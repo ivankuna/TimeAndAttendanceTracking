@@ -28,4 +28,7 @@ public interface UserService {
     boolean checkIfEmployeeUnderUserExist(long userId);
 
     User findByMachineID(String machineID);
+
+    // For ERV APP
+    String getAuthenticatedUserDetailsForHtml();
 }

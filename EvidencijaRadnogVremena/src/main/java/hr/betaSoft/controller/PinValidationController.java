@@ -40,14 +40,14 @@ public class PinValidationController {
         String entry_message = "";
 
         if (employee != null) {
-
             if (action.equals("clockIn")) {
                 attendanceService.processClockInData(employee);
-                entry_message = "DOLAZAK: " + employee.getFirstName() + " "+ employee.getLastName();
+                entry_message = employee.getFirstName() + ",<br><br>Vaš dolazak<br>je evidentiran.";
             } else if (action.equals("clockOut")){
                 attendanceService.processClockOutData(employee);
-                entry_message = "ODLAZAK: " + employee.getFirstName() + " "+ employee.getLastName();
+                entry_message = employee.getFirstName() + ",<br><br>Vaš odlazak<br>je evidentiran.";
             }
+
         } else {
             error = true;
         }

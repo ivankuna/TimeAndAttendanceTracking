@@ -527,22 +527,50 @@ public class AttendanceDataHandler {
         String totalHoursOfSundayWork = "00:00";
         String totalHoursOfHolidayWork = "00:00";
         String totalHoursOfOvertimeWork = "00:00";
+        String totalHoursOfOffDaysAndHolidays = "00:00";
+        String totalHoursOfAnnualLeave = "00:00";
+        String totalHoursOfSickLeave = "00:00";
+        String totalHoursOfPaidLeave = "00:00";
+        String totalHoursOfUnpaidLeave = "00:00";
+        String totalHoursOfExcusedAbsence = "00:00";
+        String totalHoursOfUnexcusedAbsence = "00:00";
 
         for (AttendanceData attendanceData : attendanceDataList) {
-            if (!Objects.equals(attendanceData.getTotalHoursOfWork(), "")) {
+            if (!Objects.equals(attendanceData.getTotalHoursOfWork(), null) && !attendanceData.getTotalHoursOfWork().trim().isEmpty()) {
                 totalHoursOfWork = DateUtils.timeAddition(totalHoursOfWork, attendanceData.getTotalHoursOfWork());
             }
-            if (!Objects.equals(attendanceData.getNightWork(), "")) {
+            if (!Objects.equals(attendanceData.getNightWork(), null) && !attendanceData.getNightWork().trim().isEmpty()) {
                 totalHoursOfNightWork = DateUtils.timeAddition(totalHoursOfNightWork, attendanceData.getNightWork());
             }
-            if (!Objects.equals(attendanceData.getSundayWork(), "")) {
+            if (!Objects.equals(attendanceData.getSundayWork(), null) && !attendanceData.getSundayWork().trim().isEmpty()) {
                 totalHoursOfSundayWork = DateUtils.timeAddition(totalHoursOfSundayWork, attendanceData.getSundayWork());
             }
-            if (!Objects.equals(attendanceData.getHolidayWork(), "")) {
+            if (!Objects.equals(attendanceData.getHolidayWork(), null) && !attendanceData.getHolidayWork().trim().isEmpty()) {
                 totalHoursOfHolidayWork = DateUtils.timeAddition(totalHoursOfHolidayWork, attendanceData.getHolidayWork());
             }
-            if (!Objects.equals(attendanceData.getOvertimeWork(), "")) {
+            if (!Objects.equals(attendanceData.getOvertimeWork(), null) && !attendanceData.getOvertimeWork().trim().isEmpty()) {
                 totalHoursOfOvertimeWork = DateUtils.timeAddition(totalHoursOfOvertimeWork, attendanceData.getOvertimeWork());
+            }
+            if (!Objects.equals(attendanceData.getOffDaysAndHolidays(), null) && !attendanceData.getOffDaysAndHolidays().trim().isEmpty()) {
+                totalHoursOfOffDaysAndHolidays = DateUtils.timeAddition(totalHoursOfOffDaysAndHolidays, attendanceData.getOffDaysAndHolidays());
+            }
+            if (!Objects.equals(attendanceData.getAnnualLeave(), null) && !attendanceData.getAnnualLeave().trim().isEmpty()) {
+                totalHoursOfAnnualLeave = DateUtils.timeAddition(totalHoursOfAnnualLeave, attendanceData.getAnnualLeave());
+            }
+            if (!Objects.equals(attendanceData.getSickLeave(), null) && !attendanceData.getSickLeave().trim().isEmpty()) {
+                totalHoursOfSickLeave = DateUtils.timeAddition(totalHoursOfSickLeave, attendanceData.getSickLeave());
+            }
+            if (!Objects.equals(attendanceData.getPaidLeave(), null) && !attendanceData.getPaidLeave().trim().isEmpty()) {
+                totalHoursOfPaidLeave = DateUtils.timeAddition(totalHoursOfPaidLeave, attendanceData.getPaidLeave());
+            }
+            if (!Objects.equals(attendanceData.getUnpaidLeave(), null) && !attendanceData.getUnpaidLeave().trim().isEmpty()) {
+                totalHoursOfUnpaidLeave = DateUtils.timeAddition(totalHoursOfUnpaidLeave, attendanceData.getUnpaidLeave());
+            }
+            if (!Objects.equals(attendanceData.getExcusedAbsence(), null) && !attendanceData.getExcusedAbsence().trim().isEmpty()) {
+                totalHoursOfExcusedAbsence = DateUtils.timeAddition(totalHoursOfExcusedAbsence, attendanceData.getExcusedAbsence());
+            }
+            if (!Objects.equals(attendanceData.getUnexcusedAbsence(), null) && !attendanceData.getUnexcusedAbsence().trim().isEmpty()) {
+                totalHoursOfUnexcusedAbsence = DateUtils.timeAddition(totalHoursOfUnexcusedAbsence, attendanceData.getUnexcusedAbsence());
             }
         }
 
@@ -551,7 +579,14 @@ public class AttendanceDataHandler {
                                 totalHoursOfNightWork,
                                 totalHoursOfSundayWork,
                                 totalHoursOfHolidayWork,
-                                totalHoursOfOvertimeWork));
+                                totalHoursOfOvertimeWork,
+                                totalHoursOfOffDaysAndHolidays,
+                                totalHoursOfAnnualLeave,
+                                totalHoursOfSickLeave,
+                                totalHoursOfPaidLeave,
+                                totalHoursOfUnpaidLeave,
+                                totalHoursOfExcusedAbsence,
+                                totalHoursOfUnexcusedAbsence));
 
         return attendanceDataList;
     }

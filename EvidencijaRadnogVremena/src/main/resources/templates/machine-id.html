@@ -1,29 +1,76 @@
 <!DOCTYPE html>
 <html lang="hr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Machine ID</title>
 
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/employee-16x16.png">
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/employee-32x32.png">
     <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/employee-180x180.png">
-    <link rel="stylesheet" href="/css/table.css">
 
     <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .navbar {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         .container {
             margin-top: 50px;
+            max-width: 700px;
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        .label-style, #currentMachineIdDisplay h5 {
-            font-family: Arial, sans-serif;
-            font-size: 1.25rem;
+
+        .label-style {
             font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+         #currentMachineIdDisplay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            height: 100px; /* Fiksna visina za lakše centriranje */
+        }
+
+
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -46,71 +93,71 @@
 
 <div class="container">
     <div id="currentMachineIdDisplay" class="mb-4">
-        <h5>Trenutni machine ID: <span id="currentMachineId">Nema postavljenog ID-a</span></h5>
+        <h5>Preglednik je prijavljen: <span id="currentMachineId">ID nije postavljen.</span></h5>
     </div>
 
     <div class="form-group">
-        <label for="machineIdInput" class="label-style">Unesite Machine ID:</label>
-        <input type="text" id="machineIdInput" class="form-control" placeholder="Unesite Machine ID">
+        <label for="machineIdInput" class="label-style">Upišite korisnika preglednika:</label>
+        <input type="text" id="machineIdInput" class="form-control" placeholder="Upišite korisnika">
     </div>
 
-    <button class="btn btn-success mr-2" onclick="setMachineId()">Postavi ID</button>
-    <button class="btn btn-danger mr-2" onclick="deleteMachineId()">Obriši ID</button>
+    <div class="d-flex justify-content-between">
+        <button class="btn btn-success" onclick="setMachineId()">Potvrdi unos</button>
+        <button class="btn btn-danger" onclick="deleteMachineId()">Obriši prijavu</button>
+    </div>
 
     <div id="machineIdDisplay" class="mt-4"></div>
 </div>
 
 <script>
-    function getMachineId() {
-        let machineId = localStorage.getItem('MachineId');
-
-        if (!machineId) {
-            machineId = crypto.randomUUID();
-            localStorage.setItem('MachineId', machineId);
+        function getMachineId() {
+            let machineId = localStorage.getItem('MachineId');
+            if (!machineId) {
+                machineId = crypto.randomUUID();
+                localStorage.setItem('MachineId', machineId);
+            }
+            console.log(machineId);
+            return machineId;
         }
-        console.log(machineId);
 
-        return machineId;
-    }
-
-    function updateCurrentMachineIdDisplay() {
-        var machineId = localStorage.getItem('MachineId');
-        var currentMachineIdElement = document.getElementById('currentMachineId');
-        if (machineId) {
-            currentMachineIdElement.innerText = machineId;
-        } else {
-            currentMachineIdElement.innerText = "Nema postavljenog ID-a";
+        function updateCurrentMachineIdDisplay() {
+            var machineId = localStorage.getItem('MachineId');
+            var currentMachineIdElement = document.getElementById('currentMachineId');
+            if (machineId) {
+                currentMachineIdElement.innerText = machineId;
+            } else {
+                currentMachineIdElement.innerText = "Nema postavljenog ID-a";
+            }
         }
-    }
 
-    function deleteMachineId() {
-        localStorage.removeItem('MachineId');
-        alert('Machine ID je obrisan iz lokalne pohrane.');
-        updateCurrentMachineIdDisplay();
-    }
-
-    function setMachineId() {
-        var machineId = document.getElementById('machineIdInput').value;
-
-        if (machineId) {
-            localStorage.setItem('MachineId', machineId);
-            alert('Machine ID je postavljen.');
-            document.getElementById('machineIdInput').value = "";
+        function deleteMachineId() {
+            localStorage.removeItem('MachineId');
+            alert('Machine ID je obrisan iz lokalne pohrane.');
             updateCurrentMachineIdDisplay();
-        } else {
-            alert('Molimo unesite validan Machine ID.');
         }
-    }
 
-    window.onload = function() {
-        getMachineId();
-        updateCurrentMachineIdDisplay();
-    };
-</script>
+        function setMachineId() {
+            var machineId = document.getElementById('machineIdInput').value;
+            if (machineId) {
+                localStorage.setItem('MachineId', machineId);
+                alert('Machine ID je postavljen.');
+                document.getElementById('machineIdInput').value = "";
+                updateCurrentMachineIdDisplay();
+            } else {
+                alert('Molimo unesite validan Machine ID.');
+            }
+        }
+
+        window.onload = function () {
+            getMachineId();
+            updateCurrentMachineIdDisplay();
+        };
+    </script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
+
 </html>

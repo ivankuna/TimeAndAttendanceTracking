@@ -39,7 +39,7 @@ public class EmployeeController {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("title", "Popis radnika");
         attributes.put("addLink", "/employees/new");
-        attributes.put("addBtnText", "Unesi radnika");
+        attributes.put("addBtnText", "Unesite radnika");
         attributes.put("updateLink", "/employees/update/{id}");
         attributes.put("deleteLink", "/employees/delete/{id}");
         model.addAttribute("pdfLink", "");
@@ -55,7 +55,7 @@ public class EmployeeController {
     public String showEmployeeAttendance(Model model, HttpServletRequest request) {
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("title", "Popis radnika - dolasci/odlasci");
+        attributes.put("title", "Popis radnika - evidencija radnog vremena");
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
         attributes.put("pdfLink", "dummy");
@@ -71,7 +71,7 @@ public class EmployeeController {
     public String showEmployeeAbsenceRecord(Model model, HttpServletRequest request) {
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("title", "Popis radnika - Nenazočnost na poslu");
+        attributes.put("title", "Popis radnika - nenazočnost na poslu");
         attributes.put("updateLink", "/absence-record/show/{id}");
         attributes.put("deleteLink", "");
         attributes.put("pdfLink", "");

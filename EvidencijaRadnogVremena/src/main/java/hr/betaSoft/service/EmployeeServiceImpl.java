@@ -125,4 +125,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employee;
     }
+
+    @Override
+    public String getEmployeeDetailsForHtml(Long id) {
+        Employee employee = findById(id);
+
+        return employee.getFirstName() + " " +
+                employee.getLastName() + ", OIB: " +
+                employee.getOib();
+    }
 }
