@@ -1,18 +1,21 @@
 package hr.betaSoft.test;
 
-import java.sql.Date;
 import java.util.*;
 
 public class TestMain {
 
     public static void main(String[] args) {
 
-        MojTest test = new MojTest();
+        String test1 = "oVo JE TEST";
 
-        if (!Objects.equals(test.getTest(), null) && test.getTest().trim().isEmpty()) {
+        String[] test2 = test1.split(" ");
 
-            System.out.println("test");
+        List<String> test3 = Arrays.asList(test2);
 
+        for (String str : test3) {
+            test3.set(test3.indexOf(str), str.toLowerCase());
         }
+
+        System.out.println("stop");
     }
 }
