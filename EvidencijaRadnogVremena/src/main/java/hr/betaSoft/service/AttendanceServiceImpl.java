@@ -47,9 +47,11 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void processClockOutData(Employee employee) {
 
-        List<Attendance> attendanceList = new ArrayList<>(findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee));
+//        List<Attendance> attendanceList = new ArrayList<>(findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee));
+        List<Attendance> attendanceList = new ArrayList<>(findByEmployeeAndClockOutDateIsNullOrderByClockInDateDescClockInTimeDesc(employee));
 
-        Attendance lastAttendanceRecord = attendanceList.isEmpty() ? new Attendance() : attendanceList.get(Math.max(attendanceList.size() - 1, 0));
+//        Attendance lastAttendanceRecord = attendanceList.isEmpty() ? new Attendance() : attendanceList.get(Math.max(attendanceList.size() - 1, 0));
+        Attendance lastAttendanceRecord = attendanceList.isEmpty() ? new Attendance() : attendanceList.get(0);
 
         Attendance clockOut = new Attendance();
 
@@ -163,8 +165,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public List<Attendance> findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(Employee employee) {
-        return attendanceRepository.findByEmployeeAndClockOutDateIsNullOrderByClockInDateDesc(employee);
+    public List<Attendance> findByEmployeeAndClockOutDateIsNullOrderByClockInDateDescClockInTimeDesc(Employee employee) {
+        return attendanceRepository.findByEmployeeAndClockOutDateIsNullOrderByClockInDateDescClockInTimeDesc(employee);
     }
 
     @Override
