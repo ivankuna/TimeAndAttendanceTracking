@@ -55,7 +55,7 @@ public class EmployeeController {
     public String showEmployeeAttendance(Model model, HttpServletRequest request) {
 
         Map<String, Object> attributes = new HashMap<>();
-        attributes.put("title", "Popis radnika - evidencija radnog vremena");
+        attributes.put("title", "Popis radnika - radno vrijeme");
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
         attributes.put("pdfLink", "dummy");
