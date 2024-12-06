@@ -47,7 +47,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     @Override
     public void processClockOutData(Employee employee) {
 
-        Attendance tempAttendance = findFirstByEmployeeOrderByClockInDateDescClockInTimeDesc(employee);
+        Attendance tempAttendance = findFirstByEmployeeOrderByClockInDateDescClockInTimeDescIdDesc(employee);
         Attendance lastAttendanceRecord = tempAttendance == null ? new Attendance() : tempAttendance;
 
         Attendance clockOut = new Attendance();
@@ -162,8 +162,8 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public Attendance findFirstByEmployeeOrderByClockInDateDescClockInTimeDesc(Employee employee) {
-        return attendanceRepository.findFirstByEmployeeOrderByClockInDateDescClockInTimeDesc(employee);
+    public Attendance findFirstByEmployeeOrderByClockInDateDescClockInTimeDescIdDesc(Employee employee) {
+        return attendanceRepository.findFirstByEmployeeOrderByClockInDateDescClockInTimeDescIdDesc(employee);
     }
 
     @Override

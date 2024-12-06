@@ -1,7 +1,5 @@
 package hr.betaSoft.test;
 
-import hr.betaSoft.model.Employee;
-import hr.betaSoft.service.EmployeeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
