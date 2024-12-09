@@ -36,6 +36,14 @@ public class PinController {
         return "pin-message"; // Return the Thymeleaf template name
     }
 
+    @GetMapping("/pin/address")
+    public String showAdresa(@RequestParam double lat, @RequestParam double lng, Model model) {
+        model.addAttribute("latitude", lat);
+        model.addAttribute("longitude", lng);
+        return "pin-address";
+    }
+
+
     @GetMapping("/pin/camera")
     public String showCamera() {
         return "pin-camera";

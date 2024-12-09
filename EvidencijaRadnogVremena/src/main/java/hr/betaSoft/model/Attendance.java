@@ -57,11 +57,17 @@ public class Attendance {
     @Column
     private boolean clockOutDataUserUpdate;
 
-    @Column(name = "latitude", precision = 10, scale = 6)
-    private BigDecimal latitude;
+    @Column(name = "clockInLatitude", precision = 10, scale = 6)
+    private BigDecimal clockInLatitude;
 
-    @Column(name = "longitude", precision = 10, scale = 6)
-    private BigDecimal longitude;
+    @Column(name = "clockInLongitude", precision = 10, scale = 6)
+    private BigDecimal clockInLongitude;
+
+    @Column(name = "clockOutLatitude", precision = 10, scale = 6)
+    private BigDecimal clockOutLatitude;
+
+    @Column(name = "clockOutLongitude", precision = 10, scale = 6)
+    private BigDecimal clockOutLongitude;
 
     private String clockInDay;
 

@@ -225,7 +225,41 @@
                 document.documentElement.className = 'dark-theme';
             }
         })();
+
+        let latitude = null;
+        let longitude = null;
+
+        // Check and request geolocation permission on load
+        function checkGeolocationPermission() {
+            if (!navigator.geolocation) {
+                alert("Geolokacija nije podržana na ovom uređaju.");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    latitude = position.coords.latitude;
+                    longitude = position.coords.longitude;
+                    console.log(latitude);
+                    console.log(longitude);
+                },
+                (error) => {
+                    if (error.code === error.PERMISSION_DENIED) {
+                        alert("Geolokacija nije omogućena. Uključite geolokaciju za precizniji rad.");
+                    } else {
+                        alert("Geolokacija nije dostupna. Nastavljamo dalje.");
+                    }
+                }
+            );
+        }
+
+
+
     </script>
+
+
+
+
 
 </head>
 <body>
@@ -296,6 +330,7 @@
     // Initializes the application by setting up necessary functions and settings
     function initializeApp() {
         loadTheme(); // Apply saved theme from localStorage
+        checkGeolocationPermission(); // Check geolocation on load
         getMachineId(); // Retrieve the machine ID from localStorage
         CheckMachineId();
         updateCurrentMachineIdDisplay(); // Update the display with the current machine ID
@@ -456,7 +491,7 @@
             }
 
             // Create data object for submission
-            var data = { pin: pinInput, machineId: machineId, action: action };
+            var data = { pin: pinInput, machineId: machineId, action: action, latitude: latitude, longitude: longitude };
             fetch('/pin/record', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -478,8 +513,6 @@
     }
 
 </script>
-
-
 
 </body>
 </html>

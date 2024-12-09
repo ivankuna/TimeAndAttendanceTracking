@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 @RestController
@@ -33,6 +34,12 @@ public class PinValidationController {
         String pin = requestData.get("pin");
         String machineId = requestData.get("machineId");
         String action = requestData.get("action");
+        String lat = requestData.get("latitude");
+        String lon = requestData.get("longitude");
+        BigDecimal latitude = new BigDecimal(lat);
+        BigDecimal longitude = new BigDecimal(lon);
+
+
 
         Employee employee = employeeService.findByPinAndMachineId(pin, machineId);
 
@@ -41,10 +48,10 @@ public class PinValidationController {
 
         if (employee != null) {
             if (action.equals("clockIn")) {
-                attendanceService.processClockInData(employee);
+                attendanceService.processClockInData(employee, latitude, longitude);
                 entry_message = employee.getFirstName() + ",<br><br>Vaš dolazak<br>je evidentiran.";
             } else if (action.equals("clockOut")){
-                attendanceService.processClockOutData(employee);
+                attendanceService.processClockOutData(employee, latitude, longitude);
                 entry_message = employee.getFirstName() + ",<br><br>Vaš odlazak<br>je evidentiran.";
             }
 

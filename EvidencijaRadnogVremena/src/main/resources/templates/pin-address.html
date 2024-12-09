@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="hr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prikaz Adrese</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-body text-center">
+      <h1 class="card-title mb-4">Adresa prijave</h1>
+
+      <p>Latitude: [[${latitude}]]</p>
+      <p>Longitude: [[${longitude}]]</p>
+
+      <p id="status" class="text-muted">Dobijam adresu...</p>
+      <p id="address" class="fw-bold text-primary mt-3"></p>
+    </div>
+  </div>
+</div>
+
+<script th:inline="javascript">
+    // Učitavanje latitude i longitude iz servera
+    const lat = [[${latitude}]];
+    const lng = [[${longitude}]];
+
+    const statusElement = document.getElementById('status');
+    const addressElement = document.getElementById('address');
+
+    if (!lat || !lng) {
+        statusElement.textContent = "Greška: Nedostaju koordinate.";
+        statusElement.className = "text-danger";
+    } else {
+        // Reverse Geocoding API poziv za Geoapify
+        const apiKey = 'acd6478d0a194631b12fa3e5af351e83'; // Zameni sa tvojim Geoapify API ključem
+        const geocodeUrl = `https://api.geoapify.com/v1/geocode/reverse?lat=${lat}&lon=${lng}&apiKey=${apiKey}&lang=hr`;
+
+        fetch(geocodeUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.features && data.features.length > 0) {
+                    let address = data.features[0].properties.formatted || "Adresa nije pronađena.";
+                    const city = data.features[0].properties.city || data.features[0].properties.locality || "Nepoznato";
+                    statusElement.textContent = "Status: Adresa pronađena!";
+                    statusElement.className = "text-success";
+                    addressElement.textContent = address;
+                } else {
+                    statusElement.textContent = "Greška: Adresa nije pronađena.";
+                    statusElement.className = "text-danger";
+                }
+            })
+            .catch(error => {
+                statusElement.textContent = `Greška: ${error.message}`;
+                statusElement.className = "text-danger";
+            });
+    }
+</script>
+</body>
+</html>

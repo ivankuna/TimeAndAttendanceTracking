@@ -10,6 +10,7 @@ import hr.betaSoft.utils.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
-    public void processClockInData(Employee employee) {
+    public void processClockInData(Employee employee, BigDecimal latitude, BigDecimal longitude) {
 
         Attendance lastAttendanceRecord = findFirstByEmployeeOrderByIdDesc(employee) == null ? new Attendance() : findFirstByEmployeeOrderByIdDesc(employee);
 
@@ -39,13 +40,15 @@ public class AttendanceServiceImpl implements AttendanceService {
         clockIn.setEmployee(employee);
         clockIn.setClockInDate(DateTimeStorage.getCurrentDate());
         clockIn.setClockInTime(DateTimeStorage.getCurrentTime());
+        clockIn.setClockInLatitude(latitude);
+        clockIn.setClockInLongitude(longitude);
         clockIn.setStatus(1);
 
         saveAttendance(clockIn);
     }
 
     @Override
-    public void processClockOutData(Employee employee) {
+    public void processClockOutData(Employee employee, BigDecimal latitude, BigDecimal longitude) {
 
         Attendance tempAttendance = findFirstByEmployeeOrderByClockInDateDescClockInTimeDescIdDesc(employee);
         Attendance lastAttendanceRecord = tempAttendance == null ? new Attendance() : tempAttendance;
@@ -63,6 +66,8 @@ public class AttendanceServiceImpl implements AttendanceService {
 
         clockOut.setClockOutDate(DateTimeStorage.getCurrentDate());
         clockOut.setClockOutTime(DateTimeStorage.getCurrentTime());
+        clockOut.setClockOutLatitude(latitude);
+        clockOut.setClockOutLongitude(longitude);
 
         if (error) {
             clockOut.setEmployee(employee);

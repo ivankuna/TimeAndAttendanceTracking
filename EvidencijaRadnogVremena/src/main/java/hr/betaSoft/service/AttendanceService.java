@@ -3,14 +3,15 @@ package hr.betaSoft.service;
 import hr.betaSoft.model.Attendance;
 import hr.betaSoft.model.Employee;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
 public interface AttendanceService {
 
-    void processClockInData(Employee employee);
+    void processClockInData(Employee employee, BigDecimal latitude, BigDecimal longitude);
 
-    void processClockOutData(Employee employee);
+    void processClockOutData(Employee employee, BigDecimal latitude, BigDecimal longitude);
 
     void processAttendanceDataFromController(Attendance attendance, Employee employee);
 

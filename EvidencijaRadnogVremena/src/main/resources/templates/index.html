@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikacije</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" rel="stylesheet"> <!-- Link za Bootstrap Icons -->
+  <style>
+        /* Global Styles */
+        html, body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #495057;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        /* Card Styles */
+        .card {
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-title {
+            color: #343a40;
+            font-weight: 600;
+        }
+
+        .card-text {
+            color: #6c757d;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            border: none;
+            border-radius: 30px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #feb47b, #ff7e5f);
+            transform: scale(1.05);
+        }
+
+        /* Footer Styles */
+        footer {
+            flex-shrink: 0;
+            background: linear-gradient(45deg, #343a40, #495057);
+            color: #fff;
+            padding: 20px 0;
+        }
+
+        footer p {
+            color: #d1d1d1;
+            margin: 0;
+        }
+
+        footer .social-icons a {
+            color: #d1d1d1;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+            font-size: 1.5rem; /* Povećanje veličine ikona */
+        }
+
+        footer .social-icons a:hover {
+            color: #ff7e5f;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+  <h1 class="text-center mb-5" data-aos="fade-right">Odaberite aplikaciju</h1>
+  <div class="row g-4">
+    <!-- eRadnici -->
+    <div class="col-md-4" data-aos="fade-right" data-aos-delay="100">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title text-center">eRadnici</h5>
+          <p class="card-text text-center">
+            Aplikacija za izradu naloga za prijavu i/ili odjavu radnika.
+          </p>
+          <div class="text-center">
+            <a href="https://prijava-radnika.cloud/login" class="btn btn-primary w-100" target="_blank">Otvorite</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Evidencija radnog vremena -->
+    <div class="col-md-4" data-aos="fade-right" data-aos-delay="200">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title text-center">eŠihterica</h5>
+          <p class="card-text text-center">
+            Aplikacija za praćenje i evidenciju radnog vremena zaposlenika.
+          </p>
+          <div class="text-center">
+
+            <a href="https://betastudio.cloud/login" class="btn btn-primary w-100" target="_blank">Otvori</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="container text-center">
+    <p>&copy; 2024 Beta studio d.o.o. Sva prava pridržana.</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com" target="_blank"><i class="bi bi-facebook"></i></a>
+      <a href="https://www.twitter.com" target="_blank"><i class="bi bi-twitter"></i></a>
+      <a href="https://www.linkedin.com" target="_blank"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+    </script>
+</body>
+</html>

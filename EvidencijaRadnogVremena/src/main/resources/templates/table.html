@@ -113,8 +113,13 @@
                                 <a th:if="${deleteLink != ''}"
                                    th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
                                    class="text-danger"
-                                   onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
+                                   onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false"
+                                   style="margin-right: 16px;">
                                     <i class="far fa-trash-alt fa-lg"></i>
+                                </a>
+                                <a th:if="${locationLink != ''}"
+                                   th:href="@{${locationLink}(id=${data[columnList[0].id]})}"  >
+                                    <i class="fa fa-map-marker"></i>
                                 </a>
                             </div>
                             <div th:if="${tableName == 'holidays'}">
@@ -124,6 +129,7 @@
                                    onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false">
                                     <i class="far fa-trash-alt fa-lg"></i>
                                 </a>
+
                             </div>
                             <div th:if="${tableName == 'absence_record'}">
                                 <a th:if="${deleteLink != ''}"

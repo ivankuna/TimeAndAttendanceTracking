@@ -86,6 +86,7 @@ public class AttendanceController {
         model.addAttribute("path", "/employees/show-attendance");
         model.addAttribute("updateLink", "/attendance/update/{id}");
         model.addAttribute("deleteLink", "/attendance/delete/{id}");
+        model.addAttribute("locationLink", "/attendance/address-in/{id}");
         model.addAttribute("tableName", "attendence");
         model.addAttribute("script", "/js/table-users.js");
 
@@ -127,6 +128,7 @@ public class AttendanceController {
         model.addAttribute("path", "/employees");
         model.addAttribute("updateLink", "");
         model.addAttribute("deleteLink", "");
+        model.addAttribute("locationLink", "/attendance/address-in/{id}");
         model.addAttribute("tableName", "attendence");
         model.addAttribute("script", "/js/table-users.js");
 
@@ -188,6 +190,42 @@ public class AttendanceController {
             model.addAttribute("script", "/js/form-users.js");
 
             return "form";
+        } catch (AttendanceNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/attendance/show/" + id;
+        }
+    }
+
+
+    @GetMapping("/address-in/{id}")
+    public String showAddressClockInForm(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes ra) {
+
+        try {
+
+            Attendance attendance = attendanceService.findById(id);
+
+            model.addAttribute("latitude", attendance.getClockInLatitude());
+            model.addAttribute("longitude", attendance.getClockInLongitude());
+            return "pin-address";
+
+
+        } catch (AttendanceNotFoundException e) {
+            ra.addFlashAttribute("message", e.getMessage());
+            return "redirect:/attendance/show/" + id;
+        }
+    }
+    @GetMapping("/address-out/{id}")
+    public String showAddressClockOutForm(@PathVariable("id") Long id, HttpSession session, Model model, RedirectAttributes ra) {
+
+        try {
+
+            Attendance attendance = attendanceService.findById(id);
+
+            model.addAttribute("latitude", attendance.getClockOutLatitude());
+            model.addAttribute("longitude", attendance.getClockOutLongitude());
+            return "pin-address";
+
+
         } catch (AttendanceNotFoundException e) {
             ra.addFlashAttribute("message", e.getMessage());
             return "redirect:/attendance/show/" + id;
