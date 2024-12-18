@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/users")
@@ -125,7 +126,7 @@ public class UserController {
 
         User usernameExists = userService.findByUsername(userDto.getUsername());
 
-        User machineIdExists = userService.findByMachineID(userDto.getMachineID());
+        User machineIdExists = userService.findByMachineID(userDto.getMachineID() == null ? "" : userDto.getMachineID());
 
         boolean error = false;
 
@@ -139,7 +140,7 @@ public class UserController {
             errorNum = 2;
         } else if (userDto.getDateOfUserAccountExpiry() == null) {
             errorNum = 3;
-        } else if (userDto.getId() == null && machineIdExists != null) {
+        } else if (machineIdExists != null && !Objects.equals(userDto.getId(), machineIdExists.getId())) {
             errorNum = 4;
         }
 
