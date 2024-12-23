@@ -102,11 +102,12 @@ public class MainController {
 
     @GetMapping("/users")
     public String showAdminMenuForm() {
-        return "users";
+        return "menu-admin";
+
     }
 
     @GetMapping("/employees")
     public String showUserMenuForm() {
-        return "employees";
+        return "menu-user";
     }
 }

@@ -33,6 +33,8 @@ public class SpringSecurityConfig {
                                 .requestMatchers("/pin/**").permitAll()
                                 .requestMatchers("/js/**").permitAll()
                                 .requestMatchers("/css/**").permitAll()
+                                .requestMatchers("/icons/**").permitAll()
+                                .requestMatchers("/backend/**").permitAll()
                                 .requestMatchers("/access-denied").permitAll()
                                 .requestMatchers("/users/**").hasRole("ADMIN")
                                 .requestMatchers("/employees/**").hasRole("USER")

@@ -153,7 +153,7 @@ public class AbsenceRecordController {
 
         if (absenceRecord.getEndDate().before(absenceRecord.getStartDate())) {
             ra.addFlashAttribute("absenceRecord", absenceRecord);
-            ra.addFlashAttribute("message", "Datum kraja nenazočnosti ne može biti prije datuma početka nenazočnosti!");
+            ra.addFlashAttribute("message", "Datum završetka nenazočnosti ne može biti prije datuma početka nenazočnosti!");
             return redirect(absenceRecord);
         }
 

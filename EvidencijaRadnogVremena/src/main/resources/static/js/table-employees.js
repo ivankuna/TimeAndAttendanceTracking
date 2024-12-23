@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('#myTable').DataTable({
         "language": {
-            "lengthMenu": "Prikaži _MENU_ zapisa po stranici",
+            "lengthMenu": "Prikaži   _MENU_  zapisa po stranici",
             "zeroRecords": "Nema pronađenih zapisa",
             "info": "Stranica _PAGE_ od _PAGES_",
             "infoEmpty": "Nema dostupnih zapisa",
@@ -48,9 +48,10 @@ $(document).ready(function() {
                   }
               }
           ],
-        "paging": false,
-        "searching": false,
-        "info": false
+        "paging": true,
+        "searching": true,
+        "info": true,
+        "pageLength": 100
     });
 
     function formatDate(dateStr) {

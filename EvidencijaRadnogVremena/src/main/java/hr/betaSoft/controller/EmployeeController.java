@@ -218,7 +218,7 @@ public class EmployeeController {
         if (!Objects.equals(employee.getSignOutDate(), null)) {
             if (employee.getSignUpDate().after(employee.getSignOutDate())) {
                 ra.addFlashAttribute("employee", employee);
-                ra.addFlashAttribute("message", "Datum kraja rada radnika u tvrtci ne može biti prije datuma početka rada radnika u tvrtci!");
+                ra.addFlashAttribute("message", "Datum prestanka rada radnika u tvrtci ne može biti prije datuma početka rada radnika u tvrtci!");
                 return redirect(employee);
             }
         }
@@ -345,7 +345,7 @@ public class EmployeeController {
         ;
         dataList.add(new Data("21.", "Datum početka rada u tvrtci", "signUpDate", "", "", "", "date-pick", "false","true", items, "false"));
         ;
-        dataList.add(new Data("22.", "Datum kraja rada u tvrtci", "signOutDate", "", "", "", "date-pick", "false","true", items, "false"));
+        dataList.add(new Data("22.", "Datum prestanka rada u tvrtci", "signOutDate", "", "", "", "date-pick", "false","true", items, "false"));
         ;
         dataList.add(new Data("23.", "PIN", "pin", "", "", "", "number-input", "true", "", items, "false"));
         ;

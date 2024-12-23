@@ -58,14 +58,31 @@
         text-align: center;
     }
 
+    .print-icon {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        background-image: url('/icons/print64px.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
     @media print {
         th, td {
             border-style: dotted;
+        }
+         .print-icon {
+            display: none;
         }
     }
   </style>
 </head>
 <body style="font-family:calibri">
+
+<div class="print-icon" onclick="window.print()"></div>
 
 <div style="margin-bottom: 60px;">
   <p><span th:text="${userDetails}"></span></p>

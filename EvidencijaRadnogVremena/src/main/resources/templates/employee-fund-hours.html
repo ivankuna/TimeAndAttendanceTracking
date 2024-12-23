@@ -13,17 +13,13 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
-    <link rel="shortcut icon" type="image/png" sizes="16x16"
-          href="https://betastudio.hr/betasoft/png/clock-16x16.png">
-
-    <link rel="shortcut icon" type="image/png" sizes="32x32"
-          href="https://betastudio.hr/betasoft/png/clock-32x32.png">
-
-    <link rel="icon" type="image/png" sizes="16x16" href="https://betastudio.hr/betasoft/png/clock-16x16.png">
-
-    <link rel="icon" type="image/png" sizes="32x32" href="https://betastudio.hr/betasoft/png/clock-32x32.png">
-
-    <link rel="apple-touch-icon" sizes="180x180" href="https://betastudio.hr/betasoft/png/clock-180x180.png">
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/wtr_48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/wtr_192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/wtr_180.png">
 
     <link rel="stylesheet" href="/css/table.css">
 
@@ -142,8 +138,9 @@
 
             <div class="fixed-bottom-buttons">
                 <div class="btn-group btn-group-justified">
-                    <a id="showButton" class="btn btn-primary">Ispiši fond</a>
-                    <a th:href="@{${path}}" class="btn btn-secondary">Povratak</a>
+                    <a id="showButton" class="btn btn-primary">
+                        <i class="fas fa-print"></i> Ispiši fond</a>
+                    <a th:href="@{${path}}" class="btn btn-success"><span><i class="fas fa-undo me-2"></i> Povratak</span></a></a>
                 </div>
             </div>
 

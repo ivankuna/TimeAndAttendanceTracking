@@ -155,7 +155,7 @@ public class AttendanceController {
 
         model.addAttribute("dataList", dataList);
         model.addAttribute("hiddenList", hiddenList);
-        model.addAttribute("title", "Dolazak/odlazak");
+        model.addAttribute("title", "Dolazak / odlazak");
         model.addAttribute("dataId", "id");
         model.addAttribute("pathSave", "/attendance/save/" + employeeId);
         model.addAttribute("path", "/attendance/show/" + employee.getId());
@@ -181,7 +181,7 @@ public class AttendanceController {
             model.addAttribute("class", attendance);
             model.addAttribute("dataList", dataList);
             model.addAttribute("hiddenList", hiddenList);
-            model.addAttribute("title", "Dolazak/odlazak");
+            model.addAttribute("title", "Dolazak / odlazak");
             model.addAttribute("dataId", "id");
             model.addAttribute("pathSave", "/attendance/save/" + employeeId);
             model.addAttribute("path", "/attendance/show/" + employee.getId());
@@ -271,7 +271,7 @@ public class AttendanceController {
                     if (attendanceService.dateAndTimeOverlap(attendance, att) && !Objects.equals(attendance.getId(), att.getId())) {
                         ra.addFlashAttribute("attendance", attendance);
                         ra.addFlashAttribute("message",
-                                "Nije moguće upisati dolazak/odlazak jer već postoji zapis: " + DateTimeStorage.DATE_FORMAT.format(att.getClockInDate()) + " " +
+                                "Nije moguće upisati dolazak / odlazak jer već postoji zapis: " + DateTimeStorage.DATE_FORMAT.format(att.getClockInDate()) + " " +
                                 att.getClockInTime() + " - " + DateTimeStorage.DATE_FORMAT.format(att.getClockOutDate()) + " " + att.getClockOutTime());
                         return redirect(attendance);
                     }

@@ -1,58 +1,35 @@
-    .fixed-bottom-buttons {
-        position: fixed;
-        bottom: 0px;
-        left: 0;
-        right: 0;
-        z-index: 1030;
-        display: flex;
-        justify-content: center;
-        background-color: #343a40;
-        padding: 10px 0;
-    }
-
-    .fixed-bottom-buttons .btn {
-        margin: 0 5px;
-    }
-
-   .navbar {
-        position: fixed;
-        top: 0;
-        z-index: 1000;
-        width: 100%;
-        background-color: #343a40;
-        padding: 10px 0;
-        padding-left: 2px;
-    }
-
-    .navbar .nav-link {
-        color: #fff;
-    }
-
-    .navbar .nav-link:hover {
-        color: #f8f9fa;
-    }
+     html, body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+     }
 
     body {
         padding-top: 40px;
     }
 
-        .datepicker-container {
-            display: flex;
-            align-items: center;
-        }
 
-        .datepicker-container input {
-            flex-grow: 1;
-            width: 100%;
-        }
 
-        .datepicker-container button {
-            margin-left: 10px;
-        }
 
-        .date-trigger {
-            cursor: pointer;
-        }
+    .datepicker-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .datepicker-container input {
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    .datepicker-container button {
+        margin-left: 10px;
+    }
+
+    .date-trigger {
+        cursor: pointer;
+    }
 
     .ui-datepicker-trigger {
         border: none;
@@ -101,3 +78,59 @@
    .form-group-row button {
         margin-bottom: 20px;
     }
+
+
+        .display-message
+        {
+            display: none;
+        }
+
+        .fixed-bottom-buttons {
+                    position: fixed;
+                    bottom: 0px;
+                    left: 0;
+                    right: 0;
+                    z-index: 1030;
+                    display: flex;
+                    justify-content: center;
+                    background-color: #19398A;
+                    padding: 10px 0;
+                }
+
+                 .fixed-bottom-buttons .btn {
+                        margin: 0 10px;
+                    }
+
+                .navbar {
+                        position: fixed;
+                        top: 0;
+                        z-index: 1000;
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        padding: 10px 0;
+                        padding-left: 2px;
+                    }
+
+                .custom-bg-dark {
+                       background-color: #19398A !important;
+                       color: #ffffff;
+
+                }
+
+                .navbar .nav-link i {
+                    padding-left: 2px;
+                    padding-right: 5px;
+                    display: flex;
+                    align-items: center;
+                    color : #e1dcdc;
+                }
+
+                .navbar .nav-link i:hover {
+                    color: #ffffff;
+                    transition: color 0.3s ease;
+                }
+
+                 .btn i {
+                                margin-right: 10px; /* Povećava razmak između ikone i teksta */
+                            }

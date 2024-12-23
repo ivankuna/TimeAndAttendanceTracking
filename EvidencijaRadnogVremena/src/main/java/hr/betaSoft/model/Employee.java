@@ -28,7 +28,7 @@ public class Employee {
 
     public static final List<String> OVERTIME_SCHEDULE = Arrays.asList("Tjedno", "Dnevno");
 
-    private static final String[] ATTRIBUTE_VALUES_FOR_CHECKING = new String[]{"Datum početka rada u tvrtci", "Datum kraja rada u tvrtci"};
+    private static final String[] ATTRIBUTE_VALUES_FOR_CHECKING = new String[]{"Datum početka rada u tvrtci", "Datum prestanka rada u tvrtci"};
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -142,7 +142,7 @@ public class Employee {
         switch (attributeName) {
             case "Datum početka rada u tvrtci":
                 return signUpDate;
-            case "Datum kraja rada u tvrtci":
+            case "Datum prestanka rada u tvrtci":
                 return signOutDate;
             default:
                 throw new IllegalArgumentException("Unknown attribute name: " + attributeName);
