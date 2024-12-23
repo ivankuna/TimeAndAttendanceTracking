@@ -8,79 +8,79 @@
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
     <title th:text="${pageTitle}"></title>
 
-    <style>
-        * {
-            font-size: 15px;
-          }
+<style>
+    * {
+        font-size: 15px;
+      }
 
-        body {
-            padding: 0px;
-            font-family: calibri;
-        }
-
-        h4 {
-            text-align: center;
-            padding: 0px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 0.1px dotted black;
-            padding: 5px;
-            text-align: left;
-            border-style: dotted;
-            border-color: gray;
-
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .small-width {
-            width: 5%;
-            text-align: center;
-        }
-        .half-width {
-            width: 30%;
-        }
-        .double-width {
-            width: 65%;
-        }
-        .double-width-left {
-            width: 65%;
-            text-align: left;
-        }
-        .double-width-right {
-            width: 65%;
-            text-align: right;
-        }
-         .full-width {
-            width: 100%;
-            text-align: center;
-        }
-
-        .print-icon {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        background-image: url('/icons/print64px.png');
-        background-size: contain;
-        background-repeat: no-repeat;
+    body {
+        padding: 0px;
+        font-family: calibri;
     }
 
-    @media print {
-        th, td {
-            border-style: dotted;
-        }
-         .print-icon {
-            display: none;
-        }
+    h4 {
+        text-align: center;
+        padding: 0px;
     }
-    </style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 0.1px dotted black;
+        padding: 5px;
+        text-align: left;
+        border-style: dotted;
+        border-color: gray;
+
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .small-width {
+        width: 5%;
+        text-align: center;
+    }
+    .half-width {
+        width: 30%;
+    }
+    .double-width {
+        width: 65%;
+    }
+    .double-width-left {
+        width: 65%;
+        text-align: left;
+    }
+    .double-width-right {
+        width: 65%;
+        text-align: right;
+    }
+     .full-width {
+        width: 100%;
+        text-align: center;
+    }
+
+    .print-icon {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    background-image: url('/icons/print64px.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+@media print {
+    th, td {
+        border-style: dotted;
+    }
+     .print-icon {
+        display: none;
+    }
+}
+</style>
 </head>
 <body style="font-family:calibri">
 <div class="print-icon" onclick="window.print()"></div>

@@ -67,8 +67,6 @@
     }
 
     .navbar .nav-link i {
-        padding-left: 2px;
-        padding-right: 5px;
         display: flex;
         align-items: center;
         color : #e1dcdc;
@@ -82,6 +80,15 @@
         {
             display: none;
         }
+
 .btn i {
-                                margin-right: 10px; /* Povećava razmak između ikone i teksta */
-                            }
+    margin-right: 10px;
+}
+
+.margin-right {
+    padding-right: 10px;
+}
+
+.margin-left {
+    padding-left: 10px;
+}

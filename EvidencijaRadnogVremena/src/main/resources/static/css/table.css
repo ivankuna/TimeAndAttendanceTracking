@@ -1,87 +1,89 @@
-     html, body {
-            height: 100%;
-            margin: 0;
-            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
-            font-family: 'Roboto', sans-serif;
-            font-size: 14px;
-     }
+html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
 
-    body {
-        padding-top: 80px;
+body {
+    padding-top: 80px;
+}
+
+@media only screen and (max-width: 699px) {
+    table {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 699px) {
+    .table-responsive {
+    overflow-x: auto;
+    }
+}
+
+
+th {
+    text-indent: 10px;
+}
+
+.display-message
+{
+    display: none;
+}
+
+.btn i {
+    margin-right: 10px; /* Povećava razmak između ikone i teksta */
+}
+
+.fixed-bottom-buttons {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    justify-content: center;
+    background-color: #19398A;
+    padding: 10px 0;
+}
+
+.fixed-bottom-buttons .btn {
+    margin: 0 10px;
+}
+
+.navbar {
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 10px 0;
+        padding-left: 2px;
     }
 
+.custom-bg-dark {
+       background-color: #19398A !important;
+       color: #ffffff;
+}
 
+.navbar .nav-link i {
+    display: flex;
+    align-items: center;
+    color : #e1dcdc;
+}
 
-    @media only screen and (max-width: 699px) {
-        table {
-            font-size: 14px;
-        }
-    }
+.navbar .nav-link i:hover {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
 
-    @media (max-width: 699px) {
-          .table-responsive {
-            overflow-x: auto;
-          }
-        }
+.margin-right {
+    padding-right: 10px;
+}
 
-
-      th {
-        text-indent: 10px;
-    }
-
-    .display-message
-    {
-        display: none;
-    }
-
-    .btn i {
-                margin-right: 10px; /* Povećava razmak između ikone i teksta */
-            }
-
-    .fixed-bottom-buttons {
-            position: fixed;
-            bottom: 0px;
-            left: 0;
-            right: 0;
-            z-index: 1030;
-            display: flex;
-            justify-content: center;
-            background-color: #19398A;
-            padding: 10px 0;
-        }
-
-         .fixed-bottom-buttons .btn {
-                margin: 0 10px;
-            }
-
-        .navbar {
-                position: fixed;
-                top: 0;
-                z-index: 1000;
-                width: 100%;
-                display: flex;
-                align-items: center;
-                padding: 10px 0;
-                padding-left: 2px;
-            }
-
-        .custom-bg-dark {
-               background-color: #19398A !important;
-               color: #ffffff;
-
-        }
-
-        .navbar .nav-link i {
-            padding-left: 2px;
-            padding-right: 5px;
-            display: flex;
-            align-items: center;
-            color : #e1dcdc;
-        }
-
-        .navbar .nav-link i:hover {
-            color: #ffffff;
-            transition: color 0.3s ease;
-        }
-
+.margin-left {
+    padding-left: 10px;
+}
 

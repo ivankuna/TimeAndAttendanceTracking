@@ -43,19 +43,13 @@
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link"  th:href="${path}"><i class="fas fa-arrow-left fa-1x"></i></a>
+                <a class="nav-link marging-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
             </li>
         </ul>
         <a class="navbar-brand mx-auto" th:text="${title}" href="#">Naslov tablice</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link d-inline-block"  id="logoutLink" href="#">
-                    <i class="fas fa-user"></i>
-                    <span id="usernameMessage" class="display-message">Prijavljeni korisnik: <span th:text="${#authentication.principal}">not found</span></span>
-                </a>
-                <a class="nav-link d-inline-block" href="/logout">
-                    <i class="fas fa-sign-out-alt fa-1x"></i>
-                </a>
+                <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt fa-1x"></i></a>
             </li>
         </ul>
     </div>
