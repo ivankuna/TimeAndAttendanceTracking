@@ -37,13 +37,13 @@
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link marging-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
+                <a class="nav-link d-inline-block margin-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
             </li>
         </ul>
         <a class="navbar-brand mx-auto" href="#">Evidencija radnog vremena</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt fa-1x"></i></a>
+                <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
             </li>
         </ul>
     </div>
@@ -51,50 +51,47 @@
 
 <div class="container mt-4">
     <div class="col-md-6 offset-md-3">
-        <div class="row">
+        <div class="row button-frame">
             <div class="col-md-12">
                 <div class="menu-buttons">
                     <div class="menu-buttons">
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/employees/show'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show'">
                             <span><i class="fas fa-user"></i> Evidencija radnika</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/employees/show-attendance'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-attendance'">
                             <i class="fas fa-clock"></i> <span>Evidencija radnog vremena</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/employees/show-absence-record'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-absence-record'">
                             <i class="fas fa-calendar-alt"></i> <span>Evidencija nenazočnosti na poslu</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/fund-hours-html'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/fund-hours-html'">
                             <i class="fas fa-calculator"></i> <span>Izračun mjesečnog fonda sati</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/attendance/show-current-attendance'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/attendance/show-current-attendance'">
                             <i class="fas fa-check-circle"></i> <span>Prisutnost na poslu</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/settings'">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/settings'">
                             <i class="fas fa-cogs"></i> <span>Postavke</span>
                         </button>
-                        <button class="btn menu-buttons btn-primary btn-block mb-3" onclick="window.location.href='/pin'">
-                            <i class="fas fa-key"></i> <span>[ TEST - prijava dolaska / odlaska ]</span>
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/pin'">
+                            <span><i class="fas fa-key"></i> Prijava dolaska / odlaska [ TEST ] </span>
                         </button>
                     </div>
-
-                </div>
-
-                <div class="fixed-bottom-buttons">
-                    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
-                        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="fixed-bottom-buttons">
+    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
+        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
+    </button>
+</div>
 
 
 <script type="text/javascript" src="/js/show-active-user.js"></script>
 
-<script type="text/javascript" src="/js/get-machine-id.js"></script>
+<!--<script type="text/javascript" src="/js/get-machine-id.js"></script>-->
 
 
 </body>

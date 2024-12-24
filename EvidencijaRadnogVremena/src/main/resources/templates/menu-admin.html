@@ -41,13 +41,13 @@
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link marging-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
+                <a class="nav-link margin-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
             </li>
         </ul>
         <a class="navbar-brand mx-auto" href="#">Evidencija radnog vremena</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-                <a class="nav-link d-inline-block marging-right"  id="logoutLink" href="#">
+                <a class="nav-link d-inline-block margin-right"  id="logoutLink" href="#">
                     <i class="fas fa-user"></i>
                     <span id="usernameMessage" class="display-message">ID: <span id="machineIdSpan">ID nije postavljen!.</span></span>
                 </a>
@@ -59,28 +59,28 @@
 
 <div class="container mt-4">
     <div class="col-md-6 offset-md-3">
-        <div class="row">
+        <div class="row button-frame">
             <div class="col-md-12">
                 <div class="menu-buttons">
-                    <button class="btn menu-buttons btn-light btn-block mb-3" onclick="window.location.href='/users/show'">
+                    <button class="btn menu-buttons btn-light btn-block mt-3 mb-3" onclick="window.location.href='/users/show'">
                         <span><i class="fas fa-user me-2"></i> Evidencija korisnika</span>
                     </button>
-                    <button class="btn menu-buttons btn-light btn-block mb-3" onclick="window.location.href='/holidays/show'">
+                    <button class="btn menu-buttons btn-light btn-block mt-3 mb-3" onclick="window.location.href='/holidays/show'">
                         <span><i class="fas fa-calendar-alt me-2"></i> Evidencija državnih praznika</span>
                     </button>
-                    <button class="btn menu-buttons btn-light btn-block mb-3" onclick="window.location.href='/users/register-machine'">
+                    <button class="btn menu-buttons btn-light btn-block mt-3 mb-3" onclick="window.location.href='/users/register-machine'">
                         <span><i class="fas fa-desktop me-2"></i> Prijava preglednika</span>
-                    </button>
-
-                </div>
-                <div class="fixed-bottom-buttons">
-                    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
-                        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
                     </button>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="fixed-bottom-buttons">
+    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
+        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
+    </button>
 </div>
 
 <script type="text/javascript" src="/js/show-active-user.js"></script>

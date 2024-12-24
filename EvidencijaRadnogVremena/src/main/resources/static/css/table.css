@@ -22,18 +22,50 @@ body {
     }
 }
 
-
+/*
 th {
-    text-indent: 10px;
+    text-align: center;
 }
-
+*/
 .display-message
 {
     display: none;
 }
 
-.btn i {
-    margin-right: 10px; /* Povećava razmak između ikone i teksta */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    padding-left: 2px;
+}
+
+.custom-bg-dark {
+    background-color: #19398A !important;
+    color: #ffffff;
+}
+
+.navbar .nav-link i {
+    display: flex;
+    align-items: center;
+    color : #e1dcdc;
+}
+
+.navbar .nav-link i:hover {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar .margin-right i {
+    padding-right: 10px;
+}
+
+.navbar .margin-left i {
+    padding-left: 10px;
 }
 
 .fixed-bottom-buttons {
@@ -51,39 +83,10 @@ th {
 .fixed-bottom-buttons .btn {
     margin: 0 10px;
 }
-
-.navbar {
-        position: fixed;
-        top: 0;
-        z-index: 1000;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        padding: 10px 0;
-        padding-left: 2px;
-    }
-
-.custom-bg-dark {
-       background-color: #19398A !important;
-       color: #ffffff;
+.fixed-bottom-buttons .btn i {
+    margin-right: 10px;
 }
 
-.navbar .nav-link i {
-    display: flex;
-    align-items: center;
-    color : #e1dcdc;
-}
 
-.navbar .nav-link i:hover {
-    color: #ffffff;
-    transition: color 0.3s ease;
-}
 
-.margin-right {
-    padding-right: 10px;
-}
-
-.margin-left {
-    padding-left: 10px;
-}
 

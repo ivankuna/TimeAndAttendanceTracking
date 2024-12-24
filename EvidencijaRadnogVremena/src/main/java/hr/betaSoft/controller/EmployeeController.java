@@ -58,9 +58,9 @@ public class EmployeeController {
         attributes.put("title", "Popis radnika - radno vrijeme");
         attributes.put("updateLink", "/attendance/show/{id}");
         attributes.put("deleteLink", "");
-        attributes.put("pdfLink", "dummy");
+        attributes.put("attendancePdf", "dummy");
         attributes.put("absencePdfLink", "");
-        model.addAttribute("showLink", "dummy");
+        model.addAttribute("printAttendanceDummy", "dummy");
 
         defineShowData(model, request, attributes);
 
