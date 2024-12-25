@@ -43,6 +43,10 @@
         <a class="navbar-brand mx-auto" href="#">Evidencija radnog vremena</a>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
+                <a class="nav-link d-inline-block" style="padding-right: 10px;" id="logoutLink" href="#">
+                    <i class="fas fa-phone"></i>
+                    <span id="usernameMessage" style="display: none;"><span th:text="${helpMsg}">not found</span></span>
+                </a>
                 <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
             </li>
         </ul>
@@ -56,25 +60,19 @@
                 <div class="menu-buttons">
                     <div class="menu-buttons">
                         <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show'">
-                            <span><i class="fas fa-user"></i> Evidencija radnika</span>
+                            <span><i class="fas fa-user"></i> Radnici</span>
                         </button>
                         <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-attendance'">
-                            <i class="fas fa-clock"></i> <span>Evidencija radnog vremena</span>
+                            <span><i class="fas fa-clock"></i> Prisutnost na poslu</span>
                         </button>
                         <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-absence-record'">
-                            <i class="fas fa-calendar-alt"></i> <span>Evidencija nenazočnosti na poslu</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/fund-hours-html'">
-                            <i class="fas fa-calculator"></i> <span>Izračun mjesečnog fonda sati</span>
+                            <span><i class="fas fa-calendar-alt"></i> Odsutnost s posla</span>
                         </button>
                         <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/attendance/show-current-attendance'">
-                            <i class="fas fa-check-circle"></i> <span>Prisutnost na poslu</span>
+                            <span><i class="fas fa-check-circle"></i> Trenutna prisutnost</span>
                         </button>
                         <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/settings'">
-                            <i class="fas fa-cogs"></i> <span>Postavke</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/pin'">
-                            <span><i class="fas fa-key"></i> Prijava dolaska / odlaska [ TEST ] </span>
+                            <span><i class="fas fa-cogs"></i> Postavke</span>
                         </button>
                     </div>
                 </div>

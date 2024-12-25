@@ -216,7 +216,7 @@ public class PdfController {
         model.addAttribute("columnList", columnList);
         model.addAttribute("pageTitle", "Izračun mjesečnog fonda sati");
         model.addAttribute("title", "Izračun mjesečnog fonda sati");
-        model.addAttribute("path", "/employees");
+        model.addAttribute("path", "/employees/show-attendance");
         model.addAttribute("month", month);
         model.addAttribute("year", year);
         model.addAttribute("script", "/js/table-users.js");

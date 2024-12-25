@@ -1,7 +1,9 @@
      html, body {
             height: 100%;
             margin: 0;
-            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            /*background: linear-gradient(180deg, #fdfbfb 0%, #ebedee 100%);*/
+            /*background: linear-gradient(180deg, #3E3E4B, #0D0D25);*/
+            background: linear-gradient(120deg, #4e73df, #1cc88a);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 14px;
      }
@@ -21,6 +23,13 @@
           cursor: pointer;
           transition: background-color 0.3s ease;
 
+      }
+
+      @media only screen and (max-width: 699px) {
+          .menu-buttons .btn {
+              background-color: #19398A !important;
+              color: white !important;
+          }
       }
 
     .menu-buttons:hover {

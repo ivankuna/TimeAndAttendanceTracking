@@ -60,6 +60,10 @@ public class EmployeeController {
         attributes.put("deleteLink", "");
         attributes.put("attendancePdf", "dummy");
         attributes.put("absencePdfLink", "");
+
+        attributes.put("addLink", "/fund-hours-html");
+        attributes.put("addBtnText", "Mjesečni fond sati");
+        attributes.put("addIcon", "fas fa-calculator me-2");
         model.addAttribute("printAttendanceDummy", "dummy");
 
         defineShowData(model, request, attributes);
@@ -88,18 +92,15 @@ public class EmployeeController {
         List<Column> columnList = new ArrayList<>();
 
         if (DeviceDetector.isMobileDevice(request)) {
-            columnList.add(new Column("Ime", "firstName", "id", ""));
             columnList.add(new Column("Prezime", "lastName", "id", ""));
-            columnList.add(new Column("OIB", "oib", "id", ""));
+            columnList.add(new Column("Ime", "firstName", "id", ""));
+            columnList.add(new Column("PIN", "pin", "id", ""));
         } else {
-            columnList.add(new Column("Ime", "firstName", "id", ""));
             columnList.add(new Column("Prezime", "lastName", "id", ""));
+            columnList.add(new Column("Ime", "firstName", "id", ""));
             columnList.add(new Column("OIB", "oib", "id", ""));
             columnList.add(new Column("Radno mjesto", "employmentPosition", "id", ""));
-            columnList.add(new Column("Ukupno sati rada u tjednu", "weeklyWorkingHours", "id", ""));
-            columnList.add(new Column("Raspored prekovremenih sati", "overtimeSchedule", "id", ""));
-            columnList.add(new Column("Noćni rad - Početak", "nightWorkStart", "id",""));
-            columnList.add(new Column("Noćni rad - Kraj", "nightWorkEnd", "id",""));
+            columnList.add(new Column("Tjedni sati", "weeklyWorkingHours", "id", ""));
             columnList.add(new Column("PIN", "pin", "id", ""));
         }
 

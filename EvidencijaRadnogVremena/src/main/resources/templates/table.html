@@ -83,19 +83,22 @@
                         </td>
                         <td>
                             <!--  deleteLink -->
-                            <a th:if="${deleteLink != ''and deleteLink != null}"  th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
+                            <a th:if="${deleteLink != ''and deleteLink != null}"
+                               th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
                                class="text-danger"
                                onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false"
                                style="margin-right: 16px;">
                                 <i class="far fa-trash-alt"></i>
                             </a>
                             <!--  pdfLink -->
-                            <a th:if="${pdfLink != '' and pdfLink != null}" th:href="@{${pdfLink}(id=${data[columnList[0].id]})}"
+                            <a th:if="${pdfLink != '' and pdfLink != null}"
+                               th:href="@{${pdfLink}(id=${data[columnList[0].id]})}"
                                style="margin-right: 16px;">
                                 <i class="far fa-file-pdf"></i>
                             </a>
                             <!--  showLink -->
-                            <a th:if="${showLink != ''and showLink != null}" th:href="@{${showLink}(id=${data[columnList[0].id]})}"
+                            <a th:if="${showLink != ''and showLink != null}"
+                               th:href="@{${showLink}(id=${data[columnList[0].id]})}"
                                style="margin-right: 16px;">
                                 <i class="fas fa-list"></i>
                             </a>
@@ -114,11 +117,11 @@
                                 <i class="fas fa-print"></i>
                             </a>
                             <!-- printAttendanceDummy-->
-                            <a th:if="${printAttendanceDummy != '' and printAttendanceDummy != null}" href="javascript:void(0);"
+                            <a th:if="${printAttendanceDummy != '' and printAttendanceDummy != null}"
+                               href="javascript:void(0);"
                                th:onclick="'openPopup(' + ${data[columnList[0].id]} + ', \'/attendance-html\')'"
                                style="margin-right: 16px;">
                                 <i class="fas fa-print"></i>
-
                             </a>
                             <!-- locationLink-->
                             <a th:if="${locationLink != '' and locationLink != null}"
@@ -126,7 +129,6 @@
                                style="margin-right: 16px;">
                                 <i class="fa fa-map-marker-alt"></i>
                             </a>
-
                         </td>
                     </tr>
                     </tbody>
@@ -144,11 +146,19 @@
 
 <div class="fixed-bottom-buttons">
     <div class="btn-group btn-group-justified">
+<!--        <div>-->
+<!--            <a th:if="${addLink != null and addBtnText != null}" th:href="@{${addLink}}" class="btn btn-primary me-3">-->
+<!--                <i class="fas fa-folder-plus me-2"></i>-->
+<!--                <span th:text="${addBtnText}"> Dodaj</span>-->
+<!--            </a>-->
+<!--        </div>-->
         <div>
             <a th:if="${addLink != null and addBtnText != null}" th:href="@{${addLink}}" class="btn btn-primary me-3">
-                <i class="fas fa-folder-plus me-2"></i>
-                <span th:text="${addBtnText}">  Dodaj</span> </a>
+                <i th:classappend="${addIcon != null and addIcon != '' ? addIcon : 'fas fa-folder-plus me-2'}"></i>
+                <span th:text="${addBtnText}">Dodaj</span>
+            </a>
         </div>
+
         <div>
             <a th:href="@{${path}}" class="btn btn-success me-3"> <span><i class="fas fa-undo me-2"></i> Povratak</span></a>
         </div>
@@ -199,6 +209,9 @@
                                 yearDropdown.value = currentYear;
 
 
+
+
+
                             </script>
                         </select>
                     </div>
@@ -227,6 +240,9 @@
     function closePopup() {
         document.getElementById('popupModal').style.display = 'none';
     }
+
+
+
 
 
 </script>

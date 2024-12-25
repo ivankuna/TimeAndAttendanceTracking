@@ -5,7 +5,8 @@
     }
 
     body {
-        background: linear-gradient(45deg, #4e73df, #1cc88a);
+        /*background: linear-gradient(45deg, #4e73df, #1cc88a);*/
+        background: linear-gradient(120deg, #4e73df, #1cc88a);
         /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
         color: #fff;
         height: 100vh;
@@ -15,33 +16,39 @@
         margin: 0;
     }
 
+    .custom-bg-dark {
+           background-color: #19398A !important;
+           color: #ffffff;
+
+    }
 
 
     body {
         display: flex;
         flex-direction: column; /* Organizirajte sadržaj od vrha prema dolje */
         justify-content: space-between; /* Osigurajte da je sadržaj raspoređen s razmakom između */
-        /*font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;*/
     }
 
     footer {
-        background-color: #343a40;
+        background-color: #19398A !important;
         color: white;
         text-align: center;
         padding: 10px 0 !important;
         width: 100%;
-        font-size: 0.6rem;
+        font-size: 0.75rem;
         /*height: 50%;*/
     }
 
-    .navbar {
-        background-color: #343a40;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        position: fixed; /* Fix navbar at the top */
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-    }
+   .navbar {
+               position: fixed;
+               top: 0;
+               z-index: 1000;
+               width: 100%;
+               display: flex;
+               align-items: center;
+               padding: 10px 0;
+               padding-left: 2px;
+           }
 
     .navbar-brand {
         font-size: 1.5rem;
@@ -55,7 +62,6 @@
         overflow: hidden;
         box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         animation: slideInRight 1s ease-out;
-       /* max-width: 400px; /* Limit card width */
         width: 100%;
     }
 
