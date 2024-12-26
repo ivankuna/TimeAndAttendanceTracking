@@ -1,0 +1,206 @@
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background: linear-gradient(90deg, #ffffff 0%, #e6e8ea 100%);
+
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+/* Promjena veličine fonta za mobilne uređaje */
+@media only screen and (max-width: 699px) {
+    html, body {
+        font-size: 16px; /* Promijenite veličinu fonta prema potrebi */
+    }
+}
+
+body {
+    padding-top: 40px;
+}
+
+form, input, select, textarea, button {
+    max-width: 100%;
+    width: 100%; /* Ako želite da elementi zauzimaju cijelu širinu roditelja */
+    box-sizing: border-box; /* Uklanja utjecaj paddinga i bordera na širinu */
+    margin: 0 auto; /* Centriranje */
+}
+
+
+
+.date-trigger {
+    cursor: pointer;
+}
+
+.ui-datepicker-trigger {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.ui-datepicker-trigger:hover {
+    opacity: 0.8;
+}
+
+.ui-datepicker-trigger .fas.fa-calendar-alt {
+    font-size: 20px;
+    color: #007bff;
+}
+
+.checkbox-custom {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.form-control[readonly] {
+    background-color: white;
+}
+
+.form-control[disabled] {
+    background-color: #C5C5C5;
+}
+
+.form-group-row label {
+    margin-bottom: 2px;
+}
+
+.form-group-row input {
+    margin-bottom: 20px;
+}
+
+ .form-group-row select {
+    margin-bottom: 20px;
+}
+
+.form-group-row button {
+    margin-bottom: 20px;
+}
+
+
+.display-message
+{
+    display: none;
+}
+
+
+
+
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    padding-left: 2px;
+}
+
+.custom-bg-dark {
+   background-color: #19398A !important;
+   color: #ffffff;
+
+}
+
+.navbar .nav-link i {
+    padding-left: 2px;
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    color : #e1dcdc;
+}
+
+.navbar .nav-link i:hover {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+
+
+.navbar .margin-right i {
+    padding-right: 10px;
+}
+
+.navbar .margin-left i {
+    padding-left: 10px;
+}
+
+
+.fixed-bottom-buttons {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    justify-content: center;
+    background-color: #19398A;
+    padding: 10px 0;
+}
+
+
+
+.fixed-bottom-buttons .btn {
+    margin: 0 10px;
+}
+.fixed-bottom-buttons .btn i {
+    margin-right: 10px;
+}
+
+
+.fixed-bottom-buttons .btn-group a {
+    margin-right: 10px; /* Add space between the buttons */
+}
+
+.fixed-bottom-buttons .btn-group a:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+}
+
+.fixed-bottom-buttons .btn {
+    margin: 0;
+}
+
+/*
+
+.datepicker-container {
+    display: flex;
+    align-items: center;
+}
+
+.datepicker-container input {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.datepicker-container button {
+    margin-left: 10px;
+}
+*/
+
+.datepicker-container {
+    width: 100%; /* Osigurajte da container bude što širi */
+    display: flex;
+    align-items: center;
+}
+
+.datepicker-container input.form-control {
+    width: 100%; /* Input polje zauzima cijeli prostor */
+    padding-right: 40px; /* Osigurajte dovoljno prostora za ikone */
+}
+
+.datepicker-container button {
+    padding: 0; /* Uklonite padding oko dugmadi */
+    margin-left: 5px; /* Razmak između inputa i dugmadi */
+    font-size: 14px; /* Manja veličina fonta za ikone */
+    height: 30px; /* Visina dugmadi */
+    width: 30px; /* Širina dugmadi */
+}
+
+.datepicker-container .ui-datepicker-trigger i,
+.datepicker-container .clear-date-button i {
+    font-size: 16px; /* Manja veličina ikona */
+}

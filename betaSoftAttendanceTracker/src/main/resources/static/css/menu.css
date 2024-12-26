@@ -1,0 +1,113 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(90deg, #c8cbce 0%, #e6e6e6 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+}
+
+body {
+    overflow-y: auto;
+    padding-top: 80px;
+}
+
+.menu-buttons {
+    background: linear-gradient(90deg, #c8cbce 0%, #e6e6e6 100%);
+    color: black;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-buttons:hover {
+    background: linear-gradient(90deg, #d9dcde 0%, #f0f0f0 100%);
+    color: blue;
+    font-weight: bold;
+}
+
+@media only screen and (max-width: 699px) {
+    .menu-buttons .btn {
+        background: linear-gradient(90deg, #d9dcde 0%, #f0f0f0 100%) !important;
+        color: black !important;
+    }
+}
+
+
+.menu-buttons button {
+    height: 100%;
+}
+
+
+.menu-buttons i {
+    margin-right: 10px;
+    margin: 10px 0;
+}
+
+.btn i {
+    margin-right: 10px;
+}
+
+.button-frame {
+    padding-bottom: 80px;
+}
+
+
+.fixed-bottom-buttons {
+    position: fixed;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    display: flex;
+    justify-content: center;
+    background-color: #19398A;
+    padding: 10px 0;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    padding-left: 2px;
+}
+
+.custom-bg-dark {
+    background-color: #19398A !important;
+    color: #ffffff;
+}
+
+.navbar .nav-link i {
+    display: flex;
+    align-items: center;
+    color : #e1dcdc;
+}
+
+.navbar .nav-link i:hover {
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+.navbar .margin-right i {
+padding-right: 10px;
+}
+
+.navbar .margin-left i {
+padding-left: 10px;
+}
+
+.display-message
+{
+    display: none;
+}
+
+
+
+
+

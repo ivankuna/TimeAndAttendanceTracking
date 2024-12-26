@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="hr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidencija radnog vremena</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Latest compiled and minified CSS 4.6.2 -->
+    <link rel="stylesheet" href="/backend/css/bootstrap.min.css">
+
+    <!-- jQuery library 3.7.1 -->
+    <script src="/backend/js/jquery.slim.min.js"></script>
+
+    <!-- Popper JS 1.16.1 -->
+    <script src="/backend/js/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript 4.6.2 -->
+    <script src="/backend/js/bootstrap.bundle.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/wtr_48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/wtr_192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/wtr_180.png">
+
+
+    <link rel="stylesheet" href="/css/menu.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark custom-bg-dark">
+    <div class="container-fluid">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link d-inline-block margin-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
+            </li>
+        </ul>
+        <a class="navbar-brand mx-auto" href="#">Evidencija radnog vremena</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link d-inline-block" style="padding-right: 10px;" id="logoutLink" href="#">
+                    <i class="fas fa-phone"></i>
+                    <span id="usernameMessage" style="display: none;"><span th:text="${helpMsg}">not found</span></span>
+                </a>
+                <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <div class="col-md-6 offset-md-3">
+        <div class="row button-frame">
+            <div class="col-md-12">
+                    <div class="menu-buttons">
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show'">
+                            <span><i class="fas fa-user"></i> Radnici</span>
+                        </button>
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-attendance'">
+                            <span><i class="fas fa-clock"></i> Prisutnost na poslu</span>
+                        </button>
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-absence-record'">
+                            <span><i class="fas fa-calendar-alt"></i> Odsutnost s posla</span>
+                        </button>
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/attendance/show-current-attendance'">
+                            <span><i class="fas fa-check-circle"></i> Trenutna prisutnost</span>
+                        </button>
+                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/settings'">
+                            <span><i class="fas fa-cogs"></i> Postavke</span>
+                        </button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="fixed-bottom-buttons">
+    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
+        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
+    </button>
+</div>
+
+
+<script type="text/javascript" src="/js/show-active-user.js"></script>
+
+<!--<script type="text/javascript" src="/js/get-machine-id.js"></script>-->
+
+
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="hr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Evidencija radnog vremena</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- 4.6.2 -->
+    <link rel="stylesheet" href="/backend/css/bootstrap.min.css">
+
+    <!-- 3.7.1 -->
+    <script src="/backend/js/jquery.slim.min.js"></script>
+
+    <!-- 1.16.1 -->
+    <script src="/backend/js/popper.min.js"></script>
+
+    <!-- 4.6.2 -->
+    <script src="/backend/js/bootstrap.bundle.min.js"></script>
+
+    <!--  3.6.0   -->
+    <script src="/backend/js/jquery-3.6.0.min.js"></script>
+
+    <!--  1.12.1   -->
+    <script src="/backend/js/jquery-ui.min.js"></script>
+
+    <!--  1.12.1   -->
+    <link rel="stylesheet" href="/backend/css/jquery-ui.min.css">
+
+    <!-- font-awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/wtr_16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/wtr_32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/icons/wtr_48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/wtr_192.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/wtr_180.png">
+
+    <link rel="stylesheet" href="/css/form.css">
+
+    <script type="text/javascript" src="/js/date-input-formatter.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark custom-bg-dark">
+    <div class="container-fluid">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link margin-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
+            </li>
+        </ul>
+        <a class="navbar-brand mx-auto" th:text="${title}" href="#">Naslov</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link d-inline-block margin-right" href="/logout"><i class="fas fa-sign-out-alt fa-1x"></i></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div th:if="${message}" class="alert alert-danger" th:text="${message}"></div>
+
+            <form id="myForm" th:object="${class}" th:action="@{${pathSave}}" onsubmit="formatDataBeforeSubmit()"
+                  method="POST">
+
+                <input type="hidden" th:field="*{__${dataId}__}">
+                <input th:each="data : ${hiddenList}" input type="hidden" th:field="*{__${data}__}">
+
+                <div th:each="data : ${dataList}" class="form-group-row">
+
+                    <label th:for="${data.field}" th:text="${data.name}"></label>
+                    <div th:if="${#lists.isEmpty(data.items) and #strings.isEmpty(data.model)}">
+
+
+                        <div th:classappend="${data.type == 'checkbox' ? 'checkbox-custom' : ''} + ${data.type == 'date-pick' ? 'datepicker-container' : '' }">
+                            <label th:if="${data.type == 'checkbox'}" th:for="*{__${data.field}__}">
+                                <input class="form-control checkbox-custom" th:id="${data.field}"
+                                       th:type="${data.type == 'number-input' ? 'text' : (data.type == 'date-input' || data.type == 'date-pick' ? 'text' : data.type)}"
+                                       th:step="${data.type == 'number-input' ? '0.01' : null}"
+                                       th:field="*{__${data.field}__}"
+                                       th:required="${data.required == 'true'} ? 'required' : null"
+                                       th:disabled="${data.enabled == 'false'} ? 'disabled' : null"
+                                       th:title="${data.required == 'true'} ? 'Molimo Vas da popunite ovo polje.' : null"
+                                       th:classappend="${data.type == 'date-input' ? 'date-input' : ''}  + ${data.type == 'date-pick' ? 'date-pick' : ''} + ${data.type == 'number-input' ? 'number-input' : ''}"
+                                       th:inputmode="${data.type == 'date-input' || data.type == 'date-pick' ? 'decimal' : (data.type == 'number-input' ? 'decimal' : null)}"
+                                       th:oninput="${data.type == 'number-input'} ? 'formatNumberOnInput(this)' : null"
+                                >
+
+                            </label>
+                            <input th:unless="${data.type == 'checkbox'}" class="form-control" th:id="${data.field}"
+                                   th:type="${data.type == 'number-input' ? 'text' : (data.type == 'date-input' || data.type == 'date-pick' ? 'text' : data.type)}"
+                                   th:step="${data.type == 'number-input' ? '0.01' : null}"
+                                   th:field="*{__${data.field}__}"
+                                   th:required="${data.required == 'true'} ? 'required' : null"
+                                   th:disabled="${data.enabled == 'false'} ? 'disabled' : null"
+                                   th:title="${data.required == 'true'} ? 'Molimo Vas da popunite ovo polje.' : null"
+                                   th:classappend="${data.type == 'date-input' ? 'date-input' : ''}  + ${data.type == 'date-pick' ? 'date-pick' : ''} + ${data.type == 'number-input' ? 'number-input' : ''}"
+                                   th:inputmode="${data.type == 'date-input' || data.type == 'date-pick' ? 'decimal' : (data.type == 'number-input' ? 'decimal' : null)}"
+                                   th:oninput="${data.type == 'number-input'} ? 'formatNumberOnInput(this)' : null"
+                                   th:readonly="${data.type == 'date-pick'} ? 'readonly' : null"
+                            >
+
+                            <div th:if="${data.type == 'date-pick'}">
+                                <button type="button" class="clear-date-button btn btn-outline-light text-danger"
+                                        th:attr="data-field=${data.field}"
+                                        th:onclick="clearDateField(this.getAttribute('data-field'))"><i
+                                        class="far fa-trash-alt fa-1x"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:unless="${#strings.isEmpty(data.model)}">
+                        <select class="form-control" th:id="${data.field}" th:field="*{__${data.id}__}"
+                                th:required="${data.required == 'true'} ? 'required' : null"
+                                th:disabled="${data.enabled == 'false'} ? 'disabled' : null"
+                                title="Molimo Vas da odaberete vrijednost iz padajućeg izbornika.">
+                            <option th:each="item : ${__${data.model}__}" th:value="${item[data.field]}"
+                                    th:text="${item[data.option]}"></option>
+                        </select>
+                    </div>
+                    <div th:if="${data.items != null and data.items.size() > 0}">
+                        <select class="form-control" t
+                                th:id="${data.field}"
+                                th:field="*{__${data.field}__}"
+                                th:required="${data.required == 'true'} ? 'required' : null"
+                                th:disabled="${data.enabled == 'false'} ? 'disabled' : null"
+                                th:multiple="${data.multi == 'true'} ? 'multiple' : null"
+                                title="Molimo Vas da odaberete vrijednost iz padajućeg izbornika.">
+                            <th:block th:each="item : ${data.items}">
+                                <option th:value="${item}" th:text="${item}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="fixed-bottom-buttons">
+                    <div class="btn-group btn-group-justified">
+                        <a>
+                            <button th:if="${pathSave != ''}" type="submit" class="btn btn-success me-3">
+                                <i class="fas fa-check me-2"></i> <span>Spremite</span>
+                            </button>
+                        </a>
+                        <a>
+                            <button th:if="${sendLink != ''}" type="submit" class="btn btn-primary me-3"
+                                    onclick="return confirm('Jeste li sigurni da želite poslati nalog?');"
+                                    th:formaction="@{${sendLink}}">
+                                Pošalji
+                            </button>
+                        </a>
+                        <a>
+                            <form th:if="${pathSave != ''}">
+                                <button type="button" class="btn btn-danger me-3" th:onclick="showConfirmation()">
+                                    <span><i class="fas fa-times me-2"></i> Odustanite</span>
+                                </button>
+
+                            </form>
+                        </a>
+                        <a>
+                            <form th:if="${pathSave == ''}">
+                                <button type="button" class="btn btn-success me-3"
+                                        th:onclick="window.location=[[${path}]]">
+                                    Povratak
+                                </button>
+                            </form>
+                        </a>
+                    </div>
+                </div>
+
+            </form>
+            <div class="row">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript" th:src="@{${script}}"></script>
+
+<script type="text/javascript" src="/js/show-active-user.js"></script>
+
+<script type="text/javascript" src="/js/set-dropdown-height.js"></script>
+
+<script type="text/javascript" src="/js/date-handle.js"></script>
+
+<script type="text/javascript" src="/js/clear-date-field.js"></script>
+
+<script type="text/javascript" src="/js/date-format.js"></script>
+
+<script type="text/javascript" src="/js/format-number-on-input.js"></script>
+
+<script type="text/javascript" src="/js/datepicker-config.js"></script>
+
+<script type="text/javascript" src="/js/datepicker-translate.js"></script>
+
+<script>
+    function showConfirmation() {
+        if (confirm("Želite li prekinuti unos?")) {
+            window.location = "[[${path}]]";
+        } else {
+            return false;
+        }
+    }
+
+</script>
+
+</body>
+</html>

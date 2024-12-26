@@ -1,0 +1,35 @@
+    * {
+         font-size: 14px;
+     }
+
+      html, body {
+             height: 100%;
+             margin: 0;
+             background: linear-gradient(90deg, #fdfbfb 0%, #ebedee 100%);
+             font-family: 'Roboto', sans-serif;
+      }
+     .navbar {
+          position: fixed;
+          top: 0;
+          z-index: 1000;
+          width: 100%;
+          background-color: #343a40; /* siva boja */
+          padding: 10px 0;
+          padding-left: 2px;
+        }
+
+        .navbar .nav-item {
+          margin-right: 15px;
+        }
+
+        .navbar .nav-link {
+          color: #fff; /* bijela boja */
+          font-size: 14px;
+        }
+
+        .navbar .nav-link:hover {
+          color: #f8f9fa; /* svijetlo siva boja */
+        }
+        body {
+          padding-top: 50px; /* Dodatni padding na vrhu body elementa */
+        }
