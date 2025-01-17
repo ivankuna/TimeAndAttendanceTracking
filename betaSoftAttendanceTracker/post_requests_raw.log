@@ -1,0 +1,56 @@
+
+Raw Request Data:
+Date and Time: 2025-01-15 13:35:24
+PIN: 1111
+Machine ID: 123
+Action: clockIn
+Latitude: null
+Longitude: null
+--------
+Date and Time: 2025-01-15 13:35:30
+Response: Pero,<br><br>Vaš dolazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-01-15 13:36:05
+PIN: 1111
+Machine ID: 123
+Action: clockOut
+Latitude: null
+Longitude: null
+--------
+Date and Time: 2025-01-15 13:36:05
+Response: Pero,<br><br>Vaš odlazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-01-15 13:36:50
+PIN: 1111
+Machine ID: 123
+Action: clockIn
+Latitude: 45.5437607
+Longitude: 18.7268792
+--------
+Date and Time: 2025-01-15 13:36:50
+Response: Pero,<br><br>Vaš dolazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-01-15 13:37:15
+PIN: 1111
+Machine ID: 123
+Action: clockOut
+Latitude: 45.5437607
+Longitude: 18.7268792
+--------
+Date and Time: 2025-01-15 13:37:15
+Response: Pero,<br><br>Vaš odlazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-01-15 13:37:23
+PIN: 1111
+Machine ID: 123
+Action: clockIn
+Latitude: 45.5437607
+Longitude: 18.7268792
+--------
+Date and Time: 2025-01-15 13:37:23
+Response: Pero,<br><br>Vaš dolazak<br>je evidentiran.
+--------

@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             <!--  deleteLink -->
-                            <a th:if="${deleteLink != ''and deleteLink != null}"
+                            <a th:if="${deleteLink != '' and deleteLink != null}"
                                th:href="@{${deleteLink}(id=${data[columnList[0].id]})}"
                                class="text-danger"
                                onclick="return confirm('Jeste li sigurni da želite obrisati podatak?') ? true : false"
@@ -91,7 +91,7 @@
                                 <i class="far fa-file-pdf"></i>
                             </a>
                             <!--  showLink -->
-                            <a th:if="${showLink != ''and showLink != null}"
+                            <a th:if="${showLink != '' and showLink != null}"
                                th:href="@{${showLink}(id=${data[columnList[0].id]})}"
                                style="margin-right: 16px;">
                                 <i class="fas fa-list"></i>

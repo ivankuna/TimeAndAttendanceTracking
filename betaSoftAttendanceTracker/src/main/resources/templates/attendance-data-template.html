@@ -6,6 +6,7 @@
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8">
     <title th:text="${pageTitle}"></title>
 
+
     <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
     <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/icon_32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
@@ -15,151 +16,212 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon_180.png">
 
 <style>
-    * {
-        font-size: 9px;
-      }
 
     body {
+        font-size: 14px;
         padding: 0px;
         font-family: calibri;
     }
 
-    h4 {
-        text-align: center;
-        padding: 0px;
-    }
     table {
+        table-layout: fixed;
         width: 100%;
-        border-collapse: collapse;
+        border-collapse: collapse;1
+        text-align: center;
     }
+
     th, td {
         border: 0.1px dotted black;
         padding: 5px;
-        text-align: left;
         border-style: dotted;
         border-color: gray;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    td {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .f9-font {
+        font-size: 9px;
+    }
+
+    .f12-font {
+        font-size: 12px;
+    }
+
+    .f14-font {
+        font-size: 14px;
+    }
+
+    .h25-width {
+        width: 25%;
+    }
+
+    .h40-width {
+        width: 40%;
 
     }
-    th {
-        background-color: #f2f2f2;
+
+    .h60-width {
+        width: 60%;
+
     }
-    .small-width {
+
+    .h80-width {
+        width: 80%;
+
+    }
+
+    .h20-width {
+        width: 20%;
+
+    }
+
+    .h35-width {
+        width: 35%;
+
+    }
+
+    .h5-width {
+        font-size: 9px;
         width: 5%;
-        text-align: center;
+
     }
-    .half-width {
-        width: 30%;
-    }
-    .double-width {
-        width: 65%;
-    }
-    .double-width-left {
-        width: 65%;
-        text-align: left;
-    }
-    .double-width-right {
-        width: 65%;
-        text-align: right;
-    }
-     .full-width {
-        width: 100%;
-        text-align: center;
-    }
+
+<!--    .vertical-lr {-->
+<!--        transform: rotate(90deg); /* Rotiraj tekst za 90 stupnjeva */-->
+<!--        text-align: center; /* Poravnaj tekst lijevo */-->
+<!--        vertical-align: middle;-->
+<!--        writing-mode: horizontal-tb; /* Osiguraj da se ponaša kao horizontalan tekst */-->
+<!--        height: 80px; /* Postavite željenu visinu */-->
+<!--        line-height: 1; /* Osigurajte normalan razmak između redova */-->
+<!--        white-space: nowrap;-->
+<!--    }-->
 
 
     .vertical-lr {
-        writing-mode: vertical-lr;
-        font-weight: bold;
+        writing-mode: vertical-rl;
         text-align: center;
         vertical-align: middle;
+        height: 80px; /* Postavite željenu visinu */
+        line-height: 1; /* Osigurajte normalan razmak između redova */
     }
 
     .highlight-row {
         background-color: #f2f2f2;
     }
 
-    .print-icon {
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-        width: 32px;
-        height: 32px;
-        background-image: url('/icons/print_64.png');
-        background-size: contain;
-        background-repeat: no-repeat;
-    }
-
     @media print {
         th, td {
-            border-style: dotted;
+           border: 0.1px dotted gray; /* Tanki obrub */
         }
          .print-icon {
             display: none;
         }
+        .download-icon {
+            display: none;
+        }
     }
+
+    .print-icon, .download-icon {
+        position: fixed;
+        top: 10px;
+        cursor: pointer;
+        width: 32px;
+        height: 32px;
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .print-icon {
+        right: 50px;
+        background-image: url('/icons/print_64.png');
+    }
+
     </style>
 </head>
-<body style="font-family:calibri">
+
 <div class="print-icon" onclick="window.print()"></div>
 
-<h4 th:text="${title}"></h4>
-<h5>Ime zaposlenika: <span th:text="${employeeName}">Ime</span></h5>
-<h5>Godina: <span th:text="${year}">2023</span> | Mjesec: <span th:text="${month}">01</span></h5>
 
-<table id="myTable" style="margin-bottom: 20px;">
+
+
+<table style="margin-bottom: 0px; margin-top: 50px;">
     <tr>
-        <th class="vertical-lr">DATUM</th>
-        <th class="vertical-lr">DAN</th>
-        <th class="vertical-lr">POČETAK RADA</th>
-        <th class="vertical-lr">ZAVRŠETAK RADA</th>
-        <th class="vertical-lr">UKUPNO SATI RADA</th>
-        <th class="vertical-lr">NOĆNI RAD</th>
-        <th class="vertical-lr">RAD NEDJELJOM</th>
-        <th class="vertical-lr">RAD BLAGDANOM</th>
-        <th class="vertical-lr">PREKOVREMENI RAD</th>
-        <th class="vertical-lr">SMJENSKI RAD</th>
-        <th class="vertical-lr">DVOKRATNI RAD</th>
-        <th class="vertical-lr">TERENSKI RAD</th>
-        <th class="vertical-lr">SATI PRIPRAVNOSTI</th>
-        <th class="vertical-lr">NERADNI DANI I BLAGDANI</th>
-        <th class="vertical-lr">GODIŠNJI ODMOR</th>
-        <th class="vertical-lr">BOLOVANJE</th>
-        <th class="vertical-lr">PLAĆENI DOPUST</th>
-        <th class="vertical-lr">NEPLAĆENI DOPUST</th>
-        <th class="vertical-lr">OPRAVDANI IZOSTANAK</th>
-        <th class="vertical-lr">NEOPRAVDANI IZOSTANAK</th>
+        <th class="h40-width f12-font"><span>Tvrtka/Obrt: <span th:text="${companyName}">tvrtka</span></span>  </th>
+        <th class="h40-width f12-font"><span>Ime i prezime: <span th:text="${employeeName}">radnik</span></span>  </th>
+        <th class="h20-width f12-font"><span>Fond sati radnika: <span th:text="${weeklyHours}">radnik</span></span></th>
+    </tr>
+</table>
+
+<table style="margin-bottom: 5px;">
+    <tr>
+        <th class="h20-width f14-font"><span></span>  </th>
+        <th class="h60-width f14-font"><span>EVIDENCIJA RADNOG VREMENA RADNIKA</span>  </th>
+        <th class="h20-width f14-font"><span th:text="${month}">mjesec</span> <span th:text="${year}">godina</span></th>
+    </tr>
+</table>
+<table style="margin-bottom: 0px;">
+    <tr>
+        <th class="h25-width f9-font"></th>
+        <th class="h40-width f9-font">RADNO VRIJEME - OD TOGA</th>
+        <th class="h35-width f9-font">NENAZOČNOST NA POSLU</th>
+    </tr>
+</table>
+
+<table id="myTable" style="margin-top: 0px; margin-bottom: 0px;">
+    <tr>
+        <th class="vertical-lr h5-width f9-font">DATUM</th>
+        <th class="vertical-lr h5-width f9-font">DAN</th>
+        <th class="vertical-lr h5-width f9-font">POČETAK RADA</th>
+        <th class="vertical-lr h5-width f9-font">ZAVRŠETAK RADA</th>
+        <th class="vertical-lr h5-width f9-font">UKUPNO SATI RADA</th>
+        <th class="vertical-lr h5-width f9-font">NOĆNI RAD</th>
+        <th class="vertical-lr h5-width f9-font">RAD NEDJELJOM</th>
+        <th class="vertical-lr h5-width f9-font">RAD BLAGDANOM</th>
+        <th class="vertical-lr h5-width f9-font">PREKOVREMENI RAD</th>
+        <th class="vertical-lr h5-width f9-font">SMJENSKI RAD</th>
+        <th class="vertical-lr h5-width f9-font">DVOKRATNI RAD</th>
+        <th class="vertical-lr h5-width f9-font">TERENSKI RAD</th>
+        <th class="vertical-lr h5-width f9-font">SATI PRIPRAVNOSTI</th>
+        <th class="vertical-lr h5-width f9-font">NERADNI DANI I BLAGDANI</th>
+        <th class="vertical-lr h5-width f9-font">GODIŠNJI ODMOR</th>
+        <th class="vertical-lr h5-width f9-font">BOLOVANJE</th>
+        <th class="vertical-lr h5-width f9-font">PLAĆENI DOPUST</th>
+        <th class="vertical-lr h5-width f9-font">NEPLAĆENI DOPUST</th>
+        <th class="vertical-lr h5-width f9-font">OPRAVDANI IZOSTANAK</th>
+        <th class="vertical-lr h5-width f9-font">NEOPRAVDANI IZOSTANAK</th>
     </tr>
     <tr th:each="data : ${dataList}" th:classappend="${data.autogenerated} ? 'highlight-row' : ''">
-        <td th:text="${data.date}">name</td>
-        <td th:text="${data.day}">name</td>
-        <td th:text="${data.startOfWork}">name</td>
-        <td th:text="${data.endOfWork}">name</td>
-        <td th:text="${data.totalHoursOfWork}">name</td>
-        <td th:text="${data.nightWork}">name</td>
-        <td th:text="${data.sundayWork}">name</td>
-        <td th:text="${data.holidayWork}">name</td>
-        <td th:text="${data.overtimeWork}">name</td>
-        <td th:text="${data.shiftWork}">name</td>
-        <td th:text="${data.splitShiftWork}">name</td>
-        <td th:text="${data.fieldWork}">name</td>
-        <td th:text="${data.standByHours}">name</td>
-        <td th:text="${data.offDaysAndHolidays}">name</td>
-        <td th:text="${data.annualLeave}">name</td>
-        <td th:text="${data.sickLeave}">name</td>
-        <td th:text="${data.paidLeave}">name</td>
-        <td th:text="${data.unpaidLeave}">name</td>
-        <td th:text="${data.excusedAbsence}">name</td>
-        <td th:text="${data.unexcusedAbsence}">name</td>
+        <td class="h5-width f9-font" th:text="${data.date != null && data.date != 0 ? data.date : ''}"></td>
+        <td class="h5-width f9-font" th:text="${data.day}">name</td>
+        <td class="h5-width f9-font" th:text="${data.startOfWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.endOfWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.totalHoursOfWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.nightWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.sundayWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.holidayWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.overtimeWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.shiftWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.splitShiftWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.fieldWork}">name</td>
+        <td class="h5-width f9-font" th:text="${data.standByHours}">name</td>
+        <td class="h5-width f9-font" th:text="${data.offDaysAndHolidays}">name</td>
+        <td class="h5-width f9-font" th:text="${data.annualLeave}">name</td>
+        <td class="h5-width f9-font" th:text="${data.sickLeave}">name</td>
+        <td class="h5-width f9-font" th:text="${data.paidLeave}">name</td>
+        <td class="h5-width f9-font" th:text="${data.unpaidLeave}">name</td>
+        <td class="h5-width f9-font" th:text="${data.excusedAbsence}">name</td>
+        <td class="h5-width f9-font" th:text="${data.unexcusedAbsence}">name</td>
     </tr>
 
 </table>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 </body>
 </html>

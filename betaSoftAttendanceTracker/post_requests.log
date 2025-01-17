@@ -1,0 +1,6 @@
+POST Request Received:
+{"pin":"1111","machineId":"123","action":"clockIn","latitude":45.5437689,"longitude":18.7268771}
+--------
+POST Request Received:
+{"pin":"2222","machineId":"123","action":"clockIn","latitude":45.5437678,"longitude":18.7268805}
+--------

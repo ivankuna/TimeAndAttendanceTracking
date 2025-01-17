@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="betaSoft" />
         <module name="EvidencijaRadnogVremena" />
-        <module name="betaSoftAttendanceTracker" />
         <module name="EmploymentApplicationManager" />
         <module name="prijavaRadnika" />
       </profile>

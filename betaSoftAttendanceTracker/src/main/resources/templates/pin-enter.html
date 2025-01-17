@@ -255,9 +255,6 @@
                 }
             );
         }
-
-
-
     </script>
 
 
@@ -505,12 +502,27 @@
                 if (responseData.message) {
                     window.location.href = `/pin/message?message=${encodeURIComponent(responseData.message)}`;
                 } else {
-                    window.location.href = '/pin/message?message=' + encodeURIComponent('Došlo je do greške. Pokušajte ponovno.');
+                    window.location.href = '/pin/message?message=' + encodeURIComponent('Došlo je do greške. Pokušajte ponovno. (ERROR CODE: 9820)');
                 }
                 clearInput(); // Clear the PIN input field
             })
             .catch(error => {
-                window.location.href = '/pin/message?message=' + encodeURIComponent('Došlo je do greške. Pokušajte ponovno.');
+                let errorMessage = 'Došlo je do greške. Pokušajte ponovno. (ERROR CODE: 7530)';
+
+                // Provjera različitih vrsta grešaka
+                if (error.name === 'TypeError') {
+                    errorMessage = 'Nema internetske povezanosti. Provjerite svoju mrežu i pokušajte ponovo.';
+                } else if (error.message.includes('NetworkError')) {
+                    errorMessage = 'Povezivanje s serverom nije uspjelo. Provjerite internetsku povezanost.';
+                } else if (error.message.includes('404')) {
+                    errorMessage = 'Resurs nije pronađen na serveru. Kontaktirajte administratora.';
+                } else if (error.message.includes('500')) {
+                    errorMessage = 'Greška na serveru. Pokušajte ponovno kasnije.';
+                } else {
+                    errorMessage = JSON.stringify(error); // Pretvara grešku u string
+                }
+                // Preusmjeravanje na stranicu s detaljnom porukom o grešci
+                window.location.href = '/pin/message?message=' + encodeURIComponent(errorMessage);
             });
         }
     }

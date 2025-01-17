@@ -116,9 +116,11 @@ public class PdfController {
             return "redirect:/employees/show-attendance";
         }
 
-        model.addAttribute("pageTitle", "Šihterica");
-        model.addAttribute("title", "Šihterica");
+        model.addAttribute("pageTitle", "ERV " + employee.getFirstName() + " " + employee.getLastName() + " " + year + " " + DateUtils.MONTHS.get(Integer.parseInt(month) - 1));
+        model.addAttribute("title", "");
         model.addAttribute("employeeName", employee.getFirstName() + " " + employee.getLastName());
+        model.addAttribute("companyName", employee.getUser().getCompany());
+        model.addAttribute("weeklyHours", employee.getWeeklyWorkingHours());
         model.addAttribute("year", year);
         model.addAttribute("month", DateUtils.MONTHS.get(Integer.parseInt(month) - 1));
 

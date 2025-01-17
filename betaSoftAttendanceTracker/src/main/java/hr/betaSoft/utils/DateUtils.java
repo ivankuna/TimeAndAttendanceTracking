@@ -20,18 +20,18 @@ public class DateUtils {
     );
 
     public static final List<String> MONTHS = Arrays.asList(
-            "Siječanj",
-            "Veljača",
-            "Ožujak",
-            "Travanj",
-            "Svibanj",
-            "Lipanj",
-            "Srpanj",
-            "Kolovoz",
-            "Rujan",
-            "Listopad",
-            "Studeni",
-            "Prosinac"
+            "siječanj",
+            "veljača",
+            "oOžujak",
+            "travanj",
+            "svibanj",
+            "lipanj",
+            "srpanj",
+            "kolovoz",
+            "rujan",
+            "listopad",
+            "studeni",
+            "prosinac"
     );
 
     public static Date getFirstDateOfMonth(String year, String month) {
