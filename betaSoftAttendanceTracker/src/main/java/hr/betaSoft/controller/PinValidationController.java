@@ -16,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -53,7 +56,12 @@ public class PinValidationController {
 
         try {
             // Writing raw request data to a file
-            try (FileWriter writer = new FileWriter("post_requests_raw.log", true)) {
+            Path path = Paths.get("tmp/log");
+            if (!Files.exists(path)) {
+                Files.createDirectories(path);
+            }
+
+            try (FileWriter writer = new FileWriter("tmp/log/post_request.log", true)) {
                 writer.write("Raw Request Data:\n");
                 writer.write("Date and Time: " + formattedDateTime + "\n");
                 writer.write("PIN: " + pin + "\n");
@@ -63,9 +71,6 @@ public class PinValidationController {
                 writer.write("Longitude: " + lon + "\n");
                 writer.write("--------\n");
             }
-
-//            BigDecimal latitude = new BigDecimal(lat);
-//            BigDecimal longitude = new BigDecimal(lon);
 
             BigDecimal latitude = (lat != null && !lat.isEmpty()) ? new BigDecimal(lat) : BigDecimal.ZERO;
             BigDecimal longitude = (lon != null && !lon.isEmpty()) ? new BigDecimal(lon) : BigDecimal.ZERO;
@@ -91,16 +96,13 @@ public class PinValidationController {
             formattedDateTime = now.format(formatter);
 
             // Writing the response to a file
-            try (FileWriter writer = new FileWriter("post_requests_raw.log", true)) {
+            try (FileWriter writer = new FileWriter("tmp/log/post_request.log", true)) {
                 writer.write("Date and Time: " + formattedDateTime + "\n");
                 writer.write("Response: " + entry_message + "\n");
                 writer.write("--------\n");
             }
 
-        } catch (IOException e) {
-            // Handle IOException and set the appropriate error message
-            entry_message = "Error occurred while processing the request: " + e.getMessage();
-            error = true;
+
         } catch (Exception e) {
             // Catch any other general exceptions
             entry_message = "Unexpected error occurred: " + e.getMessage();

@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class ErrorController {
     @GetMapping("/access-denied")
     public String showAccessDenied() {
-        return "access-denied";
+        return "/login";
     }
 }

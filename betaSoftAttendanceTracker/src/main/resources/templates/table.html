@@ -25,13 +25,9 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
-    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/icon_32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon_32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon_48.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon_192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon_180.png">
+    <link rel="icon" href="/icons/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/icons/manifest.json">
 
     <link rel="stylesheet" href="/css/table.css">
 </head>
@@ -137,23 +133,27 @@
         <br/><br/>
     </div>
 </div>
+<form>
 
-<div class="fixed-bottom-buttons">
-    <div class="btn-group btn-group-justified">
-        <div>
-            <a th:if="${addLink != null and addBtnText != null}" th:href="@{${addLink}}" class="btn btn-primary me-3">
-                <i th:classappend="${addIcon != null and addIcon != '' ? addIcon : 'fas fa-folder-plus me-2'}"></i>
-                <span th:text="${addBtnText}">Dodaj</span>
-            </a>
-        </div>
 
-        <div>
-            <a th:href="@{${path}}" class="btn btn-success me-3"> <span><i class="fas fa-undo me-2"></i> Povratak</span></a>
+    <div class="fixed-bottom-buttons">
+        <div class="btn-group btn-group-justified">
+            <div>
+                <a th:if="${addLink != null and addBtnText != null}" th:href="@{${addLink}}"
+                   class="btn btn-primary me-3">
+                    <i th:classappend="${addIcon != null and addIcon != '' ? addIcon : 'fas fa-folder-plus me-2'}"></i>
+                    <span th:text="${addBtnText}">Dodaj</span>
+                </a>
+            </div>
+
+            <div>
+                <a th:href="@{${path}}" class="btn btn-success me-3"> <span><i
+                        class="fas fa-undo me-2"></i> Povratak</span></a>
+            </div>
         </div>
     </div>
-</div>
 
-
+</form>
 <div id="popupModal" class="modal" tabindex="-1" style="display:none;">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -197,9 +197,6 @@
                                 yearDropdown.value = currentYear;
 
 
-
-
-
                             </script>
                         </select>
                     </div>
@@ -228,9 +225,6 @@
     function closePopup() {
         document.getElementById('popupModal').style.display = 'none';
     }
-
-
-
 
 
 </script>

@@ -20,14 +20,10 @@
     <script src="/backend/js/bootstrap.bundle.min.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="shortcut icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
-    <link rel="shortcut icon" type="image/png" sizes="32x32" href="/icons/icon_32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon_16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon_32.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="/icons/icon_48.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon_192.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon_180.png">
 
+    <link rel="icon" href="/icons/favicon.ico" sizes="any">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+    <link rel="manifest" href="/icons/manifest.json">
 
     <link rel="stylesheet" href="/css/menu.css">
 </head>
@@ -37,7 +33,8 @@
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link d-inline-block margin-left" th:href="${path}"><i class="fa-solid fa-chevron-left"></i></i></a>
+                <a class="nav-link d-inline-block margin-left" th:href="${path}"><i
+                        class="fa-solid fa-chevron-left"></i></i></a>
             </li>
         </ul>
         <a class="navbar-brand mx-auto" href="#">Evidencija radnog vremena</a>
@@ -57,33 +54,39 @@
     <div class="col-md-6 offset-md-3">
         <div class="row button-frame">
             <div class="col-md-12">
-                    <div class="menu-buttons">
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show'">
-                            <span><i class="fas fa-user"></i> Radnici</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-attendance'">
-                            <span><i class="fas fa-clock"></i> Radno vrijeme</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/employees/show-absence-record'">
-                            <span><i class="fas fa-calendar-alt"></i> Odsutnost s posla</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/attendance/show-current-attendance'">
-                            <span><i class="fas fa-check-circle"></i> Trenutna prisutnost</span>
-                        </button>
-                        <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3" onclick="window.location.href='/settings'">
-                            <span><i class="fas fa-cogs"></i> Postavke</span>
-                        </button>
-                    </div>
+                <div class="menu-buttons">
+                    <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3"
+                            onclick="window.location.href='/employees/show'">
+                        <span><i class="fas fa-user"></i> Radnici</span>
+                    </button>
+                    <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3"
+                            onclick="window.location.href='/employees/show-attendance'">
+                        <span><i class="fas fa-clock"></i> Radno vrijeme</span>
+                    </button>
+                    <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3"
+                            onclick="window.location.href='/employees/show-absence-record'">
+                        <span><i class="fas fa-calendar-alt"></i> Odsutnost s posla</span>
+                    </button>
+                    <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3"
+                            onclick="window.location.href='/attendance/show-current-attendance'">
+                        <span><i class="fas fa-check-circle"></i> Trenutna prisutnost</span>
+                    </button>
+                    <button class="btn menu-buttons btn-primary btn-block mt-3 mb-3"
+                            onclick="window.location.href='/settings'">
+                        <span><i class="fas fa-cogs"></i> Postavke</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <div class="fixed-bottom-buttons">
-    <button type="button" class="btn btn-success" onclick="window.location.href='/logout'">
-        <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
-    </button>
+    <div class="btn-group btn-group-justified">
+        <button type="button" class="btn btn-success me-3" onclick="window.location.href='/logout'">
+            <span><i class="fas fa-sign-out-alt me-2"></i> Odjava</span>
+        </button>
+    </div>
 </div>
-
 
 
 <!--<script type="text/javascript" src="/js/show-active-user.js"></script>-->

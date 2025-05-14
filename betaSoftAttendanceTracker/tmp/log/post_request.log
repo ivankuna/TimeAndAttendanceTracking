@@ -1,0 +1,33 @@
+Raw Request Data:
+Date and Time: 2025-02-24 09:04:52
+PIN: 1111
+Machine ID: ARETE d.o.o.
+Action: clockOut
+Latitude: 45.5437588
+Longitude: 18.7268808
+--------
+Date and Time: 2025-02-24 09:04:53
+Response: Pero,<br><br>Vaš odlazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-02-24 09:05:11
+PIN: 1111
+Machine ID: ARETE d.o.o.
+Action: clockIn
+Latitude: 45.5437588
+Longitude: 18.7268808
+--------
+Date and Time: 2025-02-24 09:05:11
+Response: Pero,<br><br>Vaš dolazak<br>je evidentiran.
+--------
+Raw Request Data:
+Date and Time: 2025-02-24 09:05:16
+PIN: 1111
+Machine ID: ARETE d.o.o.
+Action: clockOut
+Latitude: 45.5437588
+Longitude: 18.7268808
+--------
+Date and Time: 2025-02-24 09:05:16
+Response: Pero,<br><br>Vaš odlazak<br>je evidentiran.
+--------

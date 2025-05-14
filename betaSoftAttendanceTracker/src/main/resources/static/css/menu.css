@@ -6,6 +6,12 @@ html, body {
     font-size: 14px;
 }
 
+@media only screen and (max-width: 699px) {
+    html, body {
+        font-size: 16px; /* Promijenite veličinu fonta prema potrebi */
+    }
+}
+
 body {
     overflow-y: auto;
     padding-top: 80px;
@@ -54,17 +60,40 @@ body {
     padding-bottom: 80px;
 }
 
-
 .fixed-bottom-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     left: 0;
     right: 0;
     z-index: 1030;
-    display: flex;
-    justify-content: center;
     background-color: #19398A;
-    padding: 10px 0;
+    padding: 40px 0;
+}
+
+.fixed-bottom-buttons .btn-group {
+    margin-top: -10px;
+}
+
+.fixed-bottom-buttons .btn {
+    margin: 0 10px;
+}
+.fixed-bottom-buttons .btn i {
+    margin-right: 10px;
+}
+
+.fixed-bottom-buttons .btn-group a {
+    margin-right: 10px; /* Add space between the buttons */
+}
+
+.fixed-bottom-buttons .btn-group a:last-child {
+    margin-right: 0; /* Remove margin from the last button */
+}
+
+.fixed-bottom-buttons .btn {
+    margin: 0;
 }
 
 .navbar {

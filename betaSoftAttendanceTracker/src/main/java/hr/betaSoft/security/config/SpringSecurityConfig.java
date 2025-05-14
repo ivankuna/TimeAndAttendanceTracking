@@ -64,7 +64,7 @@ public class SpringSecurityConfig {
                                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                                 .permitAll()
                 ).exceptionHandling(configurer ->
-                        configurer.accessDeniedPage("/access-denied")
+                        configurer.accessDeniedPage("/login")
                 );
 
         return http.build();

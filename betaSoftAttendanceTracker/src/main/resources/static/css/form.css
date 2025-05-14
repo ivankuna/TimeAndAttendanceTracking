@@ -129,19 +129,22 @@ form, input, select, textarea, button {
     padding-left: 10px;
 }
 
-
 .fixed-bottom-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Podigne gumbe unutar plavog dijela */
     position: fixed;
-    bottom: 0px;
+    bottom: 0;
     left: 0;
     right: 0;
     z-index: 1030;
-    display: flex;
-    justify-content: center;
     background-color: #19398A;
-    padding: 10px 0;
+    padding: 40px 0;
 }
 
+.fixed-bottom-buttons .btn-group {
+    margin-top: -20px; /* Pomjeri gumbe prema gore unutar plavog dijela */
+}
 
 
 .fixed-bottom-buttons .btn {
@@ -150,7 +153,6 @@ form, input, select, textarea, button {
 .fixed-bottom-buttons .btn i {
     margin-right: 10px;
 }
-
 
 .fixed-bottom-buttons .btn-group a {
     margin-right: 10px; /* Add space between the buttons */
